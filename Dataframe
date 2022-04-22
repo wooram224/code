@@ -1,0 +1,99 @@
+# 데이터를 다루는 유용한 명령어 정리
+
+# 특정문자를 포함하는 행 추출
+new_data = data[data['columns'].str.contains("특정문자", na=False, case=False)]
+
+
+# 특정문자를 포함하는 행 제거 : ~을 사용해주어야함
+new_data = data[~data['columns'].str.contains("특정문자", na=False, case=False)]
+
+# 열에서 특정문자 삭제하기
+data['columns'] = data['columns'].str.replace(pat='제거할문자', repl='', regex=True)
+
+# 열에서 특정문자 0으로 치환
+data['columns'] = data['columns'].replace("제거할문자",0)
+
+# 데이터 프레임 합계 행 or 열 생성
+# 행생성
+data.loc['합계',:] = data.sum() #기본값 axis=0
+# 열생성
+data['합계'] = data.sum(axis=1)
+
+# raw data에서 필요한 행만 추출
+new_data = data.loc[:,["columns1","columns2","columns3","columns4"]]
+
+# 행이름변경
+data.rename(index={'before':'after'})
+# 인덱스 값을 하나의 열로 만들어주기
+data['열이름'] = data.index
+
+# 하나의 열 값을 인덱스로 사용하기
+data.index = data.['열이름'].values
+
+# 열이름변경
+data.columns = ['새로운열이름']
+data.rename(columns={'before':'after'})
+# 행순서변경
+data.index
+data = data.reindex(index=['행이름1', '행이름2', '행이름3', '행이름4', '행이름5'])
+# 열순서변경
+data.columns
+data = data[['열이름1', '열이름2', '열이름3', '열이름4', '열이름5']]
+
+# 열의 특정 값을 갖는 행 삭제
+new_data = data.loc[data['columns']!="제외할값"]
+data.drop(data.loc[data['columns']<"제외할값"].index, inplace=True)
+
+# index와 columns를 기준으로 값을 알고자할 때 pivot table
+new_data = data.pivot_table
+new = officetel_2.pivot_table(index=['시군구'], columns=['면적구분'], values=['도로명_호'], aggfunc='count')
+
+# 하나의 열 정보 기준으로 값을 매길때 groupby
+new_data = data['알고자하는열'].groupby(data['기준으로사용하는열']).count() #합을 알고싶을 때 sum(), 평균 mean()
+# vlook up
+new_data = data1.join(data2.set_index('기준열')['붙이고자하는열'], on='기준열')
+
+# 피벗 결과 생성된 다중인덱스 삭제하기
+data.columns = data.columns.droplevel(0)
+
+# 변수 속성 바꿔 주기 str:문자, int:정수
+data["columns"] = data["columns"].astype('str')
+data["columns"] = data["columns"].astype('int')
+
+# 불필요 열 삭제
+new_data = data.drop(["열이름","열이름"], axis=1)
+
+# 고유값 관련
+data["columns"].unique() #고유값 출력 ex. 성별 유니크 값 1,2 가 출력
+data["columns"].nunique() #고유값의 개수 ex. 유니크 값의 개수인 2개 가 출력
+data["columns"].value_count() #고유값별로 개수 ex. 성별열에서 남녀의 수를 알고 싶을 때
+
+# 결측값 관련
+data["columns"].isnull().sum()
+data = data.fillna(0) #결측값 0으로 채우기
+# 열이 결측값인 것 데이터 프레임으로
+new_data = data.loc[data['열이름'].isnull()]
+# 열이 결측값이 아닌 것 데이터 프레임으로
+new_data = data.loc[data['열이름'].notnull()]
+
+# 하나의 열 기준 내림차순 정렬
+new_data = data.sort_values(by=['열이름'], axis=0, ascending=False)
+
+# 중복값 제거
+new_data = data['열이름'].drop_duplicates() #특정열에 대한 중복값을 제거한 후, 해당 열만 새로운 데이터로
+new_data = data.drop_duplicates(['열이름']) #특정열에 대한 중복값을 제거한 후, 데이터 프레임을 새로운 데이터로
+
+# 특정한 열의 사이값 조건에 맞는 생성한 열 값 변경하기 : 이중조건
+data['columns2'][(data['columns1']>14) & (data['columns1']<=20)] = "14~20"
+
+# 특정한 열의 자리수를 잘라서 변수 만들어주기
+# ex. pnu코드 잘라서 sido 열 만들어주기
+data["SIDO"]=data["PNU_CD"].str[:2]
+
+# 숫자열 내용 합치기 : ex.pnu 만들기 등
+# 1. lambda 이용하기
+data['새로운열'] =data[['columns1', 'columns2']].apply(lambda row: ''.join(row.values.astype(str)), axis=1)
+# 2. str로 변경한 후 그냥 합치기
+data['새로운열'] = data['columns1']+ data['columns2'] + data['columns3'] + data['columns4']
+
+
