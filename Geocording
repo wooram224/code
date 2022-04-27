@@ -1,0 +1,29 @@
+# 지오코딩
+test = pd.read_csv('C:/Users/user/Desktop/폴더/test.csv', encoding='cp949')
+
+####### 도로명주소 위도 경도 값으로 바꿔주기 ########
+import pandas as pd
+from geopy.geocoders import Nominatim
+geo_local = Nominatim(user_agent='South Korea')
+# 위도, 경도 반환하는 함수
+def geocoding(address):
+    geo = geo_local.geocode(address)
+    x_y = [geo.latitude, geo.longitude]
+    return x_y
+latitude = []
+longtitude = []
+
+test = pd.read_csv("지오코딩하려는 파일.csv", encoding='cp949')
+# 지오코딩시 코딩 안되는 주소에 대해서 NA값을 부여하고, 넘어가는 방법(try, except 이용)
+for i in test['주소']:
+    print(i, "코딩되었습니다")
+    try :
+        latitude.append(geocoding(i)[0])
+        longtitude.append(geocoding(i)[1])
+    except AttributeError as e:
+        latitude.append("NA")
+        longtitude.append("NA")
+        print(e)
+        
+# 데이터프레임으로 만들어주기
+address_df = pd.DataFrame({'ADDRESS': test['주소'],'위도':latitude,'경도':longtitude})
