@@ -1,5 +1,11 @@
 # 데이터를 다루는 유용한 명령어 정리
 
+# 양쪽 공백제거하기(특정열)
+df["특정열"].str.strip()
+
+# 공백제거하기(데이터프레임) :  apply(lambda x: )
+df.apply(lambda x:x.str.strip(), axis=1)
+
 # 특정문자를 포함하는 행 추출
 new_data = data[data['columns'].str.contains("특정문자", na=False, case=False)]
 
