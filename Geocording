@@ -26,5 +26,5 @@ for i in test['주소']:
         longtitude.append("NA")
         print(e)
         
-# 데이터프레임으로 만들어주기
+# 생성된 경도, 위도 list를 주소와 함께 데이터프레임으로 만들어주기
 address_df = pd.DataFrame({'ADDRESS': test['주소'],'위도':latitude,'경도':longtitude})
