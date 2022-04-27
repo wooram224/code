@@ -16,11 +16,12 @@ longtitude = []
 test = pd.read_csv("지오코딩하려는 파일.csv", encoding='cp949')
 # 지오코딩 반복문 작성시 변환 안되는 주소(error : AttributeError)에 대해서 NA값을 부여하고, 넘어가는 방법(try, except 이용)
 for i in test['주소']:
-    print(i, "코딩되었습니다")
     try :
         latitude.append(geocoding(i)[0])
         longtitude.append(geocoding(i)[1])
+        print(i, "코딩 성공하였습니다")
     except AttributeError as e:
+        print(i, "코딩 실패하였습니다")
         latitude.append("NA")
         longtitude.append("NA")
         print(e)
