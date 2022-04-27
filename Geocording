@@ -14,7 +14,7 @@ latitude = []
 longtitude = []
 
 test = pd.read_csv("지오코딩하려는 파일.csv", encoding='cp949')
-# 지오코딩시 코딩 안되는 주소에 대해서 NA값을 부여하고, 넘어가는 방법(try, except 이용)
+# 지오코딩 반복문 작성시 변환 안되는 주소(error : AttributeError)에 대해서 NA값을 부여하고, 넘어가는 방법(try, except 이용)
 for i in test['주소']:
     print(i, "코딩되었습니다")
     try :
