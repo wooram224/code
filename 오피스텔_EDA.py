@@ -367,3 +367,157 @@ plt.ylabel('명', fontsize=13)
 plt.xticks(fontsize=12, rotation=45)
 plt.legend(loc='upper right',  bbox_to_anchor=(1.1,0.97))
 plt.show
+
+
+# 가구원수별 통계내기
+officetel['명'] = 1
+test = officetel['명'].groupby(by=officetel['도로명_호']).count()
+test = pd.DataFrame(test)
+test.columns = ['가구']
+table_a = test['가구'].value_counts()
+table_a = pd.DataFrame(table_a)
+table_a.columns = ['가구']
+table_a.to_csv("C:/Users/user/Desktop/업무/4월/220420/가구원수통계표.csv", encoding='cp949')
+
+# 1인가구 143138
+# 1인가구에 대해서 면적별 연령별 통계 내기
+officetel_1pop = test[test['가구'] == 1]
+officetel_1pop['도로명_호'] = officetel_1pop.index
+# vlookup 기능 사용하기
+vlookup_1pop = officetel.join(officetel_1pop.set_index('도로명_호')['가구'], on='도로명_호')
+vlookup_1pop['가구'] = vlookup_1pop['가구'].fillna(0)
+vlookup_1pop['가구'] = vlookup_1pop['가구'].astype('int')
+
+# 불필요행 제거
+vlookup_1pop = vlookup_1pop.drop(['1인가구여부'], axis=1)
+
+# 오피스텔 데이터에서 1인가구
+pop1 = vlookup_1pop[vlookup_1pop['가구']==1]
+
+# 면적별, 연령별로 피벗테이블(1인가구)
+pivot2 = pop1.pivot_table(index=['면적구분'], columns=['연령대'], values=['가구'], aggfunc='count')
+
+pivot2 = pivot2.fillna(0)
+pivot2 = pivot2.astype('int')
+
+# 피벗결과 행인덱스 삭제
+pivot2.columns = pivot2.columns.droplevel(0)
+
+# 행순서 및 열순서 변경
+# 행 순서 변경
+pivot2.index
+pivot2 = pivot2.reindex(index=['0~14', '14~20', '20~30', '30~40', '40~60', '60~85', '85~135', '135~200'])
+# 열 순서 변경
+pivot2.columns
+pivot2 = pivot2[['10대미만', '10대', '20대', '30대', '40대', '50대', '60대 이상']]
+
+pivot2.to_csv("C:/Users/user/Desktop/업무/4월/220421/통계추출_vlookup.csv", encoding='cp949')
+
+
+# 4월 28일 가구원수별 면적별 통계 산출
+test.columns = ['가구원수']
+
+# 가구당 가구원수별 자료를 오피스텔 자료에 vlookup으로 값을 붙여넣어야함
+
+
+test['도로명_호']=test.set_index # 런타임 에러 발생
+
+officetel_v2 = officetel.join(test.set_index('도로명_호')['가구원수'], on='도로명_호')
+
+vlookup_1pop = officetel.join(officetel_1pop.set_index('도로명_호')['가구'], on='도로명_호')
+
+new = officetel.pivot_table(index=['면적구분'], columns=['가구원수'], values=['도로명_호'], aggfunc='count')
+
+
+
+# 1인가구에 대해서 면적별 연령별 통계 내기
+officetel_1pop = test[test['가구원수'] == 1]
+officetel_2pop = test[test['가구원수'] == 2]
+officetel_3pop = test[test['가구원수'] == 3]
+officetel_4pop = test[test['가구원수'] == 4]
+officetel_5pop = test[test['가구원수'] == 5]
+officetel_6pop = test[test['가구원수'] == 6]
+officetel_7pop = test[test['가구원수'] >= 7]
+officetel_7pop['가구원수2'] = 7
+
+officetel_1pop['도로명_호'] = officetel_1pop.index
+officetel_2pop['도로명_호'] = officetel_2pop.index
+officetel_3pop['도로명_호'] = officetel_3pop.index
+officetel_4pop['도로명_호'] = officetel_4pop.index
+officetel_5pop['도로명_호'] = officetel_5pop.index
+officetel_6pop['도로명_호'] = officetel_6pop.index
+officetel_7pop['도로명_호'] = officetel_7pop.index
+# vlookup 기능 사용하기
+vlookup_1pop = officetel.join(officetel_1pop.set_index('도로명_호')['가구원수'], on='도로명_호')
+vlookup = vlookup_1pop.loc[:,['도로명_호','가구원수','면적구분','명']]
+vlookup['가구원수']= vlookup['가구원수'].fillna(0)
+vlookup['가구원수']= vlookup['가구원수'].astype('int')
+
+# 2인가구열
+officetel_2pop = officetel_2pop.rename(columns={'가구원수':'2인가구'})
+vlookup = vlookup.join(officetel_2pop.set_index('도로명_호')['2인가구'], on='도로명_호')
+vlookup['2인가구'] = vlookup['2인가구'].fillna(0)
+vlookup['2인가구'] = vlookup['2인가구'].astype('int')
+
+# 3인가구
+officetel_3pop = officetel_3pop.rename(columns={'가구원수':'3인가구'})
+vlookup = vlookup.join(officetel_3pop.set_index('도로명_호')['3인가구'], on='도로명_호')
+vlookup['3인가구'] = vlookup['3인가구'].fillna(0)
+vlookup['3인가구'] = vlookup['3인가구'].astype('int')
+# 4인가구
+officetel_4pop = officetel_4pop.rename(columns={'가구원수':'4인가구'})
+vlookup = vlookup.join(officetel_4pop.set_index('도로명_호')['4인가구'], on='도로명_호')
+vlookup['4인가구'] = vlookup['4인가구'].fillna(0)
+vlookup['4인가구'] = vlookup['4인가구'].astype('int')
+# 5인가구
+officetel_5pop = officetel_5pop.rename(columns={'가구원수':'5인가구'})
+vlookup = vlookup.join(officetel_5pop.set_index('도로명_호')['5인가구'], on='도로명_호')
+vlookup['5인가구'] = vlookup['5인가구'].fillna(0)
+vlookup['5인가구'] = vlookup['5인가구'].astype('int')
+# 6인가구
+officetel_6pop = officetel_6pop.rename(columns={'가구원수':'6인가구'})
+vlookup = vlookup.join(officetel_6pop.set_index('도로명_호')['6인가구'], on='도로명_호')
+vlookup['6인가구'] = vlookup['6인가구'].fillna(0)
+vlookup['6인가구'] = vlookup['6인가구'].astype('int')
+# 7인 이상 가구
+officetel_7pop = officetel_7pop.rename(columns={'가구원수2':'7인가구'})
+officetel_7pop = officetel_7pop.rename(columns={'7인가구':'7인이상가구'})
+vlookup = vlookup.join(officetel_7pop.set_index('도로명_호')['7인이상가구'], on='도로명_호')
+vlookup['7인이상가구'] = vlookup['7인이상가구'].fillna(0)
+vlookup['7인이상가구'] = vlookup['7인이상가구'].astype('int')
+
+vlookup = vlookup.rename(columns={'가구원수':'1인가구'})
+
+
+
+vlookup['가구원수'] = vlookup['1인가구'] + vlookup['2인가구']+vlookup['3인가구']+vlookup['4인가구']+vlookup['5인가구']+vlookup['6인가구']+vlookup['7인이상가구']
+
+vlookup['가구원수'].unique()
+
+# 피벗테이블 뽑기
+
+# 현재 vlookup은 표본수가 269941로 사람 개인에 대한 정보
+# 도로명_호 열 기준 중복값 제거하면 오피스텔 호수가 나올 것
+vlookup_hosu = vlookup.drop_duplicates(['도로명_호'])
+vlookup_hosu = vlookup_hosu.loc[:,['도로명_호','가구원수','면적구분','명']]
+
+table = vlookup_hosu.pivot_table(index=['면적구분'], columns=['가구원수'], values=['명'], aggfunc='count')
+table = table.fillna(0)
+table = table.astype('int')
+table.columns = table.columns.droplevel(0)
+
+# 열 순서변경
+table.index
+table = table.reindex(index=['0~14', '14~20', '20~30', '30~40', '40~60', '60~85','85~135', '135~200'])
+
+
+# 데이터 프레임 합계 행 or 열 생성
+# 행생성
+data.loc['합계',:] = data.sum() #기본값 axis=0
+# 열생성
+data['합계'] = data.sum(axis=1)
+
+# 행합계 생성하기
+table.loc['합계',:] = table.sum()
+
+table.to_csv('C:/Users/user/Desktop/업무/4월/220428/오피스텔통계추가.csv', encoding='cp949')
