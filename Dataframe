@@ -102,4 +102,8 @@ data['새로운열'] =data[['columns1', 'columns2']].apply(lambda row: ''.join(r
 # 2. str로 변경한 후 그냥 합치기
 data['새로운열'] = data['columns1']+ data['columns2'] + data['columns3'] + data['columns4']
 
+# 특정값을 추출해서 데이터프레임으로
+new_data = df[df["변수명"] == "특정값"]
 
+# 데이터프레임 붙이기
+new_data = pd.concat([df1, df2, df3])
