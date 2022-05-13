@@ -1,0 +1,57 @@
+import folium # 파이썬 내에서 지도 시각화를 위한 folium 호출
+import pandas as pd
+# 오피스텔 데이터 불러오기
+officetel = pd.read_csv("C:/Users/user/Desktop/업무/data//오피스텔_핸들링.csv", encoding='cp949')
+
+# 도로명 주소열 고유값 개수 산출 : 도로명 주소의 중복값이 많음(같은 오피스텔에 사는 거주자) 지오코딩 시간 단축을 위해 먼저, 중복값 없이 지오코딩 진행
+officetel['PLAT_PLC'].nunique()
+# 고유값을 열로 갖는 데이터 생성하기
+officetel_geocording = pd.DataFrame(officetel['PLAT_PLC'].unique())
+# 열이름 변경
+officetel_geocording.columns = ['도로명']
+
+# 지오코딩
+for i in officetel_geocording['도로명']:
+    try :
+        latitude.append(geocoding(i)[0])
+        longtitude.append(geocoding(i)[1])
+        print(i, "코딩에 성공하였습니다")
+    except AttributeError as e:
+        print(i, "변환에 실패하였습니다")
+        latitude.append("NA")
+        longtitude.append("NA")
+        print(e)
+
+# 지오코딩 결과 산출 된 경위도를 도로명 주소와 결합하여 데이터 프레임 생성
+address_df = pd.DataFrame({'PLAT_PLC': officetel_geocording['도로명'],'위도':latitude,'경도':longtitude})
+
+# 만들어진 자료와 원래 자료에 대해서 vlookup 작업을 수행하여 경위도 값을 붙여주기
+new_data = officetel.join(address_df.set_index('PLAT_PLC')['위도'], on='PLAT_PLC')
+new_data = new_data.join(address_df.set_index('PLAT_PLC')['경도'], on='PLAT_PLC')
+# 경위도 결측값인 행(코딩 실패한 주소) 삭제하기
+new_data2 = new_data[~new_data['위도'].str.contains("NA", na=False, case=False)]
+# 생성한 데이터 csv 형태로 저장
+new_data2.to_csv("C:/Users/user/Desktop/업무/5월/220512/지오코딩.csv", encoding='cp949')
+
+# 시각화
+
+# 지도의 중심 지정(경위도의 평균값)
+lat = new_data2['위도'].mean()
+long = new_data2['경도'].mean()
+m = folium.Map([lat, long], zoom_start=9)
+
+# 좌표정보를 포함한 데이터 프레임을 리스트 형태로 변환
+coords = new_data2.loc[:,['위도','경도']]
+coords = coords.values.tolist()
+
+for i in range(len(coords)):
+    folium.Circle(
+        location=coords[i],
+        radius=50,
+        color = '#000000',
+        fill = 'crimson',
+    ).add_to(m)
+
+# html형태로 지도 시각화하기 
+m.save('C:/Users/user/Desktop/업무/5월/220513/map.html')
+
