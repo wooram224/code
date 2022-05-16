@@ -52,6 +52,16 @@ for i in range(len(coords)):
         fill = 'crimson',
     ).add_to(m)
 
-# html형태로 지도 시각화하기 
+# 서울시 시군구 경계를 깔아서 눈에 띄게 표현
+# 필요 패키지 호출
+import requests
+import json
+# 통계청에서 제공하는 json 형태의 서울 시군구 경계 불러오기
+seoul_geo = 'https://raw.githubusercontent.com/southkorea/seoul-maps/master/kostat/2013/json/seoul_municipalities_geo_simple.json'
+r = requests.get(seoul_geo)
+seoul_json = json.loads(r.content)
+# 위에서 만든 기존의 맵에 시군구 경계 추가해주기
+m.choropleth(geo_data=seoul_json, fill_color = 'gray')
+# html형태로 지도 저장하기 
 m.save('C:/Users/user/Desktop/업무/5월/220513/map.html')
 
