@@ -1,0 +1,9 @@
+# 데이터프레임 정리(기존 생성된 좌표 데이터에서 필요한 열만 추출)
+toshp = new_data2.loc[:,['PLAT_PLC','위도','경도']]
+toshp = toshp.rename(columns={'위도':"latitude",'경도':'longitude'}) # 변수명 영어로 변경
+# 지오판다스 호출
+import geopandas as gpd
+# 데이터프레임을 지오데이터프레임으로 변환 gpd.GeoDataFrame(df, geomery=gpd.points_from_xy(df['경도'], df['위도'])
+point = gpd.GeoDataFrame(toshp, geometry=gpd.points_from_xy(toshp['longitude'], toshp['latitude']))
+# 생성된 지오데이터프레임을 shp 파일로 내보냄. 이때, 오피스텔 정보는 한글로 되어있어서 utf-8을 설정해주어야 gis에서 깨지지 않음
+point.to_file('C:/Users/user/Desktop/업무/5월/220517/point2.shp', encoding='utf-8')
