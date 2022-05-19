@@ -6,11 +6,11 @@ df["특정열"].str.strip()
 # 공백제거하기(데이터프레임) :  apply(lambda x: )
 df.apply(lambda x:x.str.strip(), axis=1)
 
-# 특정문자를 포함하는 행 추출
+# 특정문자를 포함하는 열 추출
 new_data = data[data['columns'].str.contains("특정문자", na=False, case=False)]
 
 
-# 특정문자를 포함하는 행 제거 : ~을 사용해주어야함
+# 특정문자를 포함하는 열 제거 : ~을 사용해주어야함
 new_data = data[~data['columns'].str.contains("특정문자", na=False, case=False)]
 
 # 열에서 특정문자 삭제하기
@@ -25,7 +25,7 @@ data.loc['합계',:] = data.sum() #기본값 axis=0
 # 열생성
 data['합계'] = data.sum(axis=1)
 
-# raw data에서 필요한 행만 추출
+# raw data에서 필요한 열만 추출
 new_data = data.loc[:,["columns1","columns2","columns3","columns4"]]
 
 # 행이름변경
