@@ -1,0 +1,46 @@
+# 서울 25개 자치구 생활권 변환
+import pandas as pd
+
+data = pd.read_csv("C:/Users/user/Desktop/업무/5월/220526/생활권변환.csv", encoding = 'cp949')
+data['생활권'] = 0
+data['자치구'].unique()
+data['자치구'] = data['자치구'].str.replace(pat="중구 신", repl='중구', regex =True) # 오탈자 수정
+data['자치구'] = data['자치구'].str.replace(pat="중구 중", repl='중구', regex =True) # 오탈자 수정
+data['자치구'].unique()
+data["자치구"] = data["자치구"].str.strip() # 양쪽 공백 제거
+data['자치구'].unique()
+
+# 동북권
+data.loc[data.자치구 == "강북구", '생활권'] = '동북권'
+data.loc[data.자치구 == "성북구", '생활권'] = '동북권'
+data.loc[data.자치구 == "성동구", '생활권'] = '동북권'
+data.loc[data.자치구 == "동대문구", '생활권'] = '동북권'
+data.loc[data.자치구 == "광진구", '생활권'] = '동북권'
+data.loc[data.자치구 == "도봉구", '생활권'] = '동북권'
+data.loc[data.자치구 == "노원구", '생활권'] = '동북권'
+data.loc[data.자치구 == "중랑구", '생활권'] = '동북권'
+# 도심권
+data.loc[data.자치구 == "종로구", '생활권'] = '도심권'
+data.loc[data.자치구 == "중구", '생활권'] = '도심권'
+data.loc[data.자치구 == "용산구", '생활권'] = '도심권'
+# 서북권
+data.loc[data.자치구 == "은평구", '생활권'] = '서북권'
+data.loc[data.자치구 == "서대문구", '생활권'] = '서북권'
+data.loc[data.자치구 == "마포구", '생활권'] = '서북권'
+# 서남권
+data.loc[data.자치구 == "강서구", '생활권'] = '서남권'
+data.loc[data.자치구 == "양천구", '생활권'] = '서남권'
+data.loc[data.자치구 == "구로구", '생활권'] = '서남권'
+data.loc[data.자치구 == "영등포구", '생활권'] = '서남권'
+data.loc[data.자치구 == "동작구", '생활권'] = '서남권'
+data.loc[data.자치구 == "관악구", '생활권'] = '서남권'
+data.loc[data.자치구 == "금천구", '생활권'] = '서남권'
+# 동남권
+data.loc[data.자치구 == "서초구", '생활권'] = '동남권'
+data.loc[data.자치구 == "강동구", '생활권'] = '동남권'
+data.loc[data.자치구 == "송파구", '생활권'] = '동남권'
+data.loc[data.자치구 == "강남구", '생활권'] = '동남권'
+
+data['생활권'].value_counts()
+
+data.to_csv('C:/Users/user/Desktop/업무/5월/220526/변환.csv', encoding='cp949')
