@@ -115,3 +115,6 @@ data[['시','자치구','행정동','건물번호']] = pd.DataFrame(data['대지
 # 데이터프레임 열 값을 기준으로 행 제거하기
 new_data = data.drop(data[data['열이름'] == 열값].index)
 
+# 데이터프레임 이중조건 추출
+new_data = data[(data['구간']=="1985~1998년")&(raw_last['용도']=="연립주택")]
+
