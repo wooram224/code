@@ -118,3 +118,42 @@ new_data = data.drop(data[data['열이름'] == 열값].index)
 # 데이터프레임 이중조건 추출
 new_data = data[(data['구간']=="1985~1998년")&(raw_last['용도']=="연립주택")]
 
+
+# 열 길이 값을 갖는 열 만들어주기
+data['count'] = data1['열이름'].apply(lambda x: len(str(x)))
+
+# 열 길이 고유값 추출
+print(data['count'].unique())
+
+# 열이름 3 자리 == 열값이 nan 값을 가지는 것들
+digit3 =  data[data['count'] == 3]
+# 열이름 4 자리
+digit4 =  data[data['count'] == 4]
+# 열이름 5 자리
+digit5 =  data[data['count'] == 5]
+# 열이름 8 자리
+digit8 =  data[data['count'] == 8]
+# 열이름 9 자리
+digit9 =  data[data['count'] == 9]
+
+# 3자리 핸들링 = nan 값이므로 제외
+del(digit3)
+# 4자리 핸들링
+# (1)앞이 0 인것 = 앞에 0, 뒤에 :00 붙여주기
+test1 = digit4.loc[digit4['DT'].str[0]=='0']
+test1['DT'] ='0'+test1['DT']+':00'
+
+# (2)앞이 0이 아닌것 = 뒤는 그대로 앞에 00:0 붙여주기
+test2 = digit4.loc[digit4['DT'].str[0]>'0']
+test2['DT'] ='00:0'+test2['DT']
+
+# 5자리 핸들링 = 앞에 00 붙여주기
+test3 = digit5
+test3['DT'] ='00:'+test3['DT']
+
+# 8자리 핸들링 = 앞에 00 붙여주고 뒤에 00 빼주기
+test4 = digit8
+test4['DT'] = '00:'+test4['DT']
+test4["DT"]= test4["DT"].str[:-3]
+
+
