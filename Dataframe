@@ -156,4 +156,6 @@ test4 = digit8
 test4['DT'] = '00:'+test4['DT']
 test4["DT"]= test4["DT"].str[:-3]
 
-
+# 결측치 관련 명령어
+df[df['B'].isnull()] #nan값 데이터 추출
+df[df['B'].notnull()] #nan값이 아닌 데이터 추출
