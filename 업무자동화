@@ -1,0 +1,26 @@
+# 221028 강남구 반지하 통계 업무 자동화 (for문)
+import pandas as pd
+banjiha = pd.read_excel("D:\업무\반지하_220809 이후/10월/221025/반지하주택_통계.xlsx")
+gangnam = banjiha[banjiha['시군구명'] == "강남구"]
+gangnam['법정동명'].unique()
+
+gangnam_dong = ['삼성동', '역삼동', '신사동', '대치동', '논현동', '도곡동', '일원동', '청담동', '율현동', '세곡동', '자곡동', '개포동', '압구정동', '수서동']
+
+for i in gangnam_dong:
+    a = gangnam[gangnam['법정동명'] == i]
+    answer = a.pivot_table(index='용도', columns='구간', values='대지위치', aggfunc='count')
+    answer.to_excel("D:\업무\반지하_220809 이후/10월/221028/반지하 통계/" + i +"_통계표.xlsx")
+
+# 서울 자치구별 반지하 통계 산출 자동화 (이중 for문)
+banjiha['시군구명'].unique()
+sigungu = ['강남구', '동작구', '종로구', '송파구', '서초구', '관악구', '영등포구', '양천구', '은평구',
+       '성북구', '중랑구', '동대문구', '용산구', '강동구', '마포구', '중구', '금천구', '구로구',
+       '강서구', '서대문구', '노원구', '도봉구', '강북구', '광진구', '성동구']
+
+for i in sigungu:
+    a = banjiha[banjiha['시군구명'] == i]
+    dong = a['법정동명'].drop_duplicates()
+    for j in dong:
+        b = a[a['법정동명'] == j]
+        answer = b.pivot_table(index='용도', columns='구간', values='대지위치', aggfunc='count')
+        answer.to_excel("D:\업무\반지하_220809 이후/10월/221028/반지하 통계/" + i+"_"+j + "_통계표.xlsx")
