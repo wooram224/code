@@ -159,3 +159,17 @@ test4["DT"]= test4["DT"].str[:-3]
 # 결측치 관련 명령어
 df[df['B'].isnull()] #nan값 데이터 추출
 df[df['B'].notnull()] #nan값이 아닌 데이터 추출
+
+# 221028 반지하 통계 업무 자동화
+import pandas as pd
+banjiha = pd.read_excel("D:\업무\반지하_220809 이후/10월/221025/반지하주택_통계.xlsx")
+gangnam = banjiha[banjiha['시군구명'] == "강남구"]
+gangnam['법정동명'].unique()
+
+gangnam_dong = ['삼성동', '역삼동', '신사동', '대치동', '논현동', '도곡동', '일원동', '청담동', '율현동', '세곡동', '자곡동', '개포동', '압구정동', '수서동']
+
+for i in gangnam_dong:
+    a = gangnam[gangnam['법정동명'] == i]
+    answer = a.pivot_table(index='용도', columns='구간', values='대지위치', aggfunc='count')
+    answer.to_excel("D:\업무\반지하_220809 이후/10월/221028/반지하 통계/" + i +"_통계표.xlsx")
+
