@@ -1,0 +1,4882 @@
+// 반지하 데이터 분석 
+import pandas as pd
+
+data1 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_강남.csv", encoding='utf-8', sep=',')
+data2 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_강동.csv", encoding='utf-8', sep=',')
+data3 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_강북.csv", encoding='utf-8', sep=',')
+data4 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_강서.csv", encoding='utf-8', sep=',')
+data5 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_관악.csv", encoding='utf-8', sep=',')
+data6 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_광진.csv", encoding='utf-8', sep=',')
+data7 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_구로.csv", encoding='utf-8', sep=',')
+data8 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_금천.csv", encoding='utf-8', sep=',')
+data9 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_노원.csv", encoding='utf-8', sep=',')
+data10 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_도봉.csv", encoding='utf-8', sep=',')
+data11 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_동대문.csv", encoding='utf-8', sep=',')
+data12 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_동작.csv", encoding='utf-8', sep=',')
+data13 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_마포.csv", encoding='utf-8', sep=',')
+data14 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_서대문.csv", encoding='utf-8', sep=',')
+data15 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_서초.csv", encoding='utf-8', sep=',')
+data16 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_성동.csv", encoding='utf-8', sep=',')
+data17 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_성북.csv", encoding='utf-8', sep=',')
+data18 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_송파.csv", encoding='utf-8', sep=',')
+data19 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_양천.csv", encoding='utf-8', sep=',')
+data20 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_영등포.csv", encoding='utf-8', sep=',')
+data21 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_용산.csv", encoding='utf-8', sep=',')
+data22 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_은평.csv", encoding='utf-8', sep=',')
+data23 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_종로.csv", encoding='utf-8', sep=',')
+data24 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_중구.csv", encoding='utf-8', sep=',')
+data25 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/지하 1_2층/건축물대장_층별_중랑구.csv", encoding='utf-8', sep=',')
+
+
+seoul = pd.concat([data1, data2, data3, data4, data5, data6, data7, data8, data9, data10, data11, data12
+                   , data13, data14, data15, data16, data17, data18, data19, data20, data21, data22, data23
+                   , data24, data25])
+
+
+seoul.to_csv("C:/Users/user/Desktop/업무/8월/220810/건축물대장_층별개요_산출자료정리/서울전체.csv", encoding='cp949', sep=',')
+seoul = pd.read_csv("D:\업무\날짜별구분(-220811)\8월/220810/건축물대장_층별개요_산출자료정리/서울전체.csv", encoding='cp949', sep=',')
+# 시군구명
+seoul['시군구'] = seoul['건축물위치시군구명'].str.replace(pat="서울특별시", repl='', regex=True)
+seoul['시군구'] = seoul['시군구'].str.strip()
+
+
+# # 공백기준으로 준공년도 발라내기 : 오류 발생 코드
+# seoul[['준공년도','월','일']] = pd.DataFrame(seoul['사용승인일자명'].str.split(' ',2).tolist())
+
+# 지하층 발라내기
+seoul_under = seoul.loc[seoul['층구분명']=='지하']
+
+seoul_under.to_csv("C:/Users/user/Desktop/업무/8월/220810/건축물대장_층별개요_산출자료정리/서울_지하층.csv", encoding='cp949', sep=',')
+
+# 년도에서 글자 삭제
+seoul_under['준공년도'] = seoul_under['준공년도'].str.replace(pat="년", repl='', regex=True)
+
+seoul_under['층용도소분류명'].unique()
+
+# 용도가 주거인 것 추출
+
+'단독주택_다가구주택'
+'단독주택_단독주택'
+'공동주택_다세대주택'
+'공동주택_아파트'
+'공동주택_연립주택'
+'단독주택_다중주택'
+
+
+# 특정값을 추출해서 데이터프레임으로
+# 1. 다가구
+new_data1 = seoul_under[seoul_under['층용도소분류명'] == '단독주택_다가구주택']
+new_data1['용도'] = '다가구주택'
+# 2. 단독
+new_data2 = seoul_under[seoul_under['층용도소분류명'] == '단독주택_단독주택']
+new_data2['용도'] = '단독주택'
+# 3. 다세대
+new_data3 = seoul_under[seoul_under['층용도소분류명'] == '공동주택_다세대주택']
+new_data3['용도'] = '다세대주택'
+# 4. 아파트
+new_data4 = seoul_under[seoul_under['층용도소분류명'] == '공동주택_아파트']
+new_data4['용도'] = '아파트'
+# 5. 연립
+new_data5 = seoul_under[seoul_under['층용도소분류명'] == '공동주택_연립주택']
+new_data5['용도'] = '연립주택'
+# 6. 다중
+new_data6 = seoul_under[seoul_under['층용도소분류명'] == '단독주택_다중주택']
+new_data6['용도'] = '다중주택'
+
+semi_final = pd.concat([new_data1, new_data2, new_data3, new_data4, new_data5, new_data6])
+
+semi_final.to_csv("C:/Users/user/Desktop/업무/8월/220810/건축물대장_층별개요_산출자료정리/서울_지하층_주거.csv", encoding='cp949', sep=',')
+
+# 건물위치명 중복값 제거
+final = semi_final.drop_duplicates(['건축물위치명'])
+final.to_csv("C:/Users/user/Desktop/업무/8월/220810/건축물대장_층별개요_산출자료정리/rawdata_최종.csv", encoding='cp949', sep=',')
+# 1. 자치구별 동 개수
+answer1 = final['건축물위치명'].groupby(final['시군구']).count()
+# 2. 건물용도별 개수
+answer2 = final['건축물위치명'].groupby(final['용도']).count()
+# 3. 사용승인년도별 개수
+answer3 = final['건축물위치명'].groupby(final['준공년도']).count()
+
+answer1 = pd.DataFrame(answer1)
+answer2 = pd.DataFrame(answer2)
+answer3 = pd.DataFrame(answer3)
+
+answer1.to_csv("C:/Users/user/Desktop/업무/8월/220809/최종통계/자치구별.csv", encoding='cp949', sep=',')
+answer2.to_csv("C:/Users/user/Desktop/업무/8월/220809/최종통계/용도별.csv", encoding='cp949', sep=',')
+answer3.to_csv("C:/Users/user/Desktop/업무/8월/220809/최종통계/승인년도별.csv", encoding='cp949', sep=',')
+
+final.to_csv("C:/Users/user/Desktop/업무/8월/220809/최종통계/raw_data.csv", encoding='cp949', sep=',')
+
+
+# 결측값 제거해서
+final_year = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/최종통계/raw_data_결측제거.csv",encoding='cp949',sep=',')
+after_2012 = final_year[final_year['준공년도'] >= 2012]
+after_2012['준공년도'].min()
+# 1. 자치구별 동 개수
+answer4 = after_2012['건축물위치명'].groupby(after_2012['시군구']).count()
+
+answer4 = pd.DataFrame(answer4)
+answer4.to_csv("C:/Users/user/Desktop/업무/8월/220809/최종통계/2012년이후자치구통계.csv",encoding='cp949',sep=',')
+
+
+# 전체 동수에서 지금 뽑은 동수가 몇프로인지 산출하기
+# 전체 동수 산출
+building = seoul.drop_duplicates(['건축물위치명'])
+
+
+
+
+
+
+
+
+# 반지하 지오코딩
+import folium
+
+# 필요한 열만 추출
+final_coding = final.loc[:,["건축물위치명", "용도"]]
+final_coding = final.loc[:,["건축물위치명"]]
+# 텍스트로 저장하기
+final_coding.to_csv("C:/Users/user/Desktop/업무/8월/220809/반지하_지오코딩/반지하_주소.txt", encoding='cp949', sep=',')
+final_coding.to_csv("C:/Users/user/Desktop/업무/8월/220809/반지하_지오코딩/반지하_주소.csv", encoding='cp949', sep=',')
+
+final_coding2 = final_coding['건축물위치명'].str.replace(pat="동", repl='동 ', regex=True)
+final_coding2 = pd.DataFrame(final_coding2)
+final_coding2 = final_coding2['건축물위치명'].str.replace(pat="강동 구", repl='강동구', regex=True)
+final_coding2 = pd.DataFrame(final_coding2)
+final_coding2 = final_coding2['건축물위치명'].str.replace(pat="성동 구", repl='성동구', regex=True)
+final_coding2 = pd.DataFrame(final_coding2)
+final_coding2 = final_coding2['건축물위치명'].str.replace(pat="동 작구", repl='동작구', regex=True)
+final_coding2 = pd.DataFrame(final_coding2)
+final_coding2 = final_coding2['건축물위치명'].str.replace(pat="동 대문구", repl='동대문구', regex=True)
+final_coding2 = pd.DataFrame(final_coding2)
+####### 도로명주소 위도 경도 값으로 바꿔주기 ########
+from geopy.geocoders import Nominatim
+geo_local = Nominatim(user_agent='South Korea')
+# 위도, 경도 반환하는 함수
+def geocoding(address):
+    geo = geo_local.geocode(address)
+    x_y = [geo.latitude, geo.longitude]
+    return x_y
+latitude = []
+longtitude = []
+
+# 지오코딩
+for i in final_coding2['건축물위치명']:
+    try :
+        latitude.append(geocoding(i)[0])
+        longtitude.append(geocoding(i)[1])
+        print(i, "코딩에 성공하였습니다")
+    except AttributeError as e:
+        print(i, "변환에 실패하였습니다")
+        latitude.append("NA")
+        longtitude.append("NA")
+        print(e)
+
+address_df = pd.DataFrame({'건축물위치': final_coding2['건축물위치명'], '용도': final_coding['용도'], '위도':latitude,'경도':longtitude})
+
+address_df.to_csv("C:/Users/user/Desktop/업무/5월/220516/오피스텔 지오코딩/고유값지오코딩_결측포함.csv", encoding='cp949')
+# 경위도 결측값인 행 삭제하기
+new_data2 = address_df[~address_df['위도'].str.contains("NA", na=False, case=False)]
+
+new_data2.to_csv("C:/Users/user/Desktop/업무/5월/220516/오피스텔 지오코딩/오피스텔_경위도추가.csv", encoding='cp949')
+
+# 시각화
+# 지도의 중심 지정
+lat = new_data2['위도'].mean()
+long = new_data2['경도'].mean()
+
+m = folium.Map([lat, long], zoom_start=8)
+#  coords라는 변수에 리스트 형태로 좌표를 넣기 위한 반복문 작성
+# coords = []
+# for i in range(len(new_data2)-1):
+#     x = new_data2['위도'][i]
+#     y = new_data2['경도'][i]
+#     coords.append([x,y])
+
+# 좌표정보를 포함한 데이터 프레임 리스트 형태로 변환
+coords = new_data2.loc[:,['위도','경도']]
+coords = coords.values.tolist()
+
+for i in range(len(coords)):
+    folium.Circle(
+        location=coords[i],
+        radius=50,
+        color = 'blue',
+        fill = 'crimson',
+    ).add_to(m)
+
+m.save('C:/Users/user/Desktop/업무/5월/220516/오피스텔 지오코딩/오피스텔.html')
+
+# 서울시 시군구 경계 깔기
+import requests
+import json
+seoul_geo = 'https://raw.githubusercontent.com/southkorea/seoul-maps/master/kostat/2013/json/seoul_municipalities_geo_simple.json'
+r = requests.get(seoul_geo)
+seoul_json = json.loads(r.content)
+seoul_json
+
+m.choropleth(geo_data=seoul_json, fill_color = 'gray')
+m.save('C:/Users/user/Desktop/업무/5월/220516/오피스텔 지오코딩/오피스텔2.html')
+
+
+# 부장님이 뽑아주신 자료
+
+data = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/부장님 산출 자료/지하주택현황_주택정책지원센터.txt", encoding='cp949', sep='|')
+
+
+data["사용승인일"] = data["사용승인일"].fillna(0) #결측값 0으로 채우기
+data["사용승인일"] = data["사용승인일"].astype("str")
+data["준공년도"] = data["사용승인일"].str[:4]
+data["준공년도"] = data["준공년도"].astype("int")
+
+
+
+
+
+# 1. 자치구별 동 개수
+answer1 = data['대지위치'].groupby(data['시군구명']).count()
+# 2. 건물용도별 개수
+answer2 = data['대지위치'].groupby(data['층용도']).count()
+# 3. 사용승인년도별 개수
+answer3 = data['대지위치'].groupby(data['준공년도']).count()
+
+
+answer1 = pd.DataFrame(answer1)
+answer2 = pd.DataFrame(answer2)
+answer3 = pd.DataFrame(answer3)
+
+answer1.to_csv("C:/Users/user/Desktop/업무/8월/220809/부장님 산출 자료/자치구별.csv", encoding='cp949', sep=',')
+answer2.to_csv("C:/Users/user/Desktop/업무/8월/220809/부장님 산출 자료/용도별.csv", encoding='cp949', sep=',')
+answer3.to_csv("C:/Users/user/Desktop/업무/8월/220809/부장님 산출 자료/승인년도별.csv", encoding='cp949', sep=',')
+data.to_csv("C:/Users/user/Desktop/업무/8월/220809/부장님 산출 자료/raw_data.csv", encoding='cp949', sep=',')
+
+
+# 4. 2012년 이후 자치구별 동 개수
+after_2012 = data[data['준공년도'] >= 2012]
+after_2012['준공년도'].min()
+
+answer4 = after_2012['대지위치'].groupby(after_2012['시군구명']).count()
+
+answer4 = pd.DataFrame(answer4)
+answer4.to_csv("C:/Users/user/Desktop/업무/8월/220809/부장님 산출 자료/2012년이후자치구통계.csv",encoding='cp949',sep=',')
+
+
+
+# 반지하 지오코딩
+import folium
+
+# 필요한 열만 추출
+final_coding = data.loc[:,["대지위치", "층용도"]]
+final_coding2 = data.loc[:,["대지위치"]]
+
+####### 주소 위도 경도 값으로 바꿔주기 ########
+from geopy.geocoders import Nominatim
+geo_local = Nominatim(user_agent='South Korea')
+# 위도, 경도 반환하는 함수
+def geocoding(address):
+    geo = geo_local.geocode(address)
+    x_y = [geo.latitude, geo.longitude]
+    return x_y
+latitude = []
+longtitude = []
+
+final_coding2.to_csv("C:/Users/user/Desktop/업무/8월/220809/반지하_지오코딩/주소_부장님.csv", encoding='cp949', sep=',')
+final_coding.to_csv("C:/Users/user/Desktop/업무/8월/220809/반지하_지오코딩/주소및용도_부장님.csv", encoding='cp949', sep=',')
+
+
+#
+#
+# # 지오코딩
+# for i in final_coding2['대지위치']:
+#     try :
+#         latitude.append(geocoding(i)[0])
+#         longtitude.append(geocoding(i)[1])
+#         print(i, "코딩에 성공하였습니다")
+#     except AttributeError as e:
+#         print(i, "변환에 실패하였습니다")
+#         latitude.append("NA")
+#         longtitude.append("NA")
+#         print(e)
+#
+# address_df = pd.DataFrame({'건축물위치': final_coding['대지위치'], '용도': final_coding['층용도'], '위도':latitude,'경도':longtitude})
+#
+# address_df.to_csv("C:/Users/user/Desktop/업무/5월/220516/오피스텔 지오코딩/고유값지오코딩_결측포함.csv", encoding='cp949')
+# # 경위도 결측값인 행 삭제하기
+# new_data2 = address_df[~address_df['위도'].str.contains("NA", na=False, case=False)]
+#
+# new_data2.to_csv("C:/Users/user/Desktop/업무/5월/220516/오피스텔 지오코딩/오피스텔_경위도추가.csv", encoding='cp949')
+#
+# # 시각화
+# # 지도의 중심 지정
+# lat = new_data2['위도'].mean()
+# long = new_data2['경도'].mean()
+#
+# m = folium.Map([lat, long], zoom_start=8)
+# #  coords라는 변수에 리스트 형태로 좌표를 넣기 위한 반복문 작성
+# # coords = []
+# # for i in range(len(new_data2)-1):
+# #     x = new_data2['위도'][i]
+# #     y = new_data2['경도'][i]
+# #     coords.append([x,y])
+#
+# # 좌표정보를 포함한 데이터 프레임 리스트 형태로 변환
+# coords = new_data2.loc[:,['위도','경도']]
+# coords = coords.values.tolist()
+#
+# for i in range(len(coords)):
+#     folium.Circle(
+#         location=coords[i],
+#         radius=50,
+#         color = 'blue',
+#         fill = 'crimson',
+#     ).add_to(m)
+#
+# m.save('C:/Users/user/Desktop/업무/5월/220516/오피스텔 지오코딩/오피스텔.html')
+#
+# # 서울시 시군구 경계 깔기
+# import requests
+# import json
+# seoul_geo = 'https://raw.githubusercontent.com/southkorea/seoul-maps/master/kostat/2013/json/seoul_municipalities_geo_simple.json'
+# r = requests.get(seoul_geo)
+# seoul_json = json.loads(r.content)
+# seoul_json
+#
+# m.choropleth(geo_data=seoul_json, fill_color = 'gray')
+# m.save('C:/Users/user/Desktop/업무/5월/220516/오피스텔 지오코딩/오피스텔2.html')
+
+
+# 220810 통계 산출
+import pandas as pd
+data = pd.read_csv("C:/Users/user/Desktop/업무/8월/220810/건축물대장_층별개요_산출자료정리/rawdata_최종.csv", encoding='cp949', sep=',')
+# 229,497건
+
+# 용도 아파트랑, 다중주택 제외
+# 아파트 제거
+new_data = data[~data['용도'].str.contains("아파트", na=False, case=False)]
+# 다중주택 제거
+new_data = new_data[~new_data['용도'].str.contains("다중주택", na=False, case=False)]
+
+# 216,786건
+
+# 준공년도 결측값 제거
+new_data['준공년도'].unique()
+new_data2 = new_data[~new_data['준공년도'].str.contains('기타', na=False, case=False)]
+new_data2['준공년도'] = new_data2['준공년도'].astype('int')
+
+# 216,232건
+
+# 4 구간으로 나누기 : 84년 이전, 85~98년, 99~11년, 2012년 이후
+# new_data2['구간'] = 0 #열 생성
+# new_data2['구간'][(new_data2['준공년도']<=1984)] = "1984년 이전"
+# new_data2['구간'][(new_data2['준공년도']>=1985) & (new_data2['준공년도']<1999)] = "1985~1998년"
+# new_data2['구간'][(new_data2['준공년도']>=1999) & (new_data2['준공년도']<2012)] = "1999년~2011년"
+# new_data2['구간'][(new_data2['준공년도']>=2012)] = "2012년 이후"
+
+# 피벗테이블 : 구간과 유형에 따라 통계표 산출
+answer = new_data2.pivot_table(index=['용도'], columns=['구간'], values=['건축물위치명'], aggfunc='count')
+answer.columns = answer.columns.droplevel(0)
+answer.to_csv("C:/Users/user/Desktop/업무/8월/220810/결과.csv", encoding='cp949', sep=',')
+
+
+# 4. 2012년 이후 동 개수
+after_2012 = new_data2[new_data2['준공년도'] >= 2012]
+after_2012['준공년도'].min()
+
+# 3. 사용승인년도별 개수
+answer2 = after_2012['건축물위치명'].groupby(data['준공년도']).count()
+answer2 = pd.DataFrame(answer2)
+
+answer2.to_csv("C:/Users/user/Desktop/업무/8월/220810/연도별통계.csv", encoding='cp949', sep=',')
+
+# 연도별 통계 산출하기
+answer3 = new_data2['건축물위치명'].groupby(new_data2['준공년도']).count()
+answer3.to_csv("C:/Users/user/Desktop/업무/8월/220810/연도별통계v2.csv", encoding='cp949', sep=',')
+
+
+new_data2['구간'] = 0 #열 생성
+new_data2['구간'][(new_data2['준공년도']<=1984)] = "1984년 이전"
+
+
+
+# 부장님 자료 통계
+data2 = pd.read_csv("C:/Users/user/Desktop/업무/8월/220809/부장님 산출 자료/raw_data.csv", encoding='cp949', sep=',')
+
+# 층용도 아파트제외
+new_data22 = data2[~data2['층용도'].str.contains('아파트', na=False, case=False)]
+new_data22 = new_data22[~new_data22['층용도'].str.contains('다중주택', na=False, case=False)]
+new_data22['층용도'].unique()
+
+# 연도별 통계
+answer4 = new_data22['대지위치'].groupby(new_data22['준공년도']).count()
+answer4.to_csv("C:/Users/user/Desktop/업무/8월/220810/연도별통계_부장님.csv", encoding='cp949', sep=',')
+
+
+# 준공년도 1910년보다 작은값 삭제, 2022년 보다 큰값 삭제
+new_data22['준공년도'] = new_data22['준공년도'].astype('int')
+new_data33 = new_data22.loc[new_data22['준공년도'] >= 1910]
+new_data33 = new_data33.loc[new_data33['준공년도'] <= 2022]
+
+new_data33['준공년도'].min()
+new_data33['준공년도'].max()
+
+
+# 4 구간으로 나누기 : 84년 이전, 85~98년, 99~11년, 2012년 이후
+# new_data33['구간'] = 0 #열 생성
+# new_data33['구간'][(new_data33['준공년도']<=1984)] = "1984년 이전"
+# new_data33['구간'][(new_data33['준공년도']>=1985) & (new_data33['준공년도']<1999)] = "1985~1998년"
+# new_data33['구간'][(new_data33['준공년도']>=1999) & (new_data33['준공년도']<2012)] = "1999년~2011년"
+# new_data33['구간'][(new_data33['준공년도']>=2012)] = "2012년 이후"
+# new_data33['구간'].unique()
+# 피벗테이블 : 구간과 유형에 따라 통계표 산출
+answer5 = new_data33.pivot_table(index=['층용도'], columns=['구간'], values=['대지위치'], aggfunc='count')
+answer5.columns = answer5.columns.droplevel(0)
+answer5.to_csv("C:/Users/user/Desktop/업무/8월/220810/부장님데이터_결과.csv", encoding='cp949', sep=',')
+
+
+
+semi_final = pd.read_csv("C:/Users/user/Desktop/업무/8월/220810/건축물대장_층별개요_산출자료정리/서울_지하층_주거.csv", encoding='cp949', sep=',')
+
+# 아파트 제거
+new_data = semi_final[~semi_final['용도'].str.contains("아파트", na=False, case=False)]
+# 다중주택 제거
+new_data = new_data[~new_data['용도'].str.contains("다중주택", na=False, case=False)]
+
+# 건물위치명 중복값 제거
+new_data2 = new_data.drop_duplicates(['건축물위치명'])
+
+
+# 준공년도 결측값 제거
+new_data3['준공년도'].unique()
+new_data3 = new_data2[~new_data2['준공년도'].str.contains('기타', na=False, case=False)]
+new_data3['용도'].unique()
+
+new_data2['준공년도'] = new_data2['준공년도'].astype('int')
+
+
+# 220811, 17만호 리스트 뽑기
+import pandas as pd
+raw = pd.read_csv("C:/Users/user/Desktop/업무/8월/220810/건축물대장_층별개요_산출자료정리/rawdata_최종.csv", encoding='cp949', sep=',')
+# 준공년도 결측치 제거
+new_data = raw[~raw['준공년도'].str.contains('기타', na=False, case=False)]
+new_data['준공년도'].unique()
+# 아파트, 다중주택 제거
+# 아파트 제거
+raw_last = new_data[~new_data['용도'].str.contains("아파트", na=False, case=False)]
+# 다중주택 제거
+raw_last = raw_last[~raw_last['용도'].str.contains("다중주택", na=False, case=False)]
+
+raw_last['준공년도'] = raw_last['준공년도'].astype('int')
+# 구간으로 나누기 : 84년 이전, 85~98년, 99~11년, 2012년 이후
+# raw_last['구간'] = 0 #열 생성
+# raw_last['구간'][(raw_last['준공년도']<=1984)] = "1984년 이전"
+# raw_last['구간'][(raw_last['준공년도']>=1985) & (raw_last['준공년도']<1999)] = "1985~1998년"
+# raw_last['구간'][(raw_last['준공년도']>=1999) & (raw_last['준공년도']<2012)] = "1999년~2011년"
+# raw_last['구간'][(raw_last['준공년도']>=2012)] = "2012년 이후"
+# raw_last['구간'].unique()
+
+
+# 1984년 이전 15,157 건과 1985~1998의 연립주택 2,338 추출
+
+
+
+first = raw_last[raw_last['구간']=="1984년 이전"]
+
+second = raw_last[(raw_last['구간']=="1985~1998년")&(raw_last['용도']=="연립주택")]
+
+
+df[(df['country']!='한국') & (df['population']>=800)]
+data['columns2'][(data['columns1']>14) & (data['columns1']<=20)] = "14~20"
+
+
+
+export = pd.concat([first, second])
+export.to_csv("C:/Users/user/Desktop/업무/8월/220811/추출_반지하.csv", encoding='cp949', sep=',')
+
+
+# 부장님자료에서 1965년 전값 제거하고 해보기
+
+
+# 부장님이 뽑아주신 자료
+
+data = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220809/부장님 산출 자료/지하주택현황_주택정책지원센터.txt", encoding='cp949', sep='|')
+
+
+data["사용승인일"] = data["사용승인일"].fillna(0) #결측값 0으로 채우기
+data["사용승인일"] = data["사용승인일"].astype("str")
+data["준공년도"] = data["사용승인일"].str[:4]
+data["준공년도"] = data["준공년도"].astype("int")
+
+raw_last['준공년도'].unique()
+raw_last['준공년도'].min()
+data["준공년도"].unique()
+
+# raw_last 분리
+# 공백기준으로 대치위치열 쪼개기
+raw_last[['년','월','일']] = pd.DataFrame(raw_last['사용승인일자명'].str.split(' ',2).tolist())
+# 양쪽 공백제거하기
+raw_last['년'] = raw_last['년'].str.strip()
+raw_last['월'] = raw_last['월'].str.strip()
+raw_last['일'] = raw_last['일'].str.strip()
+
+# 년 글자 제거
+
+raw_last['년'] = raw_last['년'].str.replace(pat='년', repl="", regex=True)
+raw_last2 = raw_last[~raw_last['년'].str.contains('기타', na=False, case=False)]
+raw_last2['년'].unique()
+raw_last2['년'] = raw_last2['년'].fillna(0) #결측값 0으로 채우기
+raw_last2['년'] = raw_last2['년'].astype('int')
+
+
+raw_last3 = raw_last2[raw_last2['년']!=0]
+
+raw_last3['년'].unique()
+
+raw_last3['년']=raw_last3['년'].astype('int')
+
+# 구간으로 나누기 : 84년 이전, 85~98년, 99~11년, 2012년 이후
+# raw_last3['구간'] = 0 #열 생성
+# raw_last3['구간'][(raw_last3['년']<=1984)] = "1984년 이전"
+# raw_last3['구간'][(raw_last3['년']>=1984) & (raw_last3['년']<1999)] = "1985~1998년"
+# raw_last3['구간'][(raw_last3['년']>=1999) & (raw_last3['년']<2012)] = "1999년~2011년"
+# raw_last3['구간'][(raw_last3['년']>=2012)] = "2012년 이후"
+# raw_last3['구간'].unique()
+
+# 피벗테이블 : 구간과 유형에 따라 통계표 산출
+answer = raw_last3.pivot_table(index=['층용도'], columns=['구간'], values=['대지위치'], aggfunc='count')
+answer.columns = answer.columns.droplevel(0)
+answer.to_csv("C:/Users/user/Desktop/업무/8월/220810/부장님데이터_결과.csv", encoding='cp949', sep=',')
+
+
+raw_last3[['준공년','준공월','준공일']] = pd.DataFrame(raw_last3['사용승인일자명'].str.split(' ',2).tolist())
+
+
+
+
+
+
+
+
+
+jjin = pd.read_csv("C:/Users/user/Desktop/업무/8월/220811/rawdata_년도오류수정.csv", encoding='cp949', sep=',')
+# 구간으로 나누기 : 84년 이전, 85~98년, 99~11년, 2012년 이후
+# jjin['구간'] = 0 #열 생성
+# jjin['구간'][(jjin['준공년도']<=1984)] = "1984년 이전"
+# jjin['구간'][(jjin['준공년도']>=1984) & (jjin['준공년도']<1999)] = "1985~1998년"
+# jjin['구간'][(jjin['준공년도']>=1999) & (jjin['준공년도']<2012)] = "1999년~2011년"
+# jjin['구간'][(jjin['준공년도']>=2012)] = "2012년 이후"
+# jjin['구간'].unique()
+
+answer = jjin.pivot_table(index=['용도'], columns=['구간'], values=['건축물위치명'], aggfunc='count')
+answer.columns = answer.columns.droplevel(0)
+answer.to_csv("C:/Users/user/Desktop/업무/8월/220811/결과표_년도오류수정.csv", encoding='cp949', sep=',')
+
+# 1992년 물량
+under = jjin[jjin['준공년도']<1993]
+
+
+# 방법1 : 공백기준으로 문자 자르기
+raw_last3[['준공년','준공월','준공일']] = pd.DataFrame(raw_last3['사용승인일자명'].str.split(' ',2).tolist())
+
+# 양쪽 공백제거하기(특정열)
+raw_last3["사용승인일자명"] = raw_last3["사용승인일자명"].str.strip()
+
+# 방법1 : 공백기준으로 문자 자르기
+raw_last3[['준공년','준공월','준공일']] = pd.DataFrame(raw_last3['사용승인일자명'].str.split(' ',2).tolist())
+
+raw_last3["테스트"] = raw_last3["사용승인일자명"].str[:4]
+
+jjin['준공년도'].unique()
+jjin2 = jjin[jjin['준공년도']>1977]
+answer2 = jjin2.pivot_table(index=['용도'], columns=['구간'], values=['건축물위치명'], aggfunc='count')
+answer2.columns = answer2.columns.droplevel(0)
+
+jjin2['준공년도'].min()
+jjin2['층번호명'].value_counts()
+
+
+
+
+# 면적을 잘라보기
+raw_last["실제준공년도"] = raw_last["사용승인일자명"].str[:4]
+raw_last["실제준공년도"].unique()
+raw_last2 = raw_last[~raw_last['실제준공년도'].str.contains('기타', na=False, case=False)]
+raw_last2["실제준공년도"].unique()
+raw_last2["실제준공년도"] =raw_last2["실제준공년도"].astype('int')
+
+# raw_last2['구간'] = 0 #열 생성
+# raw_last2['구간'][(raw_last2['실제준공년도']<=1974)] = "1974년 이전"
+# raw_last2['구간'][(raw_last2['실제준공년도']>1974) & (raw_last2['실제준공년도']<1984)] = "1975~1984년"
+# raw_last2['구간'][(raw_last2['실제준공년도']>=1984) & (raw_last2['실제준공년도']<1999)] = "1985~1998년"
+# raw_last2['구간'][(raw_last2['실제준공년도']>=1999) & (raw_last2['실제준공년도']<2012)] = "1999년~2011년"
+# raw_last2['구간'][(raw_last2['실제준공년도']>=2012)] = "2012년 이후"
+# raw_last2['구간'].unique()
+
+raw_last3 = raw_last2[raw_last2['실제준공년도']>1977]
+answer2 = raw_last3.pivot_table(index=['용도'], columns=['구간'], values=['건축물위치명'], aggfunc='count')
+answer2 = raw_last2.pivot_table(index=['용도'], columns=['구간'], values=['건축물위치명'], aggfunc='count')
+answer2.columns = answer2.columns.droplevel(0)
+answer2.to_csv("C:/Users/user/Desktop/업무/8월/220811/결과표_73년추가2.csv", encoding='cp949', sep=',')
+# 19,925
+raw_last3 = raw_last2[raw_last2['실제준공년도']<1980]
+
+
+raw_last4 = raw_last2[raw_last2['실제준공년도']<1974]
+# 74년 이전은 15,881
+
+# 75 이전 추가
+# raw_last2['구간'] = 0 #열 생성
+# raw_last2['구간'][(raw_last2['실제준공년도']<=1973)] = "1973년 이전"
+# raw_last2['구간'][(raw_last2['실제준공년도']>1973) & (raw_last2['실제준공년도']<1984)] = "1974~1984년"
+# raw_last2['구간'][(raw_last2['실제준공년도']>=1984) & (raw_last2['실제준공년도']<1999)] = "1985~1998년"
+# raw_last2['구간'][(raw_last2['실제준공년도']>=1999) & (raw_last2['실제준공년도']<2012)] = "1999년~2011년"
+# raw_last2['구간'][(raw_last2['실제준공년도']>=2012)] = "2012년 이후"
+# raw_last2['구간'].unique()
+
+
+
+
+raw_last2.to_csv("C:/Users/user/Desktop/업무/8월/220811/엑셀에서.csv", encoding='cp949', sep=',')
+
+
+data1 = pd.read_excel("C:/Users/user/Downloads/(주소) 서울시 심한장애인 주소/(주소) 심한장애인_서울특별시 구로구_금천구_영등포구_동작구_관악구_서초구_강남구_송파구_강동구.xlsx")
+data2 = pd.read_excel("C:/Users/user/Downloads/(주소) 서울시 심한장애인 주소/(주소) 심한장애인_서울특별시 성북구_강북구_도봉구_노원구.xlsx")
+data3 = pd.read_excel("C:/Users/user/Downloads/(주소) 서울시 심한장애인 주소/(주소) 심한장애인_서울특별시 은평구_서대문구_마포구_양천구_강서구.xlsx")
+data4 = pd.read_excel("C:/Users/user/Downloads/(주소) 서울시 심한장애인 주소/(주소) 심한장애인_서울특별시 종로구_중구_용산구_성동구_광진구_동대문구_중랑구_.xlsx")
+
+data5 = pd.concat(data1, data2, data3, data4)
+
+
+join1 = pd.read_excel("C:/Users/user/Desktop/조인/지하주택_센터_도로명주소_모파일.xlsx")
+join2 = pd.read_excel("C:/Users/user/Desktop/조인/심한장애인_서울특별시_자파일.xlsx")
+
+join1['도로명주소']= join1['도로명주소'].str.strip()
+join2['도로명주소']= join2['도로명주소'].str.strip()
+
+# vlook up : 건축물 통계와 장애인 인구 자료 조인
+new_data = join1.join(join2.set_index('도로명주소')['주소2'], on='도로명주소')
+
+
+new_data['주소2'].unique()
+new_data['주소2'].value_counts()
+
+new_data.to_csv("C:/Users/user/Desktop/조인/합친것_최종.csv", encoding='cp949', sep=',')
+
+
+
+
+
+
+test2 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님_도로명주소변환데이터/지하주택_가공완료_배포용.csv", encoding='cp949', sep=',')
+
+
+
+
+
+
+# 220812 부장님이 뽑아주신 자료 : 하나의 주소에 동정보가 달리 있는 건물 개수임
+import pandas as pd
+data2 = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님_도로명주소변환데이터/지하주택_센터_도로명주소.xlsx")
+# 사용승인년도 결측 값 0으로 채우기
+data2['사용승인년도'] = data2['사용승인년도'].fillna(0)
+data2['사용승인년도'] = data2['사용승인년도'].astype('int')
+data2 = data2[data2["사용승인년도"]!=0] #사용승인년도 0값 제거
+# 사용승인년도에 따라 범례 부여하기
+# data2['구간'] = 0 #열 생성
+# data2['구간'][(data2['사용승인년도']<=1984)] = "1984년 이전"
+# data2['구간'][(data2['사용승인년도']>=1984) & (data2['사용승인년도']<1999)] = "1985~1998년"
+# data2['구간'][(data2['사용승인년도']>=1999) & (data2['사용승인년도']<2012)] = "1999년~2011년"
+# data2['구간'][(data2['사용승인년도']>=2012)] = "2012년 이후"
+# data2['구간'].unique()
+# 피벗테이블
+answer = data2.pivot_table(index=['층용도'], columns=['구간'], values=['대지위치'] ,aggfunc='count')
+answer.columns = answer.columns.droplevel(0)
+
+# 합계
+# 행생성
+answer.loc['합계',:] = answer.sum() #기본값 axis=0
+# 열생성
+answer['합계'] = answer.sum(axis=1)
+
+# 행순서변경
+answer.index
+answer = answer.reindex(index=['합계', '단독주택', '다가구주택', '다세대주택', '연립주택'])
+
+# 열순서변경
+answer.columns
+answer = answer[['합계', '1984년 이전', '1985~1998년', '1999년~2011년', '2012년 이후']]
+answer = answer.astype('int')
+
+# 주소 이상 값 전처리
+data2['대지위치'] = data2['대지위치'].str.replace(pat='8블럭5롯트', repl='', regex=True)
+data2['대지위치'] = data2['대지위치'].str.replace(pat='구역', repl='', regex=True)
+data2['대지위치'] = data2['대지위치'].str.replace(pat='구획 6호', repl='-1', regex=True)
+
+data2.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님_도로명주소변환데이터/지하주택_가공완료.csv", encoding='cp949', sep=',')
+
+####### 도로명주소 위도 경도 값으로 바꿔주기 ########
+from geopy.geocoders import Nominatim
+geo_local = Nominatim(user_agent='South Korea')
+# 위도, 경도 반환하는 함수
+def geocoding(address):
+    geo = geo_local.geocode(address)
+    x_y = [geo.latitude, geo.longitude]
+    return x_y
+latitude = []
+longtitude = []
+
+# 지오코딩
+for i in data2['대지위치']:
+    print(i, "번째 주소를 코딩합니다")
+    try :
+        latitude.append(geocoding(i)[0])
+        longtitude.append(geocoding(i)[1])
+        print(i, "코딩에 성공하였습니다")
+    except AttributeError as e:
+        print(i, "변환에 실패하였습니다")
+        latitude.append("NA")
+        longtitude.append("NA")
+        print(e)
+
+address_df = pd.DataFrame({'건축물위치': final_coding2['건축물위치명'], '용도': final_coding['용도'], '위도':latitude,'경도':longtitude})
+
+address_df.to_csv("C:/Users/user/Desktop/업무/5월/220516/오피스텔 지오코딩/고유값지오코딩_결측포함.csv", encoding='cp949')
+# 경위도 결측값인 행 삭제하기
+new_data2 = address_df[~address_df['위도'].str.contains("NA", na=False, case=False)]
+
+new_data2.to_csv("C:/Users/user/Desktop/업무/5월/220516/오피스텔 지오코딩/오피스텔_경위도추가.csv", encoding='cp949')
+
+
+
+del(answer, data2, geo_local, latitude, longtitude)
+# 12일 오후
+import pandas as pd
+dandok = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님 산출자료/지하주택(단독주택)_세부용도_센터.xlsx")
+# 용도정제
+dandok['층용도'].unique()
+dandok2 = dandok[dandok['층용도']!="다중주택"]
+dandok2['층용도'].unique()
+# 준공년도 정제
+dandok2['사용승인년도'] = dandok2['사용승인년도'].fillna(0)
+dandok3 = dandok2[dandok2['사용승인년도']!=0]
+dandok2['사용승인년도'] = dandok2['사용승인년도'].astype('int')
+# 2012년 이후 물량(동 개수)
+# 사용승인년도에 따라 범례 부여하기
+# dandok3['구간'] = 0 #열 생성
+# dandok3['구간'][(dandok3['사용승인년도']<=1984)] = "1984년 이전"
+# dandok3['구간'][(dandok3['사용승인년도']>1984) & (dandok3['사용승인년도']<1999)] = "1985~1998년"
+# dandok3['구간'][(dandok3['사용승인년도']>=1999) & (dandok3['사용승인년도']<2012)] = "1999년~2011년"
+# dandok3['구간'][(dandok3['사용승인년도']>=2012)] = "2012년 이후"
+# dandok3['구간'].unique()
+
+
+
+answer1 = dandok3.pivot_table(index=['층용도'], columns=['구간'], values=['대지위치'], aggfunc='count')
+answer1.columns = answer1.columns.droplevel(0)
+
+
+jibhab = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님 산출자료/지하주택(공동주택)_세부용도_센터.xlsx")
+
+
+
+test = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님 산출자료_pnu_마지막/지하주택(공동주택)_세부용도_PNU_센터.xlsx", sheet_name="지하주택(공동_주택)_세부용도_PNU_센터")
+
+test_dong = test.drop_duplicates(['동구분_KEY'])
+# 32555 개
+
+test_dong.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님 산출자료_pnu_마지막/공동주택 동기준으로 정제(동pk 중복값 제거)/지하주택(공동주택)_동수산출_PNU_센터.csv", encoding='cp949', sep=',')
+
+
+#  단독 집합에 도로명 기준으로 장애인 자료 붙이기
+
+#  단독 불러오기
+a = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님 산출자료_pnu_마지막/지하주택(단독_주택)_세부용도_PNU_센터.xlsx")
+b = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님 산출자료_pnu_마지막/지하주택(공동주택)_세부용도_PNU_센터.xlsx")
+c = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/지하거주 장애인_6315건.xlsx")
+
+# 단독 도로명주소 중복값제거
+a2 = a.drop_duplicates(['도로명주소'])
+# 공동 도로명주소 중복값제거
+b2 = b.drop_duplicates(['도로명주소'])
+
+# 양쪽 공백제거하기
+a2['도로명주소'] = a2['도로명주소'].str.strip()
+b2['도로명주소'] = b2['도로명주소'].str.strip()
+
+# vlook up : 건축물 통계와 장애인 인구 자료 조인
+new_a = a2.join(c.set_index('도로명주소')['주소'], on='도로명주소')
+new_b = b2.join(c.set_index('도로명주소')['주소'], on='도로명주소')
+
+new_a.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/조인결과 마지막/단독_장애인.csv", encoding='cp949', sep=',')
+new_b.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/조인결과 마지막/공동_장애인.csv", encoding='cp949', sep=',')
+
+
+
+aa = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님 산출자료_pnu_마지막/지하주택(단독_주택)_세부용도_PNU.csv", encoding='cp949', sep=',')
+aa.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님 산출자료_pnu_마지막/지하주택(단독_주택)_세부용도_PNU2.csv", encoding='utf-8', sep=',')
+bb = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님 산출자료_pnu_마지막/지하주택(공동주택)_세부용도_PNU.csv", encoding='cp949', sep=',')
+bb.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님 산출자료_pnu_마지막/지하주택(공동주택)_세부용도_PNU2.csv", encoding='utf-8', sep=',')
+
+
+# 단독 공동 합치기
+# 합치기 위해서 필요한열 만 추출
+ss = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님 산출자료_pnu_마지막/지하주택(종합)_PNU_센터.csv", encoding='cp949', sep=',')
+ss.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님 산출자료_pnu_마지막/지하주택(종합)_세부용도_PNU2.csv", encoding='utf-8', sep=',')
+
+
+
+
+import geopandas as gpd
+
+rrr = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/gis 추출/공공재개발 및 신통필지_반지하2.dbf", encoding='utf-8')
+
+
+# 파일 부르기
+
+data_new1 = pd.read_csv()
+
+data_new2
+
+
+
+
+dandok3.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님 산출자료_pnu_마지막/마지막_수정/일반건축물.csv", encoding='cp949', sep=',')
+
+
+# dandok 과 jibhab 활용
+
+
+dandok = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님 산출자료_pnu_마지막/지하주택(단독_주택)_세부용도_PNU.csv", encoding='cp949', sep=',')
+jibhab = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님 산출자료_pnu_마지막/지하주택(공동주택)_세부용도_PNU.csv", encoding='cp949', sep=',')
+# 조인용 불러오기
+for_join = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/부장님 산출자료_pnu_마지막/마지막_수정/마지막_조인용.csv", encoding='cp949', sep=',')
+
+
+
+new_dandok = dandok.join(for_join.set_index('pnu')['구역구분'], on='PNU')
+new_dandok['구역구분'].value_counts()
+new_dandok.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/결과표 마지막/일반건축물.csv", encoding='cp949', sep=',')
+
+new_jibhab = jibhab.join(for_join.set_index('pnu')['구역구분'], on='PNU')
+new_jibhab['구역구분'].value_counts()
+new_jibhab.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/결과표 마지막/집합건축물.csv", encoding='cp949', sep=',')
+
+# 모아 조인용
+moa = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/모아_13개구역만/모아주택필지.csv", encoding='cp949', sep=',')
+moa_join = moa.loc[:,['pnu','jibun']]
+
+
+
+moa_dandok = dandok.join(moa_join.set_index('pnu')['jibun'], on='PNU')
+moa_dandok['jibun'].value_counts()
+moa_jibhab = jibhab.join(moa_join.set_index('pnu')['jibun'], on='PNU')
+moa_jibhab['jibun'].value_counts()
+
+moa_dandok.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/모아_13개구역만/모아주택조인결과/일반건축물.csv", encoding='cp949', sep=',')
+moa_jibhab.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/모아_13개구역만/모아주택조인결과/집합건축물.csv", encoding='cp949', sep=',')
+
+
+
+import pandas as pd
+
+data = pd.read_csv("C:/Users/user/Desktop/표제부/건축물대장.csv", encoding='cp949', sep=',')
+data.to_csv("C:/Users/user/Desktop/표제부/건축물대장2.csv", encoding='cp949', sep='|')
+data.to_csv("C:/Users/user/Desktop/표제부/건축물대장2.txt", encoding='cp949', sep='|')
+
+data2 = data['건축물위치명'].str.replace(pat="동", repl='동 ', regex=True)
+data2 = pd.DataFrame(data2)
+data2 = data2['건축물위치명'].str.replace(pat="강동 구", repl='강동구', regex=True)
+data2 = pd.DataFrame(data2)
+data2 = data2['건축물위치명'].str.replace(pat="성동 구", repl='성동구', regex=True)
+data2 = pd.DataFrame(data2)
+final_coding2 = final_coding2['건축물위치명'].str.replace(pat="동 작구", repl='동작구', regex=True)
+final_coding2 = pd.DataFrame(final_coding2)
+final_coding2 = final_coding2['건축물위치명'].str.replace(pat="동 대문구", repl='동대문구', regex=True)
+final_coding2 = pd.DataFrame(final_coding2)
+
+
+table = dandok['대지위치'].groupby(dandok['층용도']).count()
+table2 = jibhab['대지위치'].groupby(jibhab['호용도']).count()
+
+
+new_data = data['알고자하는열'].groupby(data['기준으로 참고하는열']).count() #합을 알고싶을 때 sum(), 평균 mean()
+
+
+# 사용승인년도에 따라 범례 부여하기
+# dandok['구간'] = 0 #열 생성
+# dandok['구간'][(dandok['사용승인년도']<=1980)] = "1980년 이전"
+# dandok['구간'][(dandok['사용승인년도']>1980) & (dandok['사용승인년도']<=1990)] = "1980~1990년"
+# dandok['구간'][(dandok['사용승인년도']>=1991) & (dandok['사용승인년도']<=2000)] = "1991년~2000년"
+# dandok['구간'][(dandok['사용승인년도']>2000)] = "2001년 이후"
+# dandok['구간'].unique()
+
+
+answer = dandok.pivot_table(index=['층용도'], columns=['구간'], values=['대지위치'], aggfunc='count')
+
+
+# 사용승인년도에 따라 범례 부여하기
+# jibhab['구간'] = 0 #열 생성
+# jibhab['구간'][(jibhab['사용승인년도']<=1980)] = "1980년 이전"
+# jibhab['구간'][(jibhab['사용승인년도']>1980) & (jibhab['사용승인년도']<=1990)] = "1980~1990년"
+# jibhab['구간'][(jibhab['사용승인년도']>=1991) & (jibhab['사용승인년도']<=2000)] = "1991년~2000년"
+# jibhab['구간'][(jibhab['사용승인년도']>2000)] = "2001년 이후"
+# jibhab['구간'].unique()
+
+
+answer2 = jibhab.pivot_table(index=['호용도'], columns=['구간'], values=['대지위치'], aggfunc='count')
+answer2.columns = answer2.columns.droplevel(0)
+
+
+answer2.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/집합건축물.csv", encoding='cp949', sep=',')
+
+
+
+data1 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813122720.csv", encoding='utf-8', sep=',')
+data2 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813122802.csv", encoding='utf-8', sep=',')
+data3 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813122854.csv", encoding='utf-8', sep=',')
+data4 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813122924.csv", encoding='utf-8', sep=',')
+data5 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813122957.csv", encoding='utf-8', sep=',')
+data6 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813123054.csv", encoding='utf-8', sep=',')
+data7 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813123122.csv", encoding='utf-8', sep=',')
+data8 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813123339.csv", encoding='utf-8', sep=',')
+data9 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813123405.csv", encoding='utf-8', sep=',')
+data10 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813123435.csv", encoding='utf-8', sep=',')
+data11 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813123630.csv", encoding='utf-8', sep=',')
+data12 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813123656.csv", encoding='utf-8', sep=',')
+data13 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813123723.csv", encoding='utf-8', sep=',')
+data14 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813123747.csv", encoding='utf-8', sep=',')
+data15 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813123847.csv", encoding='utf-8', sep=',')
+data16 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813123913.csv", encoding='utf-8', sep=',')
+data17 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813123943.csv", encoding='utf-8', sep=',')
+data18 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813124015.csv", encoding='utf-8', sep=',')
+data19 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813124042.csv", encoding='utf-8', sep=',')
+data20 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813124108.csv", encoding='utf-8', sep=',')
+data21 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813124131.csv", encoding='utf-8', sep=',')
+data22 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813124227.csv", encoding='utf-8', sep=',')
+data23 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813124312.csv", encoding='utf-8', sep=',')
+data24 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813124339.csv", encoding='utf-8', sep=',')
+data25 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/전유부/건축물대장_전유부/건축물대장_전유부_20220813124405.csv", encoding='utf-8', sep=',')
+
+seoul = pd.concat([data1, data2, data3, data4, data5, data6, data7, data8, data9, data10, data11, data12
+                   , data13, data14, data15, data16, data17, data18, data19, data20, data21, data22, data23
+                   , data24, data25])
+
+# 엑셀에서 열릴만큼만 합치기
+seoul1 = pd.concat([data1, data2, data3, data4, data5, data6])
+seoul2 = pd.concat([data7, data8, data9, data10, data11, data12])
+seoul3 = pd.concat([data13, data14, data15, data16, data17, data18])
+seoul4 = pd.concat([data19, data20, data21, data22, data23, data24, data25])
+
+seoul1.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/전유부 분할/서울1.csv", encoding='utf-8', sep=',')
+seoul2.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/전유부 분할/서울2.csv", encoding='utf-8', sep=',')
+seoul3.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/전유부 분할/서울3.csv", encoding='utf-8', sep=',')
+seoul4.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/전유부 분할/서울4.csv", encoding='utf-8', sep=',')
+
+
+
+
+del(data1, data2, data3, data4, data5, data6, data7, data8, data9, data10, data11, data12
+                   , data13, data14, data15, data16, data17, data18, data19, data20, data21, data22, data23
+                   , data24, data25)
+seoul.to_csv("C:/Users/user/Desktop/업무/전유부 합쳐드리기_220817/서울_건축물_전유부.csv", encoding='cp949', sep=',')
+seoul.columns
+seoul2 = seoul.loc[:,['관리건축물대장PK','건축물위치명']]
+seoul2 = seoul2.rename(columns={'관리건축물대장PK':'id'})
+seoul2 = seoul2.rename(columns={'건축물위치명':'address'})
+print('a')
+seoul2.to_csv("C:/Users/user/Desktop/전유부/건축물대장_전유부/건축물대장_전유부.txt", encoding='utf-8', sep='|', index=False)
+
+
+gonggong = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/사업별필지_구역명/table/공공재개발필지.xlsx")
+
+sintong = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/사업별필지_구역명/table/신통기획필지.xlsx")
+
+gonggong['구역명1'].unique()
+
+new_data = gonggong.join(sintong.set_index('pnu')['구역명2'], on='pnu')
+
+new_data['구역명'] =  new_data['구역명1'].fillna(new_data['구역명2'])
+new_data['유형']= new_data['유형'].fillna("신통기획")
+
+# 필요한 열만 추출
+new_data.columns
+new_data2 = new_data.loc[:,['pnu','유형','구역명']]
+
+new_data2['구역명'].isnull().sum()
+
+new_data['pnu'] = new_data['pnu'].astype('str')
+new_data2['pnu'] = new_data2['pnu'].astype('str')
+
+# new_data3 = new_data.copy()
+# new_data4 = new_data2.copy()
+# new_data3['pnu'] = new_data['pnu']+"a"
+# new_data4['pnu'] = new_data2['pnu']+"a"
+#
+# new_data3.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/사업별필지_구역명/table/사업필지추출.csv", encoding='cp949', sep=',')
+# new_data4.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/사업별필지_구역명/table/사업필지추출_join용.csv", encoding='cp949', sep=',')
+# # pnu를 csv 파일로 뺄 경우 뒤의 숫자가 사라지는 문제 발생함
+
+
+
+new_data.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/사업별필지_구역명/table/사업필지추출.txt", encoding='cp949', sep=',')
+new_data.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/사업별필지_구역명/table/종합/사업필지추출.xlsx")
+new_data2.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/사업별필지_구역명/table/종합/사업필지추출_join용.xlsx")
+
+# 서울 전체 전유부 파일 : seoul
+seoul['건축물위치명']
+seoul['건축물위치명'] = seoul['건축물위치명'].str.replace(pat="동", repl='동 ', regex=True)
+seoul2 = pd.DataFrame(seoul)
+seoul2 = seoul2['건축물위치명'].str.replace(pat="강동 구", repl='강동구', regex=True)
+seoul2 = pd.DataFrame(seoul2)
+seoul2 = seoul2['건축물위치명'].str.replace(pat="성동 구", repl='성동구', regex=True)
+seoul2 = pd.DataFrame(seoul2)
+seoul2 = seoul2['건축물위치명'].str.replace(pat="동 작구", repl='동작구', regex=True)
+seoul2 = pd.DataFrame(seoul2)
+seoul2 = seoul2['건축물위치명'].str.replace(pat="동 대문구", repl='동대문구', regex=True)
+seoul2 = pd.DataFrame(seoul2)
+
+
+new = pd.read_excel("C:/Users/user/Desktop/강팀장님/사업필지추출_종합_수정.xlsx", sheet_name='Sheet2')
+# 강팀장님이 주신 자료로 join
+# vlook up : 건축물 통계와 장애인 인구 자료 조인
+test = seoul.join(new.set_index('완전주소_수정')['구역명'], on='건축물위치명')
+test = test.join(new.set_index('완전주소_수정')['유형'], on='건축물위치명')
+
+test['구역명'].unique()
+test['유형'].unique()
+test['유형'].value_counts()
+
+# 내가 붙인자료 불러오기
+joinyong = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220813/사업별필지_구역명/table/종합/사업필지추출_join용.xlsx")
+joinyong['지번주소'] = joinyong['지번주소'].str.replace(pat="동 ", repl='동', regex=True)
+
+# 양쪽 공백제거하기
+joinyong['지번주소'] = joinyong['지번주소'].str.strip()
+seoul['건축물위치명'] = seoul['건축물위치명'].str.strip()
+
+# 내가 만든 자료로 join
+test2 = seoul.join(joinyong.set_index('지번주소')['구역명'], on='건축물위치명')
+test2 = test2.join(joinyong.set_index('지번주소')['유형'], on='건축물위치명')
+
+test2['유형'].value_counts()
+a = test2['전유용도소분류명'].value_counts()
+a = test2[test2['전유용도소분류명'] == "단독주택_다가구주택"]
+# 99호
+############################################################ 220813 작업
+# 시스템에서 받은 건축물대장 대용량데이터
+data_jjin = pd.read_excel("C:/Users/user/Desktop/데이터/건축물대장내역_시스템대용량.xlsx", engine='openpyxl')
+
+# 주용도 추려내기
+data_jjin['주용도'].unique()
+# 데이터프레임 이중조건 추출
+# data2 = data_jjin[(data_jjin['주용도']=='단독주택')&(data_jjin['주용도']=='공동주택')]
+data2 = data_jjin[data_jjin['주용도']=='단독주택']
+data3 = data_jjin[data_jjin['주용도']=='공동주택']
+data4 = pd.concat([data2, data3])
+
+data4.to_excel("C:/Users/user/Desktop/데이터/건축물대장내역_시스템대용량_주거.xlsx")
+# 데이터 조인
+test = data4.join(joinyong.set_index('pnu')['구역명'], on='pnu')
+test = test.join(joinyong.set_index('pnu')['유형'], on='pnu')
+test['유형'].value_counts()
+
+
+
+# 붙은것만 추리기
+
+only_join1 = test[test['유형']=='신통기획']
+only_join2 = test[test['유형']=='공공재개발']
+
+only_join = pd.concat([only_join1,only_join2])
+
+# 일반주택 : 가구수합
+ilban = only_join[only_join['주용도']=='단독주택']
+ilban['유형'].value_counts()
+ilban['가구수'].sum()
+# 공동주택 : 호수합
+jibhab = only_join[only_join['주용도']=='공동주택']
+jibhab['유형'].value_counts()
+jibhab['세대수'].sum()
+
+ilban['pnu'] = ilban['pnu'].astype('str')
+jibhab['pnu'] = jibhab['pnu'].astype('str')
+
+
+
+jibhab.to_excel("C:/Users/user/Desktop/데이터/집합.xlsx")
+ilban.to_excel("C:/Users/user/Desktop/데이터/일반.xlsx")
+
+############################################################ 220814 작업
+# 서울 전체 반지하 좌표 지오코딩
+# 부장님이 산출해주신 자료
+import pandas as pd
+
+ilban = pd.read_excel("D:업무/반지하_220809 이후/220812/부장님 산출자료_pnu_마지막/지하주택(단독_주택)_세부용도_PNU_센터.xlsx")
+jibhab = pd.read_excel("D:업무/반지하_220809 이후/220812/부장님 산출자료_pnu_마지막/지하주택(공동주택)_세부용도_PNU_센터.xlsx")
+
+ilban['PNU'] = ilban['PNU'].astype('str')
+jibhab['PNU'] = jibhab['PNU'].astype('str')
+
+# 두개를 하나의 파일로 만들기 위해서 필요한 열만 추출하기
+ilban.columns
+ilban['용도'] = ilban['층용도']
+ilban_need = ilban.loc[:,['대지위치','도로명주소','시군구명','PNU','사용승인년도', '용도']]
+
+jibhab.columns
+jibhab['용도'] = jibhab['호용도']
+jibhab_need = jibhab.loc[:,['대지위치','도로명주소','PNU','시군구명','사용승인년도', '용도']]
+
+
+all = pd.concat([ilban_need, jibhab_need])
+
+# 도로명주소기준 중복값 제거 : 어차피 같은 값을 코딩됨, 또한 도로명보다 더 자세히 지오코딩은 안됨
+all_no_중복 = all.drop_duplicates(['도로명주소'])
+
+####### 도로명주소 위도 경도 값으로 바꿔주기 ########
+from geopy.geocoders import Nominatim
+geo_local = Nominatim(user_agent='South Korea')
+# 위도, 경도 반환하는 함수
+def geocoding(address):
+    geo = geo_local.geocode(address)
+    x_y = [geo.latitude, geo.longitude]
+    return x_y
+latitude = []
+longtitude = []
+
+# 지오코딩
+# for i in all['대지위치']:
+#     for j in range(1, 226938):
+#         try:
+#             latitude.append(geocoding(i)[0])
+#             longtitude.append(geocoding(i)[1])
+#             print(i, "코딩에 성공하였습니다")
+#         except AttributeError as e:
+#             print(i, "변환에 실패하였습니다")
+#             latitude.append("NA")
+#             longtitude.append("NA")
+#             print(e)
+#         print(j)
+
+
+# 186972개의 장소에 대한 지오코딩 진행
+for i in all_no_중복['도로명주소']:
+    try :
+        latitude.append(geocoding(i)[0])
+        longtitude.append(geocoding(i)[1])
+        print(i, "코딩에 성공하였습니다")
+    except AttributeError as e:
+        print(i, "변환에 실패하였습니다")
+        latitude.append("NA")
+        longtitude.append("NA")
+        print(e)
+
+# 16일 화요일에 출근했다면, 18만개의 지오코딩이 잘 끝났다는 전제하에 여기부터 실행해보도록
+address_df = pd.DataFrame({'대지위치': all_no_중복['대지위치'], '도로명주소': all_no_중복['도로명주소'], 'PNU': all_no_중복['PNU'], '사용승인년도': all_no_중복['사용승인년도'], '위도':latitude,'경도':longtitude})
+
+address_df.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220816/반지하건축물_지오코딩자료.xlsx")
+
+
+
+import pandas as pd
+
+flood = pd.read_excel("D:/업무/반지하_220809 이후/8월/220816/지적도_침수도_조인결과/침수_필지(PNU).xlsx")
+flood['flood_all']=flood['flood_all'].fillna(0)
+flood['flood_all']=flood['flood_all'].astype('int')
+ilban = pd.read_excel("D:/업무/반지하_220809 이후/8월/220812/부장님 산출자료_pnu_마지막/지하주택(단독_주택)_세부용도_PNU_센터.xlsx")
+jibhab = pd.read_excel("D:/업무/반지하_220809 이후/8월/220812/부장님 산출자료_pnu_마지막/지하주택(공동주택)_세부용도_PNU_센터.xlsx")
+
+
+# 일반건축물에 결합하기 : join을 하면 세대수가 늘어나버리는 문제 발생
+# ilban_flood = ilban.join(flood.set_index('pnu')['count_all'], on='PNU')
+# jibhab_flood = jibhab.join(flood.set_index('pnu')['count_all'], on='PNU')
+
+# 일반건축물에 결합하기 : merge로 left 옵션줘서 표본수 유지하기
+ilban_flood = pd.merge(ilban, flood, left_on='PNU', right_on='pnu', how='left')
+ilban_flood['flood_all'] = ilban_flood['flood_all'].fillna(0)
+ilban_flood['flood_all'] = ilban_flood['flood_all'].astype('int')
+jibhab_flood = pd.merge(jibhab, flood, left_on='PNU', right_on='pnu', how='left')
+jibhab_flood['flood_all'] = jibhab_flood['flood_all'].fillna(0)
+jibhab_flood['flood_all'] = jibhab_flood['flood_all'].astype('int')
+
+# 침수지역내 반지하
+ilban_banjiha = ilban_flood[ilban_flood['flood_all']!=0]
+ilban_banjiha['flood_all'].unique()
+
+jibhab_banjiha = jibhab_flood[jibhab_flood['flood_all']!=0]
+jibhab_banjiha['flood_all'].unique()
+
+
+# 사용승인년도 결측값 제거
+ilban_banjiha["사용승인년도"] = ilban_banjiha["사용승인년도"].fillna(0) #결측값 0으로 채우기
+ilban_banjiha["사용승인년도"] = ilban_banjiha["사용승인년도"].astype("int")
+ilban_banjiha = ilban_banjiha[ilban_banjiha['사용승인년도']!=0]
+
+jibhab_banjiha["사용승인년도"] = jibhab_banjiha["사용승인년도"].fillna(0) #결측값 0으로 채우기
+jibhab_banjiha["사용승인년도"] = jibhab_banjiha["사용승인년도"].astype("int")
+jibhab_banjiha = jibhab_banjiha[jibhab_banjiha['사용승인년도']!=0]
+
+
+# 주택유형별
+answer1 = ilban_banjiha['대지위치'].groupby(ilban_banjiha['층용도']).count()
+answer2 = jibhab_banjiha['대지위치'].groupby(jibhab_banjiha['호용도']).count()
+
+
+# 2/3 열 넣기
+ilban_banjiha['2/3해당여부'] = 0
+ilban_banjiha['2/3해당여부'][(ilban_banjiha['사용승인년도']<=1984)] = 1
+
+jibhab_banjiha['2/3해당여부'] = 0
+jibhab_banjiha['2/3해당여부'][(jibhab_banjiha['사용승인년도']<=1998)] = 1
+
+# 침수지역내 반지하 파일들 저장하기
+ilban_banjiha.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220816/침수지역내 반지하 건축물_세대수/침수지역내_일반건축물_반지하.xlsx")
+jibhab_banjiha.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220816/침수지역내 반지하 건축물_세대수/침수지역내_집합건축물_반지하.xlsx")
+
+# 2/3 통계 내기
+
+ilban_banjiha2 = ilban_banjiha[ilban_banjiha['2/3해당여부']==1]
+jibhab_banjiha2 = jibhab_banjiha[jibhab_banjiha['2/3해당여부']==1]
+
+# 주택유형별
+answer11 = ilban_banjiha2['대지위치'].groupby(ilban_banjiha2['층용도']).count()
+answer22 = jibhab_banjiha2['대지위치'].groupby(jibhab_banjiha2['호용도']).count()
+
+
+
+# 두 번째 방법
+# 1. 좌표 데이터 불러오기
+coordinates = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220816/두 번째 방법/건축물대장_전유부_좌표변환.csv", encoding='cp949', sep=',')
+coordinates2 = coordinates.loc[:,['원본주소','WGS84 좌표계 도로명 주소 X 좌표', 'WGS84 좌표계 도로명 주소 Y 좌표','Address']]
+coordinates2.columns
+
+# 공백제거하기
+ilban['도로명주소'] = ilban['도로명주소'].str.strip()
+coordinates['Address'] = coordinates['Address'].str.strip()
+jibhab['도로명주소'] = jibhab['도로명주소'].str.strip()
+
+# 일반건축물에 조인하기
+ilban_banjiha_coor = pd.merge(ilban, coordinates2, left_on='도로명주소', right_on='Address', how='left')
+jibhab_banjiha_coor = pd.merge(jibhab, coordinates2, left_on='도로명주소', right_on='Address', how='left')
+
+# 좌표로 뿌릴 것은 결국 도로명주소 단위 : 중복값 제거
+ilban_banjiha_coor = ilban_banjiha_coor.drop_duplicates(['도로명주소'])
+jibhab_banjiha_coor = jibhab_banjiha_coor.drop_duplicates(['도로명주소'])
+
+# 좌표로 뿌리기 위해서 필요한 정보만 추출
+ilban_banjiha_coor.columns
+ilban_banjiha_coor2 = ilban_banjiha_coor.loc[:,['WGS84 좌표계 도로명 주소 X 좌표', 'WGS84 좌표계 도로명 주소 Y 좌표', 'Address']]
+jibhab_banjiha_coor2 = jibhab_banjiha_coor.loc[:,['WGS84 좌표계 도로명 주소 X 좌표', 'WGS84 좌표계 도로명 주소 Y 좌표', 'Address']]
+
+ilban_banjiha_coor2.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220816/두 번째 방법/일반_반지하_좌표.csv", encoding='cp949', sep=',')
+jibhab_banjiha_coor2.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220816/두 번째 방법/집합_반지하_좌표.csv", encoding='cp949', sep=',')
+
+
+join_ilban = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220816/두 번째 방법/침수지역(격자)내_반지하_포인트/침수지역내_일반_반지하_도로명.xlsx")
+join_jibhab = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220816/두 번째 방법/침수지역(격자)내_반지하_포인트/침수지역내_집합_반지하_도로명.xlsx")
+
+
+ilban_answer = pd.merge(ilban, join_ilban, left_on='도로명주소', right_on='Address', how='left')
+jibhab_answer = pd.merge(jibhab, join_jibhab, left_on='도로명주소', right_on='Address', how='left')
+
+# 세대수 산출
+ilban_answer.columns
+ilban_answer['Address'] = ilban_answer['Address'].fillna(0)
+ilban_answer2 = ilban_answer[ilban_answer['Address']!=0]
+
+jibhab_answer.columns
+jibhab_answer['Address'] = jibhab_answer['Address'].fillna(0)
+jibhab_answer2 = jibhab_answer[jibhab_answer['Address']!=0]
+
+
+
+# 요청통계 산출
+
+please = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220816/요청 통계 산출/건축물대장내역_시스템대용량_주거용도.xlsx")
+please['허가일'] = please['허가일'].fillna(0)
+please2 = please[please['허가일']!=0]
+
+please['허가년도'].unique()
+please2['허가년도'].unique()
+
+please2 = please2[please2['허가년도']!='7 9']
+please2['허가년도'] = please2['허가년도'].astype('int')
+
+please2 = please2[(please2['허가년도']>=1910)&(please2['허가년도']<=2022)]
+please2['허가년도'].unique()
+
+please_2012 = please2[please2['허가년도']>=2012]
+
+please_2012_지하 =  please_2012[please_2012['지하층수']>=1]
+
+
+table = please_2012_지하.pivot_table(index=['시군구명'], columns=['허가년도'], values=['대지위치'] ,aggfunc='count')
+table.columns = table.columns.droplevel(0)
+table = table.fillna(0)
+table = table.astype('int')
+table.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220816/요청 통계 산출/연도_자치구별_반지하건축허가현황.xlsx")
+
+
+# 인허가내역으로 다시
+test = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220816/요청 통계 산출/건축인허가내역_주거용도_지하층존재.xlsx")
+test['허가일'] = test['허가일'].fillna(0)
+test2 = test[test['허가일']!=0]
+
+test2['허가년도'].unique()
+
+test2['허가년도'] = test2['허가년도'].astype('int')
+test2 = test2[(test2['허가년도']>=1910)&(please2['허가년도']<=2022)]
+test2['허가년도'].min()
+test2['허가년도'].max()
+
+test_2012 = test2[test2['허가년도']>=2012]
+test_2012['지하층수'].unique()
+# 대지위치 중복값 제거
+test_2012_2 =  test_2012.drop_duplicates(['대지위치'])
+
+table2 = test_2012_2.pivot_table(index=['시군구명'], columns=['허가년도'], values=['대지위치'] ,aggfunc='count')
+table2.columns = table2.columns.droplevel(0)
+table2 = table2.fillna(0)
+table2 = table2.astype('int')
+table2.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220816/요청 통계 산출/건축인허가내역_반지하건축허가현황2.xlsx")
+
+
+# 2012년 이후 준공 현황
+
+
+ilban["사용승인년도"] = ilban["사용승인년도"].fillna(0) #결측값 0으로 채우기
+ilban["사용승인년도"] = ilban["사용승인년도"].astype("int")
+ilban_2012 = ilban[ilban['사용승인년도']>=2012]
+ilban_2012 = ilban_2012[ilban_2012['사용승인년도']<=2022]
+
+jibhab["사용승인년도"] = jibhab["사용승인년도"].fillna(0) #결측값 0으로 채우기
+jibhab["사용승인년도"] = jibhab["사용승인년도"].astype("int")
+jibhab_2012 = jibhab[jibhab['사용승인년도']>=2012]
+jibhab_2012 = jibhab_2012[jibhab_2012['사용승인년도']<=2022]
+
+
+
+# 반지하 통계_준공기준_2012년 이전, 2022년까지
+# 호 수 기준,
+answer1 = ilban['대지위치'].groupby(ilban['사용승인년도']).count()
+answer2 = jibhab['대지위치'].groupby(jibhab['사용승인년도']).count()
+
+answer1.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220816/정책특보 제공 자료/반지하_일반건축물_준공현황.xlsx")
+answer2.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220816/정책특보 제공 자료/반지하_집합건축물_준공현황.xlsx")
+
+
+
+# 건축인허가 호수기준으로
+# 1. 부장님 자료 호출하기
+# 2. 건축인허가내역 호출
+injuga = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/요청통계/건축물대장내역_시스템대용량.xlsx")
+inhuga = injuga.loc[:,['대지위치', '허가일']]
+inhuga_2 = inhuga.drop_duplicates(['대지위치'])
+inhuga_2['허가일'] = inhuga_2['허가일'].fillna(0)
+inhuga_3 = inhuga_2[inhuga_2['허가일']!=0]
+inhuga_3['허가년도'] = inhuga_3['허가일'].str[:4]
+inhuga_3['허가년도'].min()
+inhuga_3['허가년도'].max()
+# 3. 대지위치 기준으로 건축인허가년도 join하기
+ilban['대지위치'] = ilban['대지위치'].str.strip()
+inhuga_3['대지위치'] = inhuga_3['대지위치'].str.strip()
+
+ilban_inhuga = pd.merge(ilban, inhuga_3, left_on='대지위치', right_on='대지위치', how='left')
+ilban_inhuga['허가년도'] = ilban_inhuga['허가년도'].fillna(0)
+
+jibhab_inhuga = pd.merge(jibhab, inhuga_3, left_on='대지위치', right_on='대지위치', how='left')
+jibhab_inhuga['허가년도'] = jibhab_inhuga['허가년도'].fillna(0)
+
+# 피벗테이블 : 구간과 유형에 따라 통계표 산출
+answer = ilban_inhuga.pivot_table(index=['시군구명'], columns=['허가년도'], values=['대지위치'], aggfunc='count')
+answer.columns = answer.columns.droplevel(0)
+
+# 허가일자 붙어있는 자료
+ilban_h = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/허가일자_반지하/지하주택(단독주택)_세부용도_센터.xlsx")
+
+jibhab_h = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/허가일자_반지하/지하주택(공동주택)_세부용도_센터.xlsx", sheet_name='주택세부용도_필터링')
+a = ilban_inhuga[ilban_inhuga['허가년도']==0]
+jibhab_h['허가일'].isna().sum()
+
+
+# 공동주택은 jibhab_h에서 사용하면 됨
+# 단독주택은 pnu 기준으로 다시 join 해보기
+ilban['PNU'] = ilban['PNU'].astype('int')
+ilban_inhuga2 = pd.merge(ilban, injuga, left_on='PNU', right_on='pnu', how='left')
+ilban_inhuga2['허가일'].isna().sum()
+
+
+ilban_inhuga['허가년도'] = ilban_inhuga['허가년도'].fillna(0)
+ilban_inhuga['허가년도'].isna().sum()
+# 단독은 ilban_inhuga 이용하기로..
+
+jibhab_h['허가일'] = jibhab_h['허가일'].fillna(0)
+jibhab_h['허가년도'] = jibhab_h['허가일'].str[0:4]
+jibhab_h2 = jibhab_h[jibhab_h['허가일']!=0]
+jibhab_h2['허가일'] = jibhab_h2['허가일'].astype('int')
+jibhab_h2['허가년도'] = jibhab_h2['허가일'].str[0:4]
+jibhab_h2['허가년도'] = jibhab_h2['허가일'].split
+# jibhab_h2['허가일자'] = jibhab_h2['허가일'].astype('str')
+jibhab_h2['허가년도'] = jibhab_h2['허가일'].str[:4]
+
+jibhab_h2.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/집합건축물통계.xlsx")
+jibhab_h2 = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/집합건축물통계.xlsx")
+jibhab_h2['허가년도'] = jibhab_h2['허가년도'].fillna(0)
+jibhab_h2['허가년도'] = jibhab_h2['허가년도'].astype('int')
+
+
+answer2 = jibhab_h2.pivot_table(index=['시군구명'], columns=['허가년도'], values=['대지위치'], aggfunc='count')
+answer2.columns = answer2.columns.droplevel(0)
+ilban_inhuga.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/요청통계/허가년도별 호수/일반건축물통계.xlsx")
+
+print("a")
+
+
+
+# 면적별 통계
+# 일반건축물
+ilban['면적구분']= 0
+ilban['면적구분'][(ilban['층면적']<20)] = "20미만"
+ilban['면적구분'][(ilban['층면적']>=20) & (ilban['층면적']<40)] = "20이상~40미만"
+ilban['면적구분'][(ilban['층면적']>=40) & (ilban['층면적']<60)] = "40이상~60미만"
+ilban['면적구분'][(ilban['층면적']>=60) & (ilban['층면적']<80)] = "60이상~80미만"
+ilban['면적구분'][(ilban['층면적']>=80) & (ilban['층면적']<120)] = "80이상~120미만"
+ilban['면적구분'][(ilban['층면적']>=120)] = "120이상"
+
+
+
+# 집합건축물
+jibhab['면적구분']= 0
+jibhab['면적구분'][(jibhab['전유면적']<20)] = "20미만"
+jibhab['면적구분'][(jibhab['전유면적']>=20) & (jibhab['전유면적']<40)] = "20이상~40미만"
+jibhab['면적구분'][(jibhab['전유면적']>=40) & (jibhab['전유면적']<60)] = "40이상~60미만"
+jibhab['면적구분'][(jibhab['전유면적']>=60) & (jibhab['전유면적']<80)] = "60이상~80미만"
+jibhab['면적구분'][(jibhab['전유면적']>=80) & (jibhab['전유면적']<120)] = "80이상~120미만"
+jibhab['면적구분'][(jibhab['전유면적']>=120)] = "120이상"
+
+ilban.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/면적별 통계 산출/일반건축물.xlsx")
+jibhab.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/면적별 통계 산출/집합건축물.xlsx")
+
+
+# 4 구간으로 나누기 : 84년 이전, 85~98년, 99~11년, 2012년 이
+ilban['사용승인년도'] =  ilban['사용승인년도'].fillna(0)
+ilban['사용승인년도'] =  ilban['사용승인년도'].astype('int')
+
+ilban['구간'] = 0 #열 생성
+ilban['구간'][(ilban['사용승인년도']>=1910) & (ilban['사용승인년도']<=1984)] = "1984년 이전"
+ilban['구간'][(ilban['사용승인년도']>=1985) & (ilban['사용승인년도']<1999)] = "1985~1998년"
+ilban['구간'][(ilban['사용승인년도']>=1999) & (ilban['사용승인년도']<2012)] = "1999년~2011년"
+ilban['구간'][(ilban['사용승인년도']>=2012) & (ilban['사용승인년도']<2023)] = "2012년 이후"
+
+# 피벗테이블 : 구간과 유형에 따라 통계표 산출
+answer = ilban.pivot_table(index=['층용도'], columns=['구간'], values=['대지위치'], aggfunc='count')
+answer.columns = answer.columns.droplevel(0)
+
+answer.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/통계표 재산출/통계표1.csv", encoding='cp949', sep=',')
+
+# 4 구간으로 나누기 : 84년 이전, 85~98년, 99~11년, 2012년 이후
+jibhab['사용승인년도'] =  jibhab['사용승인년도'].fillna(0)
+jibhab['사용승인년도'] =  jibhab['사용승인년도'].astype('int')
+jibhab['구간'] = 0 #열 생성
+jibhab['구간'][(jibhab['사용승인년도']>=1910) & (jibhab['사용승인년도']<=1984)] = "1984년 이전"
+jibhab['구간'][(jibhab['사용승인년도']>=1985) & (jibhab['사용승인년도']<1999)] = "1985~1998년"
+jibhab['구간'][(jibhab['사용승인년도']>=1999) & (jibhab['사용승인년도']<2012)] = "1999년~2011년"
+jibhab['구간'][(jibhab['사용승인년도']>=2012) & (jibhab['사용승인년도']<2023)] = "2012년 이후"
+# 피벗테이블 : 구간과 유형에 따라 통계표 산출
+answer2 = jibhab.pivot_table(index=['호용도'], columns=['구간'], values=['대지위치'], aggfunc='count')
+answer2.columns = answer2.columns.droplevel(0)
+
+answer2.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/통계표 재산출/통계표2.csv", encoding='cp949', sep=',')
+
+ilban2 = ilban[ilban['사용승인년도']!=0]
+
+# ilban2['구간'] = 0 #열 생성
+# ilban2['구간'][(ilban2['사용승인년도']<=1984)] = "1984년 이전"
+# ilban2['구간'][(ilban2['사용승인년도']>=1985) & (ilban2['사용승인년도']<1999)] = "1985~1998년"
+# ilban2['구간'][(ilban2['사용승인년도']>=1999) & (ilban2['사용승인년도']<2012)] = "1999년~2011년"
+# ilban2['구간'][(ilban2['사용승인년도']>=2012)] = "2012년 이후"
+# ilban2['구간'].unique()
+
+# 피벗테이블 : 구간과 유형에 따라 통계표 산출
+answer = ilban2.pivot_table(index=['층용도'], columns=['구간'], values=['대지위치'], aggfunc='count')
+answer.columns = answer.columns.droplevel(0)
+# 사용승인년도 0값 제외
+
+answer.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/통계표 재산출/통계표11.csv", encoding='cp949', sep=',')
+
+
+jibhab2 = jibhab[jibhab['사용승인년도']!=0]
+jibhab2['구간'] = 0 #열 생성
+jibhab2['구간'][(jibhab2['사용승인년도']<=1984)] = "1984년 이전"
+jibhab2['구간'][(jibhab2['사용승인년도']>=1985) & (jibhab2['사용승인년도']<1999)] = "1985~1998년"
+jibhab2['구간'][(jibhab2['사용승인년도']>=1999) & (jibhab2['사용승인년도']<2012)] = "1999년~2011년"
+jibhab2['구간'][(jibhab2['사용승인년도']>=2012)] = "2012년 이후"
+jibhab2['구간'].unique()
+
+# 피벗테이블 : 구간과 유형에 따라 통계표 산출
+answer2 = jibhab2.pivot_table(index=['호용도'], columns=['구간'], values=['대지위치'], aggfunc='count')
+answer2.columns = answer2.columns.droplevel(0)
+answer2.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/통계표 재산출/통계표22.csv", encoding='cp949', sep=',')
+
+# 침수지역
+flood = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/침수지역_pnu/침수지역_pnu.xlsx")
+flood = flood.fillna(0)
+
+ilban_flood = pd.merge(ilban, flood, left_on='PNU', right_on='pnu', how='left')
+ilban_flood['flood_no'] = ilban_flood['flood_no'].fillna(0)
+ilban_flood2 = ilban_flood[ilban_flood['flood_no']!=0]
+answer3 = ilban_flood2.pivot_table(index=['층용도'], columns=['구간'], values=['대지위치'], aggfunc='count')
+answer3.columns = answer3.columns.droplevel(0)
+answer3.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/통계표 재산출/통계표3.csv", encoding='cp949', sep=',')
+
+jibhab_flood = pd.merge(jibhab, flood, left_on='PNU', right_on='pnu', how='left')
+jibhab_flood['flood_no'] = jibhab_flood['flood_no'].fillna(0)
+jibhab_flood2 = jibhab_flood[jibhab_flood['flood_no']!=0]
+answer4 = jibhab_flood2.pivot_table(index=['호용도'], columns=['구간'], values=['대지위치'], aggfunc='count')
+
+
+answer4.columns = answer4.columns.droplevel(0)
+answer4.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/통계표 재산출/통계표4.csv", encoding='cp949', sep=',')
+
+ilban_flood2.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/침수지역 내 반지하 건축물/침수지역내_일반반지하.xlsx")
+jibhab_flood2.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/침수지역 내 반지하 건축물/침수지역내_공동반지하.xlsx")
+print("a")
+
+a = ilban_flood2['대지위치'].groupby(ilban_flood2['flood_no']).count()
+
+a = ilban_flood2.pivot_table(index=['층용도'], columns=['flood_no'], values=['대지위치'], aggfunc='count')
+a.columns = a.columns.droplevel(0)
+a.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/통계표 재산출/침수횟수별_일반.csv", encoding='cp949', sep=',')
+
+b = jibhab_flood2.pivot_table(index=['호용도'], columns=['flood_no'], values=['대지위치'], aggfunc='count')
+b.columns = b.columns.droplevel(0)
+b.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220817/통계표 재산출/침수횟수별_집합.csv", encoding='cp949', sep=',')
+
+
+import pandas as pd
+
+data = pd.read_csv("C:/Users/user/Desktop/업무/전유부 합쳐드리기_220817/서울_건축물_전유부.csv", encoding='cp949', sep=',')
+
+# 사용승인일 2012년 이후
+data['사용승인일자명'] = data['사용승인일자명'].fillna(0)
+data['사용승인년도'] = data['사용승인일자명'].str[:4]
+data['사용승인년도'].unique()
+data = data[data['사용승인년도']!='기타(오']
+data = data[data['사용승인년도']!='기타(값']
+data['사용승인년도'] = data['사용승인년도'].astype('int')
+
+a = test['호명칭'].value_counts()
+test = data[data['사용승인년도']>=2012]
+test['사용승인년도'].min()
+test['사용승인년도'].max()
+a = pd.DataFrame(a)
+a.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/호명칭.csv", encoding='cp949', sep=',')
+test['전유용도소분류명'].unique()
+
+# 주거용도
+data1 = test[test['전유용도소분류명']=='공동주택_다세대주택']
+data2 = test[test['전유용도소분류명']=='공동주택_연립주택']
+data3 = test[test['전유용도소분류명']=='공동주택_아파트']
+data4 = test[test['전유용도소분류명']=='단독주택_단독주택']
+house_2012 = pd.concat([data1, data2, data3, data4])
+house_2012['호명칭'].unique()
+
+# 지하는 호 명칭이 100번대 인곳?
+a = len(house_2012['호명칭']==3)
+
+
+
+# 필지 수 : 28,952
+house_2012_pnu = house_2012.drop_duplicates(['건축물위치명'])
+
+
+# 층용도 및 호용도 산출하기
+
+ilban_jiha = ilban.loc[:,['층구분','층번호명']]
+ilban_jiha.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/지하용도 산출근거/지하_일반건축물.xlsx")
+jibhab_jiha = jibhab.loc[:,['층구분명', '호명칭']]
+jibhab_jiha.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/지하용도 산출근거/지하_집합건축물.xlsx")
+
+
+ilban_flood.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/침수지역 내 반지하 건축물/일반반지하_침수횟수추가_구간.xlsx")
+
+jibhab_flood.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/침수지역 내 반지하 건축물/집합반지하_침수횟수추가_구간.xlsx")
+
+# 층별개요 2012 이후
+b = seoul['층용도소분류명'].value_counts()
+seoul['준공년도2'] = seoul['준공년도'].str.replace(pat='년', repl='', regex=True)
+seoul['준공년도2'] = seoul['준공년도2'].astype('int')
+seoul['준공년도2'].unique()
+seoul2 = seoul[seoul['준공년도2']!='기타(오류값)']
+seoul2 = seoul2[seoul2['준공년도2']!='기타(값없음)']
+seoul2['준공년도2'] = seoul2['준공년도2'].astype('int')
+seoul_2012 =  seoul2[seoul2['준공년도2']>=2012]
+seoul_2012.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/층별개요_2012이후/층별개요_2012이후.xlsx")
+
+# 층 구분명이 지하 인것
+underseoul_2012 = seoul_2012[seoul_2012['층구분명']=='지하']
+underseoul_2012_house = underseoul_2012[underseoul_2012['통계용도명']=='주거용']
+
+
+#  세부용도 조정해서 8천건 누락 시켜보기
+underseoul_2012_house['층용도소분류명'].unique()
+test1 = underseoul_2012_house[underseoul_2012_house['층용도소분류명']!='공동주택_기숙사']
+test2 = test1[test1['층용도소분류명']!='단독주택_공관']
+test2['층용도소분류명'].unique()
+test3 = test2[test2['층용도소분류명']!='공동주택_아파트']
+test3 = test2[test2['층용도소분류명']!='공동주택_아파트']
+# 기숙사, 공관, 아파트제외 4만 3천
+aa = test2[test2['층면적']>112]
+
+
+연립 = test2[test2['층용도소분류명']=='공동주택_연립주택']
+
+
+test2['사용승인년도2'] = test2['사용승인일자명'].str[:4]
+
+seoul['준공년도2'] = seoul['준공년도2']
+
+
+
+seoul = seoul.drop(['사용승인일자명'], axis=1)
+
+
+# 원시데이터 : seoul : 3006311건,
+
+seoul.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/층별개요 자료정리/1.층별개요.csv", encoding='cp949', sep=',')
+
+seoul2 = seoul[seoul['준공년도2']!='기타(오류값)']
+seoul2 = seoul2[seoul2['준공년도2']!='기타(값없음)']
+seoul2['준공년도2'] = seoul2['준공년도2'].astype('int')
+seoul_2012 =  seoul2[seoul2['준공년도2']>=2012]
+
+seoul_2012.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/층별개요 자료정리/2.층별개요_2012이후.csv", encoding='cp949', sep=',')
+
+# 층 구분명이 지하 인것
+underseoul_2012 = seoul_2012[seoul_2012['층구분명']=='지하']
+underseoul_2012_house = underseoul_2012[underseoul_2012['통계용도명']=='주거용']
+
+underseoul_2012_house.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/층별개요 자료정리/3.지하_주거용.csv", encoding='cp949', sep=',')
+
+# 대형평형제외(112보다 큰 것 제외)
+small_underseoul_2012_house = underseoul_2012_house[underseoul_2012_house['층면적']<=112]
+small_underseoul_2012_house.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/층별개요 자료정리/4.대형평형제외.csv", encoding='cp949', sep=',')
+
+aaaa = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/반지하 전체 파일정리/리스트/3.침수필지 약 6만 1천건.xlsx")
+
+jibhab_flood2['사용승인년도'] =  jibhab_flood2['사용승인년도'].fillna(0)
+jibhab_flood2['사용승인년도'] =  jibhab_flood2['사용승인년도'].astype('int')
+jibhab_flood2['구간'] = 0 #열 생성
+jibhab_flood2['구간'][(jibhab_flood2['사용승인년도']>=1910) & (jibhab_flood2['사용승인년도']<=1984)] = "1984년 이전"
+jibhab_flood2['구간'][(jibhab_flood2['사용승인년도']>=1985) & (jibhab_flood2['사용승인년도']<1999)] = "1985~1998년"
+jibhab_flood2['구간'][(jibhab_flood2['사용승인년도']>=1999) & (jibhab_flood2['사용승인년도']<2012)] = "1999년~2011년"
+jibhab_flood2['구간'][(jibhab_flood2['사용승인년도']>=2012) & (jibhab_flood2['사용승인년도']<2023)] = "2012년 이후"
+aaaa.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/반지하 전체 파일정리/리스트/3.침수필지 약 6만 1천건2.xlsx")
+
+# 침수지역내 2/3 이상
+raw = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/반지하 전체 파일정리/리스트/3.침수필지 약 6만 1천건2.xlsx")
+# 1. 단독 - 1984년 이전
+data1 = raw[raw['층/호 용도'] == "단독주택"]
+data2 = raw[raw['층/호 용도'] == "다가구주택"]
+data3 = raw[raw['층/호 용도'] == "다중주택"]
+data4 = pd.concat([data1, data2, data3])
+data5 = data4[data4['구간']=="1984년 이전"]
+# 2. 공동 - 1984년 이전
+data6 = raw[raw['층/호 용도'] == "다세대주택"]
+data7 = raw[raw['층/호 용도'] == "연립주택"]
+data8 = raw[raw['층/호 용도'] == "아파트"]
+data9 = pd.concat([data6, data7, data8])
+data10 = data9[data9['구간']=="1984년 이전"]
+# 3. 공동 - 1985-1998 중 다세대 제외
+data11 = raw[raw['층/호 용도'] == "연립주택"]
+data12 = raw[raw['층/호 용도'] == "아파트"]
+data13 = pd.concat([data11, data12])
+data14 = data13[data13['구간']=="1985~1998년"]
+
+result = pd.concat([data5, data10, data14])
+
+result.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/반지하 전체 파일정리/리스트/1.(약1만7천건)2_3 침수지역 또는 노후 주택.xlsx")
+
+
+
+
+# 전체 2/3 이상
+import pandas as pd
+raw = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/반지하 전체 파일정리/리스트/2.(전체22만6천건)반지하.xlsx")
+# 1. 단독 - 1984년 이전
+data1 = raw[raw['층/호 용도'] == "단독주택"]
+data2 = raw[raw['층/호 용도'] == "다가구주택"]
+data3 = raw[raw['층/호 용도'] == "다중주택"]
+data4 = pd.concat([data1, data2, data3])
+data5 = data4[data4['구간']=="1984년 이전"]
+# 2. 공동 - 1984년 이전
+data6 = raw[raw['층/호 용도'] == "다세대주택"]
+data7 = raw[raw['층/호 용도'] == "연립주택"]
+data8 = raw[raw['층/호 용도'] == "아파트"]
+data9 = pd.concat([data6, data7, data8])
+data10 = data9[data9['구간']=="1984년 이전"]
+# 3. 공동 - 1985-1998 중 다세대 제외
+data11 = raw[raw['층/호 용도'] == "연립주택"]
+data12 = raw[raw['층/호 용도'] == "아파트"]
+data13 = pd.concat([data11, data12])
+data14 = data13[data13['구간']=="1985~1998년"]
+
+result = pd.concat([data5, data10, data14])
+
+result.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/반지하 전체 파일정리/리스트/4.(약5만8천건)지하층2_3이상시기 반지하.xlsx")
+
+
+
+# 전체 1/2 이상
+
+# 1. 단독 - 1985~2012년 이전
+data1 = raw[raw['층/호 용도'] == "단독주택"]
+data2 = raw[raw['층/호 용도'] == "다가구주택"]
+data3 = raw[raw['층/호 용도'] == "다중주택"]
+data4 = pd.concat([data1, data2, data3])
+data5 = data4[data4['구간']=="1985~1998년"]
+data6 = data4[data4['구간']=="1999년~2011년"]
+data7 = pd.concat([data5, data6])
+
+# 2. 공동 - 1985~1998년, 연립 아파트 제외
+data8 = raw[raw['층/호 용도'] == "다세대주택"]
+data9 = data8[data8['구간']=="1985~1998년"]
+# 3. 공동 - 1999-2011
+data10 = raw[raw['층/호 용도'] == "다세대주택"]
+data11 = raw[raw['층/호 용도'] == "연립주택"]
+data12 = raw[raw['층/호 용도'] == "아파트"]
+data13 = pd.concat([data10, data11, data12])
+data14 = data13[data13['구간']=="1999년~2011년"]
+
+result = pd.concat([data7, data9, data14])
+
+result.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/반지하 전체 파일정리/리스트/5.(약16만건)지하층1_2이상 반지하.xlsx")
+
+
+# 220822 반지하 가구 자료 + 침수횟수 + 2/3해당 여부 + 장애인 가구
+import pandas as pd
+# 침수횟수 붙어있는 원시데이터 호출
+ilban = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/반지하 전체 파일정리/원시데이터/일반반지하_침수횟수추가_구간.xlsx")
+jibhab =  pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220818/반지하 전체 파일정리/원시데이터/집합반지하_침수횟수추가_구간.xlsx")
+
+# 2/3 이상 해당 여부 붙이기
+# 일반
+ilban['2/3해당여부'] = 0 # 모두 0값을 갖는 열 생성하기
+ilban['2/3해당여부'][(ilban['구간']=="1984년 이전")] = 1 # 1984년 이전
+# 집합
+jibhab['2/3해당여부'] = 0 # 모두 0값을 갖는 열 생성하기
+jibhab['2/3해당여부'][(jibhab['구간']=="1984년 이전")] = 1 # 1984년 이전
+jibhab['2/3해당여부'][(jibhab['구간']=="1985~1998년") & (jibhab['호용도']=="연립주택")] = 1 # 1985~1998 & 연립
+jibhab['2/3해당여부'][(jibhab['구간']=="1985~1998년") & (jibhab['호용도']=="아파트")] = 1 # 1985~1998 & 아파트
+
+# 검토해보기
+# 일반 2/3가구 추출
+a1 = ilban[ilban['2/3해당여부'] == 1] # 표본 수 39,084
+a2 = jibhab[jibhab['2/3해당여부'] == 1] # 표본 수 19,633
+
+#  중간 저장
+ilban.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220822/원시데이터+침수횟수+23해당여부/일반건축물.xlsx")
+jibhab.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220822/원시데이터+침수횟수+23해당여부/집합건축물.xlsx")
+
+# 장애인 거주자료 불러오기
+disable = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220812/장애인거주 통계/조인/장애인거주자_정제.xlsx")
+
+disable_ilban =  disable[disable['주용도']=="단독주택"]
+disable_jibhab =  disable[disable['주용도']=="공동주택"]
+
+# 일반건축물에 결합하기 : merge로 left 옵션줘서 표본수 유지하기
+ilban['대지위치'] = ilban['대지위치'].str.strip()
+disable_ilban['대지위치'] = disable_ilban['대지위치'].str.strip()
+ilban_disable = pd.merge(ilban, disable_ilban, left_on='대지위치', right_on='대지위치', how='left')
+ilban_disable['비고'].value_counts()
+# 61명 중, 43명이 붙음(18명 누락)
+
+ilban['도로명주소'] = ilban['도로명주소'].str.strip()
+disable_ilban['도로명주소'] = disable_ilban['도로명주소'].str.strip()
+ilban_disable2 = pd.merge(ilban, disable_ilban, left_on='도로명주소', right_on='도로명주소', how='left')
+ilban_disable2['비고'].value_counts()
+# 61명 중, 45명이 붙음(16명 누락)
+
+# 집합건축물에 결합하기
+# 1. 집합건축물 주소 합치기
+jibhab['거주지'] = jibhab['도로명주소'] + " " + jibhab['동명칭'] + " " + jibhab['호명칭']
+# # 2. 장애인 주소 합치기
+# disable_jibhab[['호명칭','나머지']] = pd.DataFrame(disable_jibhab['주소2'].str.split('(',1)).tolist())
+# 이게 안들어먹음... 엑셀에서 빼기로
+disable_jibhab.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220822/장애인 주소 데이터_공동주택/공동주택_장애인.xlsx")
+
+jibhab.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220822/장애인 주소 데이터_공동주택/공동주택_반지하.xlsx")
+
+jibhab = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220822/장애인 주소 데이터_공동주택/공동주택_반지하.xlsx")
+disable_jibhab = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220822/장애인 주소 데이터_공동주택/공동주택_장애인.xlsx")
+
+
+# 3. merge하기
+jibhab_disable = pd.merge(jibhab, disable_jibhab, left_on='주소_정제', right_on='주소_정제', how='left')
+jibhab_disable['비고'].value_counts()
+
+# 안붙은 표본 찾아보기
+
+a = ilban_disable2[ilban_disable2['비고']=="지하확인"]
+a2 = a['도로명주소']
+a2 = pd.DataFrame(a2)
+a2.columns = ['도로명주소']
+a2['join'] = "성공"
+test = pd.merge(disable_ilban, a2, left_on='도로명주소', right_on='도로명주소', how='left')
+
+
+# 새로 불러오기
+new = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220822/반지하/지하주택(단독_주택)_세부용도_PNU_센터_0822.xlsx")
+
+
+import pandas as pd
+
+ilban = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220822/원시데이터+침수횟수+23해당여부/일반건축물.xlsx")
+jibhab = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220822/원시데이터+침수횟수+23해당여부/집합건축물.xlsx")
+
+# pnu 별 개수 산출 = 가구수
+
+# groupby : pnu단위, count
+# 일반
+answer1 = ilban['PNU'].groupby(ilban['대지위치']).count()
+answer1 = pd.DataFrame(answer1)
+answer1['대지위치'] = answer1.index
+answer1 = answer1.reset_index(drop=True)
+
+answer1.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220823/반지하 가구수_join/일반건축물.csv", encoding='utf-8', sep=',')
+
+# 집합
+answer2 = jibhab['PNU'].groupby(jibhab['대지위치']).count()
+answer2 = pd.DataFrame(answer2)
+answer2['대지위치'] = answer2.index
+answer2 = answer2.reset_index(drop=True)
+
+answer2.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220823/반지하 가구수_join/집합건축물.csv", encoding='utf-8', sep=',')
+
+all = pd.concat([answer1, answer2])
+
+
+all.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220823/반지하 가구수_join/건축물종합.csv", encoding='cp949', sep=',')
+
+
+a = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220822/반지하/지하주택(공동주택)_세부용도_PNU_센터.xlsx")
+b = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220822/반지하/지하주택(단독_주택)_세부용도_PNU_센터.xlsx")
+
+
+# 반지하 필지 _ 사업해당여부 추가
+work = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220823/반지하+모든사업 join/반지하_필지_사업추가.csv", encoding='cp949', sep=',')
+work = work.rename(columns={'구역명':'공공재개발'})
+work = work.rename(columns={'구역명_2':'신속통합'})
+work = work.rename(columns={'구역':'모아타운'})
+work = work.rename(columns={'분류':'정비사업'})
+work = work.rename(columns={'구역명':'공공재개발'})
+work = work.rename(columns={'지하??_1':'지번주소'})
+
+
+ilban['PNU'] = b['PNU']
+jibhab['PNU'] = a['PNU']
+
+# 필지별 정보 join하기
+# 필요한 열만
+work.columns
+work2 = work.loc[:,['지번주소','pnu','공공재개발','신속통합', '모아타운', '정비사업']]
+work2['지번주소'] =  work2['지번주소'].fillna(0)
+work2['지번주소'] =  work2['지번주소'].fillna(0)
+work2['지번주소'] =  work2['지번주소'].fillna(0)
+work2['지번주소'] =  work2['지번주소'].fillna(0)
+# pnu 텍스트로 변환
+work3 = work2.copy()
+work3['pnu'] = work3['pnu'].astype('str')
+work4 = work3.drop_duplicates(['pnu'])
+work4.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220823/반지하 통계 업데이트 버전/필지정보(join용).xlsx")
+
+# 일반 및 집합에 join하기
+
+# 일반건축물에 결합하기 : merge로 left 옵션줘서 표본수 유지하기
+ilban2 = ilban.copy()
+ilban2['PNU'] = ilban2['PNU'].astype('str')
+ilban3 = pd.merge(ilban2, work4, left_on='대지위치', right_on='지번주소', how='left')
+
+
+ilban3['공공재개발'] = ilban3['공공재개발'].fillna(0)
+ilban3['공공재개발2'] = 0
+ilban3['공공재개발2'][(ilban3['공공재개발']!=0)] = 1
+
+ilban3['신속통합'] = ilban3['신속통합'].fillna(0)
+ilban3['신속통합2'] = 0
+ilban3['신속통합2'][(ilban3['신속통합2']!=0)] = 1
+
+ilban3['모아타운'] = ilban3['모아타운'].fillna(0)
+ilban3['모아타운2'] = 0
+ilban3['모아타운2'][(ilban3['모아타운2']!=0)] = 1
+
+ilban3['정비사업'] = ilban3['정비사업'].fillna(0)
+ilban3['정비사업2'] = 0
+ilban3['정비사업2'][(ilban3['정비사업2']!=0)] = 1
+
+# 집합건축물에 결합하기 : merge로 left 옵션줘서 표본수 유지하기
+jibhab2 = jibhab.copy()
+jibhab2['PNU'] = jibhab2['PNU'].astype('str')
+jibhab3 = pd.merge(jibhab2, work4, left_on='대지위치', right_on='지번주소', how='left')
+
+
+jibhab3['공공재개발'] = jibhab3['공공재개발'].fillna(0)
+jibhab3['공공재개발2'] = 0
+jibhab3['공공재개발2'][(jibhab3['공공재개발']!=0)] = 1
+
+jibhab3['신속통합'] = jibhab3['신속통합'].fillna(0)
+jibhab3['신속통합2'] = 0
+jibhab3['신속통합2'][(jibhab3['신속통합2']!=0)] = 1
+
+jibhab3['모아타운'] = jibhab3['모아타운'].fillna(0)
+jibhab3['모아타운2'] = 0
+jibhab3['모아타운2'][(jibhab3['모아타운2']!=0)] = 1
+
+jibhab3['정비사업'] = jibhab3['정비사업'].fillna(0)
+jibhab3['정비사업2'] = 0
+jibhab3['정비사업2'][(jibhab3['정비사업2']!=0)] = 1
+
+# 1/2해당여부
+# 1. 단독 - 1985~2012년 이전
+ilban3['1/2해당여부'] = 0
+ilban3['1/2해당여부'][(ilban3['구간']=="1985~1998년")]  = 1 # 1985~1998
+ilban3['1/2해당여부'][(ilban3['구간']=="1999년~2011년")]  = 1 # 1999~2011
+ilban3['1/2해당여부'].value_counts()
+
+# 집합
+jibhab3['1/2해당여부'] = 0
+jibhab3['1/2해당여부'][(jibhab3['구간']=="1985~1998년") & (jibhab3['호용도']=="다세대주택")] = 1 # 1985~1998 & 연립
+jibhab3['1/2해당여부'][(jibhab3['구간']=="1999년~2011년")] = 1
+jibhab3['1/2해당여부'].value_counts()
+
+
+ilban3.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220823/반지하 통계 업데이트 버전/일반건축물.xlsx")
+jibhab3.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220823/반지하 통계 업데이트 버전/집합건축물.xlsx")
+
+
+# 성동구 통계 내기
+ilban_성동 = ilban3[ilban3['시군구명'] =="성동구"]
+jibhab_성동 = jibhab3[jibhab3['시군구명'] =="성동구"]
+
+ilban_성동['공공재개발'].value_counts()
+ilban_성동['공공재개발2'].value_counts()
+jibhab_성동['공공재개발'].value_counts()
+jibhab_성동['공공재개발2'].value_counts()
+
+
+
+ilban_성동['신속통합'].value_counts()
+ilban_성동['신속통합2'].value_counts()
+jibhab_성동['신속통합'].value_counts()
+jibhab_성동['신속통합2'].value_counts()
+
+
+ilban_성동['모아타운'].value_counts()
+jibhab_성동['모아타운'].value_counts()
+
+ilban_성동['정비사업'].value_counts()
+jibhab_성동['정비사업'].value_counts()
+
+ilban_성동['2/3해당여부'].value_counts()
+jibhab_성동['2/3해당여부'].value_counts()
+
+ilban_성동['구간'].value_counts()
+jibhab_성동['구간'].value_counts()
+ilban_성동['flood_no'].value_counts()
+jibhab_성동['flood_no'].value_counts()
+
+ilban_성동['1/2해당여부'].value_counts()
+jibhab_성동['1/2해당여부'].value_counts()
+
+ilban3['정비사업'].value_counts()
+jibhab3['정비사업'].value_counts()
+
+# 건축물대장 부르기
+import pandas as pd
+pyojebu = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220824/건축물대장(일반_표제부).xlsx")
+pyojebu['주용도'].unique()
+
+dandok = pyojebu[pyojebu['주용도']=='단독주택']
+jibhab = pyojebu[pyojebu['주용도']=='공동주택']
+
+house = pd.concat([dandok, jibhab])
+
+# 표제부
+# banjiha = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220824/반지하가구수_pnu별.xlsx")
+
+house_bangiha = pd.merge(house, banjiha, left_on='PNU', right_on='pnu', how='left')
+house_bangiha['반지하 가구수'] = house_bangiha['반지하 가구수'].fillna(0)
+house_bangiha['반지하 가구수'] = house_bangiha['반지하 가구수'].astype('int')
+
+house_bangiha['반지하 가구수'].sum()
+
+#
+house2 = house.drop_duplicates(['PNU'])
+house_bangiha2 = pd.merge(house2, banjiha, left_on='PNU', right_on='pnu', how='left')
+house_bangiha2['반지하 가구수'].sum()
+house_bangiha2['가구수'].sum()
+house_bangiha['가구수'].sum()
+house_bangiha2['세대수'].sum()
+house_bangiha['세대수'].sum()
+
+
+# 가구수
+pyojebu_세대 = house['세대수'].groupby(house['PNU']).sum()
+pyojebu_가구 = house['가구수'].groupby(house['PNU']).sum()
+
+pyojebu_세대 = pd.DataFrame(pyojebu_세대)
+pyojebu_세대 = pyojebu_세대.reset_index()
+
+pyojebu_가구 = pd.DataFrame(pyojebu_가구)
+pyojebu_가구 = pyojebu_가구.reset_index()
+
+# pnu별 정보
+house_pnu = pd.merge(pyojebu_가구, pyojebu_세대, left_on='PNU', right_on='PNU', how='left')
+house_pnu['가구수'].sum()
+house_pnu['세대수'].sum()
+
+
+house_pnu2 = house_pnu.copy()
+house_pnu2['PNU'] = house_pnu2['PNU'].astype('str')
+house_pnu2.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220824/건축물대장 가공/표제부_pnu.xlsx")
+house_pnu2.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220824/건축물대장 가공/표제부_pnu.txt", index=False)
+# pnu 지키기
+
+
+banjiha.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220824/건축물대장 가공/반지하_pnu.txt", index=False)
+banjiha['반지하 가구수'].sum()
+
+
+
+data = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220824/최종결과물_정비사업별 가구통계/pnu기준_정비사업_건축물대장_반지하.xlsx")
+
+data.columns
+
+data['전체가구수'] = data['전체가구수'].fillna(0)
+data['전체세대수'] = data['전체세대수'].fillna(0)
+data['반지하세대수'] = data['반지하세대수'].fillna(0)
+
+data['전체가구수'].sum()
+data['전체세대수'].sum()
+data['반지하세대수'].sum()
+
+#반지하 세대수가 만오천세대 정도 늘어나는 문제가 있음
+
+
+
+
+data2 = data[data['DGM_NM'].notnull()]
+
+# 정비사업이름별로 group by
+
+# 정비사업별 가구수
+answer1 = data['전체가구수'].groupby(data['DGM_NM']).sum()
+answer1 = pd.DataFrame(answer1)
+answer1 = answer1.reset_index()
+# 정비사업별 세대수
+answer2 = data['전체세대수'].groupby(data['DGM_NM']).sum()
+answer2 = pd.DataFrame(answer2)
+answer2 = answer2.reset_index()
+# 정비사업별 반지하
+answer3 = data['반지하세대수'].groupby(data['DGM_NM']).sum()
+answer3 = pd.DataFrame(answer3)
+answer3 = answer3.reset_index()
+
+
+answer = pd.merge(answer1, answer2, left_on='DGM_NM', right_on='DGM_NM', how='left')
+answer = pd.merge(answer, answer3, left_on='DGM_NM', right_on='DGM_NM', how='left')
+
+answer.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220824/최종결과물_정비사업별 가구통계/결과/산출결과.xlsx")
+
+
+import pandas as pd
+data = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220825/gis/지적도_정비구역_가구수.xlsx")
+
+data.columns
+data["반지하_세대수"] = data["반지하_세대수"].fillna(0)
+data["전체 가구수"] = data["전체 가구수"].fillna(0)
+data["전체 세대수"] = data["전체 세대수"].fillna(0)
+
+data["반지하_세대수"].sum()
+data["전체 가구수"].sum()
+data["전체 세대수"].sum()
+
+data.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220825/gis/지적도_정비구역_가구수2.xlsx")
+
+
+# 장애인 주소 데이터 지오코딩 220826 금요일
+import pandas as pd
+data = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220826/장애인거주자_리스트.xlsx")
+
+
+####### 도로명주소 위도 경도 값으로 바꿔주기 ########
+from geopy.geocoders import Nominatim
+geo_local = Nominatim(user_agent='South Korea')
+# 위도, 경도 반환하는 함수
+def geocoding(address):
+    geo = geo_local.geocode(address)
+    x_y = [geo.latitude, geo.longitude]
+    return x_y
+latitude = []
+longtitude = []
+
+# 지오코딩
+for i in data['도로명주소']:
+    try :
+        latitude.append(geocoding(i)[0])
+        longtitude.append(geocoding(i)[1])
+        print(i, "코딩에 성공하였습니다")
+    except AttributeError as e:
+        print(i, "변환에 실패하였습니다")
+        latitude.append("NA")
+        longtitude.append("NA")
+        print(e)
+
+address_df = pd.DataFrame({'거주지주소': data['도로명주소'], '층번호명': data['층번호명'],'층용도': data['층용도'],'호명칭': data['주소2'], '위도':latitude,'경도':longtitude})
+
+address_df.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220826/장애인거주자지오코딩_결측포함.csv", encoding='cp949', sep=',')
+
+address_df['위도'].isnull().sum()
+address_df['경도'].isnull().sum()
+
+# 국회요구자료
+import pandas as pd
+pnu_data = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220829/국회의원 요구자료/구역_반지하필지_속성결합/반지하필지_재생사업.xlsx")
+
+# 1. 재생사업별 반지하 수
+answer1 = pnu_data['반지하가구수'].groupby(pnu_data['재생사업']).sum()
+answer1.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220829/국회의원 요구자료/결과표.csv", encoding='cp949', sep=',')
+
+
+# 정비사업별 가구 수 및 반지하 가구수
+import pandas as pd
+data1 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220830/정비구역 통계/반지하 및 전체가구수_join파일/반지하_pnu.txt")
+data2 = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220830/정비구역 통계/반지하 및 전체가구수_join파일/표제부_pnu.txt")
+data1.columns
+data1['반지하 가구수'].sum()
+
+data2.columns
+data2['가구수'].sum()
+data2['세대수'].sum()
+
+
+# 지원할 필요가 없는 반지하 건물 추려내보기 (세를 주지 않는것)
+
+# 단독주택 100평 이상
+data = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220831/고급 반지하 통계(100평이상)/단독주택_지하_330이상.xls")
+
+# 전용 주거인것과 아닌것
+
+# 특정문자를 포함하는 행 추출
+only_house = data[data['지역'].str.contains("전용", na=False, case=False)]
+only_house.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220831/고급 반지하 통계(100평이상)/전용주거리스트.xlsx")
+# 시군구명으로 그룹바이
+only_house2 = only_house['대지위치'].groupby(only_house['시군구명']).count()
+only_house2 = pd.DataFrame(only_house2)
+
+# 특정문자를 포함하는 행 제거 : ~을 사용해주어야함
+not_only_house = data[~data['지역'].str.contains("전용", na=False, case=False)]
+not_only_house.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220831/고급 반지하 통계(100평이상)/전용주거외리스트.xlsx")
+# 시군구명으로 그룹바이
+not_only_house2 = not_only_house['대지위치'].groupby(not_only_house['시군구명']).count()
+not_only_house2 = pd.DataFrame(not_only_house2)
+not_only_house2.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220831/고급 반지하 통계(100평이상)/전용주거외통계.csv", encoding='cp949', sep=',')
+
+
+data = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220831/고급 반지하 통계(80평이상)/단독주택_지하_264.46이상.xls")
+
+# 3층 이하
+data = data[data['지상층수']<=3]
+
+# 특정문자를 포함하는 행 추출
+only_house = data[data['지역'].str.contains("전용", na=False, case=False)]
+only_house.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220831/고급 반지하 통계(80평이상)/3층이하_전용주거리스트.xlsx")
+# 시군구명으로 그룹바이
+only_house2 = only_house['대지위치'].groupby(only_house['시군구명']).count()
+only_house2 = pd.DataFrame(only_house2)
+only_house2.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220831/고급 반지하 통계(80평이상)/전용주거통계.csv", encoding='cp949', sep=',')
+# 특정문자를 포함하는 행 제거 : ~을 사용해주어야함
+not_only_house = data[~data['지역'].str.contains("전용", na=False, case=False)]
+not_only_house.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220831/고급 반지하 통계(100평이상)/3층이하_전용주거외리스트.xlsx")
+# 시군구명으로 그룹바이
+not_only_house2 = not_only_house['대지위치'].groupby(not_only_house['시군구명']).count()
+not_only_house2 = pd.DataFrame(not_only_house2)
+not_only_house2.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/220831/고급 반지하 통계(80평이상)/전용주거외통계.csv", encoding='cp949', sep=',')
+
+# 광진구 통계 내기
+
+ilban = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220823/반지하 통계 업데이트 버전/일반건축물.xlsx")
+jibhan = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220823/반지하 통계 업데이트 버전/집합건축물.xlsx")
+jibhab = jibhan.copy()
+# 광진구 추려내기
+ilban_광진 = ilban[ilban['시군구명']=="광진구"]
+jibhab_광진 = jibhab[jibhab['시군구명']=="광진구"]
+
+ilban_광진.columns
+table1 = ilban_광진[ilban_광진['2/3해당여부']==1]
+table1_2 = jibhab_광진[jibhab_광진['2/3해당여부']==1]
+
+table2 = ilban_광진[ilban_광진['1/2해당여부']==1]
+table2_2 = jibhab_광진[jibhab_광진['1/2해당여부']==1]
+
+jibhab_광진['구간'].value_counts()
+table3 = ilban_광진[ilban_광진['구간']=='2012년 이후']
+table3_2 = jibhab_광진[jibhab_광진['구간']=='2012년 이후']
+
+
+ilban_광진['flood_no'].value_counts()
+jibhab_광진['flood_no'].value_counts()
+
+
+old = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/220831/노인_지하_건축물대장_주민_PNU기준.xlsx")
+old['CNT'].sum()
+
+# 침수반지하 pnu
+import pandas as pd
+ilban = pd.read_excel("D:/업무/반지하_220809 이후/220823/반지하 통계 업데이트 버전/일반건축물.xlsx")
+jibhab = pd.read_excel("D:/업무/반지하_220809 이후/220823/반지하 통계 업데이트 버전/집합건축물.xlsx")
+
+ilban_flood = ilban[ilban['flood_no']!=0]
+jibhab_flood = jibhab[jibhab['flood_no']!=0]
+
+ilban_flood.columns
+ilban_flood_pnu = ilban_flood.loc[:,['PNU','flood_no']]
+jibhab_flood_pnu = jibhab_flood.loc[:,['PNU','flood_no']]
+
+# 침수경험이 있는 반지하 pnu
+und_flood_pnu = pd.concat([ilban_flood_pnu, jibhab_flood_pnu])
+und_flood_pnu.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/침수횟수_pnu/침수경험_반지하_pnu.xlsx")
+# 노인
+old = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/노인_지하_건축물대장_주민_PNU기준.xlsx")
+
+und_flood_pnu2 = und_flood_pnu.drop_duplicates(['PNU'])
+
+# 노인가구 중 침수경험 있는 가구
+old_flood = pd.merge(old, und_flood_pnu2, left_on='PNU', right_on='PNU', how='left')
+old_flood['flood_no'] = old_flood['flood_no'].fillna(0)
+old_flood['flood_no'] = old_flood['flood_no'].astype('int')
+old_flood['flood_no'].value_counts()
+
+old_flood2 = old_flood[old_flood['flood_no']!=0]
+
+# 노인가구+침수경험
+old_flood.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/노인+침수경험.xlsx")
+
+# 2/3반지하
+ilban.columns
+ilban_23 = ilban[ilban['2/3해당여부']==1]
+jibhab_23 = jibhab[jibhab['2/3해당여부']==1]
+
+ilban_23.columns
+ilban_23_pnu = ilban_23.loc[:,['PNU','2/3해당여부']]
+jibhab_23_pnu = jibhab_23.loc[:,['PNU','2/3해당여부']]
+
+# 2/3 해당 반지하 pnu
+und_23_pnu = pd.concat([ilban_23_pnu, jibhab_23_pnu])
+
+und_23_pnu.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/3분의2 해당여부 pnu/3분의2_반지하_pnu.xlsx")
+
+
+# 노인, 아동 부르기
+
+old_house = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/부장님 산출 데이터/노인_지하_가구기준(PNU)_센터.txt", encoding='cp949', sep='|')
+child_house = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/부장님 산출 데이터/아동_지하_19세기준(PNU)_센터.txt", encoding='cp949', sep='|')
+
+# 침수횟수 pnu의 중복값 제거
+und_flood_pnu2 = und_flood_pnu.drop_duplicates(['PNU'])
+
+# 노인가구 중 침수경험 있는 가구
+old_flood = pd.merge(old_house, und_flood_pnu2, left_on='PNU', right_on='PNU', how='left')
+old_flood['flood_no'] = old_flood['flood_no'].fillna(0)
+old_flood['flood_no'] = old_flood['flood_no'].astype('int')
+old_flood['flood_no'].value_counts()
+# 20,796가구 중 침수횟수가 있는 가구 = 5,186 가구
+old_flood2 = old_flood[old_flood['flood_no']!=0]
+
+# 2/3 pnu의 중복값 제거
+und_23_pnu2 = und_23_pnu.drop_duplicates(['PNU'])
+
+# 침수 경험 노인가구 중 2/3 해당 가구
+old_flood_23 = pd.merge(old_flood2, und_23_pnu2, left_on='PNU', right_on='PNU', how='left')
+old_flood_23['2/3해당여부'] = old_flood_23['2/3해당여부'].fillna(0)
+old_flood_23['2/3해당여부'] = old_flood_23['2/3해당여부'].astype('int')
+old_flood_23['2/3해당여부'].value_counts()
+#  5,186 가구 중 침수횟수가 있는 가구 = 470 가구
+
+
+# 아동가구 중 침수경험 있는 가구
+child_flood = pd.merge(child_house, und_flood_pnu2, left_on='PNU', right_on='PNU', how='left')
+child_flood['flood_no'] = child_flood['flood_no'].fillna(0)
+child_flood['flood_no'] = child_flood['flood_no'].astype('int')
+child_flood['flood_no'].value_counts()
+# 11,149가구 중 침수횟수가 있는 가구 = 2,624 가구
+child_flood2 = child_flood[child_flood['flood_no']!=0]
+
+# 침수 경험 아동가구 중 2/3 해당 가구
+child_flood_23 = pd.merge(child_flood2, und_23_pnu2, left_on='PNU', right_on='PNU', how='left')
+child_flood_23['2/3해당여부'] = child_flood_23['2/3해당여부'].fillna(0)
+child_flood_23['2/3해당여부'] = child_flood_23['2/3해당여부'].astype('int')
+child_flood_23['2/3해당여부'].value_counts()
+#  2,624 가구 중 침수횟수가 있는 가구 = 316 가구
+
+
+
+# 주왕이형 중복값 찾아주기
+# all = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/주왕이형/sinrimdong_all.csv", encoding='cp949', sep=',')
+#
+# select = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/주왕이형/sinrimdong_basement.csv", encoding='cp949', sep=',')
+# select2 = select.drop_duplicates(['KEY'])
+# select['join여부'] = 1
+#
+# result = pd.merge(all, select, left_on='KEY', right_on='KEY', how='left')
+# result['join여부'] = result['join여부'].fillna(0)
+# result['join여부'] = result['join여부'].astype('int')
+# result['join여부'].value_counts()
+#
+# result.to_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/주왕이형/중복여부추가_인코딩수정.csv", encoding='utf-8', sep=',')
+#
+#
+# all1 = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/주왕이형/신림동 1년 전월세거래.xlsx")
+#
+# select1 = pd.read_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/주왕이형/신림동 반지하 1년 전월세거래.xlsx")
+#
+# select1['join여부'] = 1
+#
+# result = pd.merge(all, select, left_on='KEY', right_on='KEY', how='left')
+# result['join여부'] = result['join여부'].fillna(0)
+# result['join여부'] = result['join여부'].astype('int')
+# result['join여부'].value_counts()
+#
+# select1['KEY'] = 0
+# select1['KEY'] = select1['건물명']+select1['호명칭']+select1['임대면적']+select1['계약일자']
+#
+# select1['건물명'] = select1['건물명'].fillna(0)
+# select1['호명칭'] = select1['호명칭'].fillna(0)
+# select1['임대면적'] = select1['임대면적'].fillna(0)
+# select1['계약일자'] = select1['계약일자'].fillna(0)
+#
+# select1['건물명'] = select1['건물명'].astype('str')
+# select1['호명칭'] = select1['호명칭'].astype('str')
+# select1['임대면적'] = select1['임대면적'].astype('str')
+# select1['계약일자'] = select1['계약일자'].astype('str')
+# select1.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/주왕이형/중복값확인용.xlsx")
+# select22 = select1.drop_duplicates(['KEY'])
+
+# 4 구간으로 나누기 : 84년 이전, 85~98년, 99~11년, 2012년 이후
+old_flood2['구간'] = 0 #열 생성
+old_flood2['구간'][(old_flood2['사용승인년도']<=1984)] = "1984년 이전"
+old_flood2['구간'][(old_flood2['사용승인년도']>=1985) & (old_flood2['사용승인년도']<1999)] = "1985~1998년"
+old_flood2['구간'][(old_flood2['사용승인년도']>=1999) & (old_flood2['사용승인년도']<2012)] = "1999년~2011년"
+old_flood2['구간'][(old_flood2['사용승인년도']>=2012)] = "2012년 이후"
+# 1. 단독 - 1984년 이전
+data1 = old_flood2[old_flood2['층용도'] == "단독주택"]
+data2 = old_flood2[old_flood2['층용도'] == "다가구주택"]
+data3 = old_flood2[old_flood2['층용도'] == "다중주택"]
+data4 = pd.concat([data1, data2, data3])
+data5 = data4[data4['구간']=="1984년 이전"]
+# 2. 공동 - 1984년 이전
+data6 = old_flood2[old_flood2['층용도'] == "다세대주택"]
+data7 = old_flood2[old_flood2['층용도'] == "연립주택"]
+data8 = old_flood2[old_flood2['층용도'] == "아파트"]
+data9 = pd.concat([data6, data7, data8])
+data10 = data9[data9['구간']=="1984년 이전"]
+# 3. 공동 - 1985-1998 중 다세대 제외
+data11 = old_flood2[old_flood2['층용도'] == "연립주택"]
+data12 = old_flood2[old_flood2['층용도'] == "아파트"]
+data13 = pd.concat([data11, data12])
+data14 = data13[data13['구간']=="1985~1998년"]
+
+result = pd.concat([data5, data10, data14])
+
+
+
+# 4 구간으로 나누기 : 84년 이전, 85~98년, 99~11년, 2012년 이후
+child_flood2['구간'] = 0 #열 생성
+child_flood2['구간'][(child_flood2['사용승인년도']<=1984)] = "1984년 이전"
+child_flood2['구간'][(child_flood2['사용승인년도']>=1985) & (child_flood2['사용승인년도']<1999)] = "1985~1998년"
+child_flood2['구간'][(child_flood2['사용승인년도']>=1999) & (child_flood2['사용승인년도']<2012)] = "1999년~2011년"
+child_flood2['구간'][(child_flood2['사용승인년도']>=2012)] = "2012년 이후"
+# 1. 단독 - 1984년 이전
+data1 = child_flood2[child_flood2['층용도'] == "단독주택"]
+data2 = child_flood2[child_flood2['층용도'] == "다가구주택"]
+data3 = child_flood2[child_flood2['층용도'] == "다중주택"]
+data4 = pd.concat([data1, data2, data3])
+data5 = data4[data4['구간']=="1984년 이전"]
+# 2. 공동 - 1984년 이전
+data6 = child_flood2[child_flood2['층용도'] == "다세대주택"]
+data7 = child_flood2[child_flood2['층용도'] == "연립주택"]
+data8 = child_flood2[child_flood2['층용도'] == "아파트"]
+data9 = pd.concat([data6, data7, data8])
+data10 = data9[data9['구간']=="1984년 이전"]
+# 3. 공동 - 1985-1998 중 다세대 제외
+data11 = child_flood2[child_flood2['층용도'] == "연립주택"]
+data12 = child_flood2[child_flood2['층용도'] == "아파트"]
+data13 = pd.concat([data11, data12])
+data14 = data13[data13['구간']=="1985~1998년"]
+
+result2 = pd.concat([data5, data10, data14])
+result2['BIRTH_Y'].min()
+
+# 세대주까지 2002년 이후 출생자인경우
+first = result2[result2['HOUHOLD_Y']>=2002]
+
+result['HOUHOLD_Y'].max()
+
+# 명수
+old_house['CNT'].sum()
+child_house['CNT'].sum()
+
+old_flood2['CNT'].sum()
+child_flood2['CNT'].sum()
+
+result['CNT'].sum()
+result2['CNT'].sum()
+
+# pnu기준 중복값 제거
+old_answer = old_house.drop_duplicates(['PNU'])
+child_answer = child_house.drop_duplicates(['PNU'])
+
+old_answer['CNT'].sum()
+child_house['CNT'].sum()
+
+old_flood2['CNT'].sum()
+child_flood2['CNT'].sum()
+
+result['CNT'].sum()
+result2['CNT'].sum()
+
+
+###################################################다시 체크해보기#########################################
+import pandas as pd
+# 부장님이 주신 raw 데이터
+# 노인, 아동 부르기
+old_house = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/부장님 산출 데이터/노인_지하_가구기준(PNU)_센터.txt", encoding='cp949', sep='|')
+child_house = pd.read_csv("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/부장님 산출 데이터/아동_지하_19세기준(PNU)_센터.txt", encoding='cp949', sep='|')
+
+# 침수지역 노인, 아동
+# 침수지역 pnu의 중복값 제거(반지하 일반, 집합 중 침수횟수가 0이 아닌곳)
+und_flood_pnu2 = und_flood_pnu.drop_duplicates(['PNU'])
+
+# 노인가구 중 침수지역 내 가구
+old_flood = pd.merge(old_house, und_flood_pnu2, left_on='PNU', right_on='PNU', how='left')
+old_flood['flood_no'] = old_flood['flood_no'].fillna(0)
+old_flood['flood_no'] = old_flood['flood_no'].astype('int')
+old_flood['flood_no'].value_counts()
+# 20,796가구 중 침수횟수가 있는 가구 = 5,186 가구
+old_flood2 = old_flood[old_flood['flood_no']!=0]
+old_flood2['PNU'] = old_flood2['PNU'].astype('str')
+old_flood2.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/통계/침수지역반지하_노인.xlsx", index=False)
+
+# 아동가구 중 침수지역 내 가구
+child_flood = pd.merge(child_house, und_flood_pnu2, left_on='PNU', right_on='PNU', how='left')
+child_flood['flood_no'] = child_flood['flood_no'].fillna(0)
+child_flood['flood_no'] = child_flood['flood_no'].astype('int')
+child_flood['flood_no'].value_counts()
+# 11,149가구 중 침수횟수가 있는 가구 = 2,624 가구
+child_flood2 = child_flood[child_flood['flood_no']!=0]
+child_flood2['PNU'] = child_flood2['PNU'].astype('str')
+child_flood2.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/통계/침수지역반지하_아동.xlsx")
+# 4 구간으로 나누기 : 84년 이전, 85~98년, 99~11년, 2012년 이후
+old_flood2['구간'] = 0 #열 생성
+old_flood2['구간'][(old_flood2['사용승인년도']<=1984)] = "1984년 이전"
+old_flood2['구간'][(old_flood2['사용승인년도']>=1985) & (old_flood2['사용승인년도']<1999)] = "1985~1998년"
+old_flood2['구간'][(old_flood2['사용승인년도']>=1999) & (old_flood2['사용승인년도']<2012)] = "1999년~2011년"
+old_flood2['구간'][(old_flood2['사용승인년도']>=2012)] = "2012년 이후"
+# 1. 단독 - 1984년 이전
+data1 = old_flood2[old_flood2['층용도'] == "단독주택"]
+data2 = old_flood2[old_flood2['층용도'] == "다가구주택"]
+data3 = old_flood2[old_flood2['층용도'] == "다중주택"]
+data4 = pd.concat([data1, data2, data3])
+data5 = data4[data4['구간']=="1984년 이전"]
+# 2. 공동 - 1984년 이전
+data6 = old_flood2[old_flood2['층용도'] == "다세대주택"]
+data7 = old_flood2[old_flood2['층용도'] == "연립주택"]
+data8 = old_flood2[old_flood2['층용도'] == "아파트"]
+data9 = pd.concat([data6, data7, data8])
+data10 = data9[data9['구간']=="1984년 이전"]
+# 3. 공동 - 1985-1998 중 다세대 제외
+data11 = old_flood2[old_flood2['층용도'] == "연립주택"]
+data12 = old_flood2[old_flood2['층용도'] == "아파트"]
+data13 = pd.concat([data11, data12])
+data14 = data13[data13['구간']=="1985~1998년"]
+
+result = pd.concat([data5, data10, data14])
+result['PNU'] = result['PNU'].astype('str')
+result.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/통계/침수지역3분의2반지하_노인.xlsx")
+
+child_flood2['구간'] = 0 #열 생성
+child_flood2['구간'][(child_flood2['사용승인년도']<=1984)] = "1984년 이전"
+child_flood2['구간'][(child_flood2['사용승인년도']>=1985) & (child_flood2['사용승인년도']<1999)] = "1985~1998년"
+child_flood2['구간'][(child_flood2['사용승인년도']>=1999) & (child_flood2['사용승인년도']<2012)] = "1999년~2011년"
+child_flood2['구간'][(child_flood2['사용승인년도']>=2012)] = "2012년 이후"
+# 1. 단독 - 1984년 이전
+data1 = child_flood2[child_flood2['층용도'] == "단독주택"]
+data2 = child_flood2[child_flood2['층용도'] == "다가구주택"]
+data3 = child_flood2[child_flood2['층용도'] == "다중주택"]
+data4 = pd.concat([data1, data2, data3])
+data5 = data4[data4['구간']=="1984년 이전"]
+# 2. 공동 - 1984년 이전
+data6 = child_flood2[child_flood2['층용도'] == "다세대주택"]
+data7 = child_flood2[child_flood2['층용도'] == "연립주택"]
+data8 = child_flood2[child_flood2['층용도'] == "아파트"]
+data9 = pd.concat([data6, data7, data8])
+data10 = data9[data9['구간']=="1984년 이전"]
+# 3. 공동 - 1985-1998 중 다세대 제외
+data11 = child_flood2[child_flood2['층용도'] == "연립주택"]
+data12 = child_flood2[child_flood2['층용도'] == "아파트"]
+data13 = pd.concat([data11, data12])
+data14 = data13[data13['구간']=="1985~1998년"]
+
+result2 = pd.concat([data5, data10, data14])
+result2['BIRTH_Y'].min()
+result2['PNU'] = result2['PNU'].astype('str')
+result2.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220901/통계/침수지역3분의2반지하_아동.xlsx")
+
+
+############################ 220902 주소추가자료  ###################################
+import pandas as pd
+# 부장님이 주신 raw 데이터
+# 노인, 아동 부르기
+old_house = pd.read_csv("D:/업무/반지하_220809 이후/9월/220902/부장님 산출 자료/노인_지하_65세기준(PNU)_센터.txt", encoding='cp949', sep='|')
+child_house = pd.read_csv("D:/업무/반지하_220809 이후/9월/220902/부장님 산출 자료/아동_지하_19세기준(PNU)_센터.txt", encoding='cp949', sep='|')
+
+# 침수경험
+und_flood_pnu['PNU'] = und_flood_pnu['PNU'].astype('str')
+# 추출
+und_flood_pnu.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220902/침수경험_반지하_pnu.xlsx", index=False)
+# 불러오기
+und_flood_pnu = pd.read_excel("D:/업무/반지하_220809 이후/9월/220902/침수경험_반지하_pnu.xlsx")
+# 침수횟수 pnu의 중복값 제거
+und_flood_pnu2 = und_flood_pnu.drop_duplicates(['PNU'])
+und_flood_pnu2['PNU'] = und_flood_pnu2['PNU'].astype('str')
+
+
+
+# 노인가구 중 침수지역 내 가구
+old_house['PNU'] = old_house['PNU'].astype('str')
+old_flood = pd.merge(old_house, und_flood_pnu2, left_on='PNU', right_on='PNU', how='left')
+old_flood['flood_no'] = old_flood['flood_no'].fillna(0)
+old_flood['flood_no'] = old_flood['flood_no'].astype('int')
+old_flood['flood_no'].value_counts()
+# 20,796가구 중 침수횟수가 있는 가구 = 5,186 가구
+old_flood2 = old_flood[old_flood['flood_no']!=0]
+old_flood2['PNU'] = old_flood2['PNU'].astype('str')
+old_flood2.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220902/핸들링 산출 자료/침수지역반지하_노인.xlsx", index=False)
+
+# 아동가구 중 침수지역 내 가구
+child_house['PNU'] = child_house['PNU'].astype('str')
+child_flood = pd.merge(child_house, und_flood_pnu2, left_on='PNU', right_on='PNU', how='left')
+child_flood['flood_no'] = child_flood['flood_no'].fillna(0)
+child_flood['flood_no'] = child_flood['flood_no'].astype('int')
+child_flood['flood_no'].value_counts()
+# 11,149가구 중 침수횟수가 있는 가구 = 2,624 가구
+child_flood2 = child_flood[child_flood['flood_no']!=0]
+child_flood2['PNU'] = child_flood2['PNU'].astype('str')
+child_flood2.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220902/핸들링 산출 자료/침수지역반지하_아동.xlsx", index=False)
+
+# 3 구간 나누기 : 84년 이전, 85~98년, 99~11년, 2012년 이후
+
+old_flood['구간'] = 0 #열 생성
+old_flood['구간'][(old_flood['사용승인년도']<=1984)] = "1984년 이전"
+old_flood['구간'][(old_flood['사용승인년도']>=1985) & (old_flood['사용승인년도']<1999)] = "1985~1998년"
+old_flood['구간'][(old_flood['사용승인년도']>=1999) & (old_flood['사용승인년도']<2012)] = "1999년~2011년"
+old_flood['구간'][(old_flood['사용승인년도']>=2012)] = "2012년 이후"
+# 1. 단독 - 1984년 이전
+data1 = old_flood2[old_flood2['층용도'] == "단독주택"]
+data2 = old_flood2[old_flood2['층용도'] == "다가구주택"]
+data3 = old_flood2[old_flood2['층용도'] == "다중주택"]
+data4 = pd.concat([data1, data2, data3])
+data5 = data4[data4['구간']=="1984년 이전"]
+# 2. 공동 - 1984년 이전
+data6 = old_flood2[old_flood2['층용도'] == "다세대주택"]
+data7 = old_flood2[old_flood2['층용도'] == "연립주택"]
+data8 = old_flood2[old_flood2['층용도'] == "아파트"]
+data9 = pd.concat([data6, data7, data8])
+data10 = data9[data9['구간']=="1984년 이전"]
+# 3. 공동 - 1985-1998 중 다세대 제외
+data11 = old_flood2[old_flood2['층용도'] == "연립주택"]
+data12 = old_flood2[old_flood2['층용도'] == "아파트"]
+data13 = pd.concat([data11, data12])
+data14 = data13[data13['구간']=="1985~1998년"]
+
+result = pd.concat([data5, data10, data14])
+result['PNU'] = result['PNU'].astype('str')
+result.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220902/핸들링 산출 자료/침수지역3분의2반지하_노인.xlsx", index=False)
+
+child_flood['구간'] = 0 #열 생성
+child_flood['구간'][(child_flood['사용승인년도']<=1984)] = "1984년 이전"
+child_flood['구간'][(child_flood['사용승인년도']>=1985) & (child_flood['사용승인년도']<1999)] = "1985~1998년"
+child_flood['구간'][(child_flood['사용승인년도']>=1999) & (child_flood['사용승인년도']<2012)] = "1999년~2011년"
+child_flood['구간'][(child_flood['사용승인년도']>=2012)] = "2012년 이후"
+# 1. 단독 - 1984년 이전
+data1 = child_flood2[child_flood2['층용도'] == "단독주택"]
+data2 = child_flood2[child_flood2['층용도'] == "다가구주택"]
+data3 = child_flood2[child_flood2['층용도'] == "다중주택"]
+data4 = pd.concat([data1, data2, data3])
+data5 = data4[data4['구간']=="1984년 이전"]
+# 2. 공동 - 1984년 이전
+data6 = child_flood2[child_flood2['층용도'] == "다세대주택"]
+data7 = child_flood2[child_flood2['층용도'] == "연립주택"]
+data8 = child_flood2[child_flood2['층용도'] == "아파트"]
+data9 = pd.concat([data6, data7, data8])
+data10 = data9[data9['구간']=="1984년 이전"]
+# 3. 공동 - 1985-1998 중 다세대 제외
+data11 = child_flood2[child_flood2['층용도'] == "연립주택"]
+data12 = child_flood2[child_flood2['층용도'] == "아파트"]
+data13 = pd.concat([data11, data12])
+data14 = data13[data13['구간']=="1985~1998년"]
+
+result2 = pd.concat([data5, data10, data14])
+result2['BIRTH_Y'].min()
+result2['PNU'] = result2['PNU'].astype('str')
+result2.to_excel("C:/Users/user/Desktop/업무/반지하_220809 이후/9월/220902/핸들링 산출 자료/침수지역3분의2반지하_아동.xlsx", index=False)
+
+########################################## 220902지도제작#####################################################포트폴리오
+import pandas as pd
+
+ilban = pd.read_excel("D:/업무/반지하_220809 이후/220823/반지하 통계 업데이트 버전/일반건축물.xlsx")
+jibhab = pd.read_excel("D:/업무/반지하_220809 이후/220823/반지하 통계 업데이트 버전/집합건축물.xlsx")
+
+# 일반 집합 하나로 만들기 : 준공시기별, 침수여부별 통게 산출
+ilban.columns
+jibhab.columns
+ilban2 = ilban.loc[:,['시군구명', '대지위치','PNU', '사용승인년도', '구간', 'flood_no', '2/3해당여부', '1/2해당여부']]
+ilban2['PNU'] = ilban2['PNU'].astype('str')
+ilban2.to_excel("D:/업무/지도제작/통계산출용 반지하 data/통계산출용_일반.xlsx", index=False)
+answer = ilban2['PNU'].groupby(ilban2['시군구명']).count()
+answer = pd.DataFrame(answer)
+answer.columns = ["일반건축물"]
+
+jibhab2 = jibhab.loc[:,['시군구명', '대지위치','PNU', '사용승인년도', '구간', 'flood_no', '2/3해당여부', '1/2해당여부']]
+jibhab2['PNU'] = jibhab2['PNU'].astype('str')
+jibhab2.to_excel("D:/업무/지도제작/통계산출용 반지하 data/통계산출용_집합.xlsx", index=False)
+answer2 = jibhab2['PNU'].groupby(jibhab2['시군구명']).count()
+answer2 = pd.DataFrame(answer2)
+answer2.columns = ["집합건축물"]
+answer3 = pd.concat([answer, answer2], axis=1) # 열방향으로 붙이기
+answer3['반지하총계'] = answer3.sum(axis=1)
+answer3.loc['반지하총계',:] = answer3.sum()
+answer3 = answer3.astype('int')
+answer3.to_excel("D:/업무/지도제작/통계산출용 반지하 data/결과표/자치구별_반지하 호수.xlsx")
+
+banjiha = pd.concat([ilban2, jibhab2])
+banjiha.to_excel("D:/업무/지도제작/통계산출용 반지하 data/통계산출용_전체.xlsx", index=False)
+
+# 자치구별 통계
+table = banjiha.pivot_table(index=['2/3해당여부'], columns=['시군구명'], values=['PNU'], aggfunc='count')
+table.columns = table.columns.droplevel(0)
+table = table.fillna(0)
+table = table.astype('int')
+table.to_excel("D:/업무/지도제작/통계산출용 반지하 data/결과표/자치구별_23해당여부.xlsx")
+
+table2 = banjiha.pivot_table(index=['1/2해당여부'], columns=['시군구명'], values=['PNU'], aggfunc='count')
+table2.columns = table2.columns.droplevel(0)
+table2 = table2.fillna(0)
+table2 = table2.astype('int')
+table2.to_excel("D:/업무/지도제작/통계산출용 반지하 data/결과표/자치구별_12해당여부.xlsx")
+
+table3 = banjiha.pivot_table(index=['flood_no'], columns=['시군구명'], values=['PNU'], aggfunc='count')
+table3.columns = table3.columns.droplevel(0)
+table3 = table3.fillna(0)
+table3 = table3.astype('int')
+table3.to_excel("D:/업무/지도제작/통계산출용 반지하 data/결과표/자치구별_침수횟수.xlsx")
+
+table4 = banjiha.pivot_table(index=['구간'], columns=['시군구명'], values=['PNU'], aggfunc='count')
+table4.columns = table4.columns.droplevel(0)
+table4 = table4.fillna(0)
+table4 = table4.astype('int')
+table4.to_excel("D:/업무/지도제작/통계산출용 반지하 data/결과표/자치구별_2012년이후.xlsx")
+
+
+#  층별개요 재점검
+import pandas as pd
+seoul = pd.read_csv("D:/업무/날짜별구분(-220811)/8월/220810/건축물대장_층별개요_산출자료정리/서울전체.csv", encoding='cp949', sep=',')
+# 지하층 발라내기
+seoul_under = seoul.loc[seoul['층구분명']=='지하']
+seoul_under = pd.read_csv("D:/업무/날짜별구분(-220811)/8월/220810/건축물대장_층별개요_산출자료정리/서울_지하층.csv", encoding='cp949', sep=',')
+
+# 잘못된 준공년도 열 삭제
+seoul = seoul.drop(["준공년도"], axis=1)
+seoul = seoul.drop(["월","일"], axis=1)
+seoul_under = seoul_under.drop(["준공년도"], axis=1)
+seoul_under = seoul_under.drop(["월","일"], axis=1)
+
+seoul['준공년도'] = seoul['사용승인일자명'].str[:4]
+seoul_under['준공년도'] = seoul_under['사용승인일자명'].str[:4]
+
+seoul.to_csv("D:/업무/반지하_220809 이후/9월/220905/층별개요_마지막/서울전체_층별개요.csv", encoding='cp949', sep=',')
+seoul_under.to_csv("D:/업무/반지하_220809 이후/9월/220905/층별개요_마지막/서울전체지하_층별개요.csv", encoding='cp949', sep=',')
+
+# 준공년도 결측값 제거
+seoul_under = seoul_under[seoul_under['준공년도']!='기타(오류값)']
+seoul_under = seoul_under[seoul_under['준공년도']!='기타(오']
+seoul_under = seoul_under[seoul_under['준공년도']!='기타(값']
+seoul_under['준공년도'] = seoul_under['준공년도'].astype('int')
+
+# 2000년 이후
+under_after_2000 = seoul_under[seoul_under["준공년도"]>=2000]
+
+under_after_2000['통계용도명'].unique()
+
+# 불필요용도 제외
+under_after_2000 = under_after_2000[under_after_2000['통계용도명']!='기타(오류값)']
+under_after_2000 = under_after_2000[under_after_2000['통계용도명']!='기타(값없음)']
+under_after_2000 = under_after_2000[under_after_2000['통계용도명']!='공업용']
+under_after_2000 = under_after_2000[under_after_2000['통계용도명']!='기타']
+
+under_after_2000['통계용도명'].unique()
+
+under_after_2000.to_csv("D:/업무/반지하_220809 이후/9월/220905/층별개요_마지막/서울전체지하_2000이후.csv", encoding='cp949', sep=',')
+
+#  2012년 이후
+under_after_2012 = under_after_2000[under_after_2000["준공년도"]>=2012]
+under_after_2012.to_csv("D:/업무/반지하_220809 이후/9월/220905/층별개요_마지막/서울전체지하_2012이후.csv", encoding='cp949', sep=',')
+
+
+
+# 2000년 이후
+under_after_2000 = seoul_under[seoul_under["준공년도"]>=2000]
+
+under_after_2000['통계용도명'].unique()
+
+# 불필요용도 제외
+seoul_under1 = seoul_under[seoul_under['통계용도명']!='기타(오류값)']
+seoul_under1 = seoul_under1[seoul_under1['통계용도명']!='기타(값없음)']
+seoul_under1 = seoul_under1[seoul_under1['통계용도명']!='공업용']
+seoul_under1 = seoul_under1[seoul_under1['통계용도명']!='기타']
+
+under_after_2000_1 = seoul_under1[seoul_under1["준공년도"]>=2000]
+
+
+# 220905
+# 침수반지하 pnu
+import pandas as pd
+ilban = pd.read_excel("D:/업무/반지하_220809 이후/220823/반지하 통계 업데이트 버전/일반건축물.xlsx")
+jibhab = pd.read_excel("D:/업무/반지하_220809 이후/220823/반지하 통계 업데이트 버전/집합건축물.xlsx")
+
+ilban_flood = ilban[ilban['flood_no']!=0]
+jibhab_flood = jibhab[jibhab['flood_no']!=0]
+
+ilban_flood.columns
+ilban_flood2 = ilban_flood.loc[:,['PNU', '대장구분','대지위치','도로명주소','건물명','동명칭','층용도','층번호명','flood_no']]
+ilban_flood2['PNU'] =  ilban_flood2['PNU'].astype('str')
+jibhab_flood.columns
+jibhab_flood2 = jibhab_flood.loc[:,['PNU','대장구분','대지위치','도로명주소','건물명','동명칭','호용도','호명칭','flood_no']]
+jibhab_flood2['PNU'] =  jibhab_flood2['PNU'].astype('str')
+
+ilban_flood2.rename(columns={'층용도':'용도'}, inplace=True)
+ilban_flood2.rename(columns={'층번호명':'세부용도'}, inplace=True)
+jibhab_flood2.rename(columns={'호용도':'용도'}, inplace=True)
+jibhab_flood2.rename(columns={'호명칭':'세부용도'}, inplace=True)
+
+
+# 침수경험이 있는 반지하 pnu
+und_flood_pnu = pd.concat([ilban_flood2, jibhab_flood2])
+
+und_flood_pnu.to_excel("D:/업무/반지하_220809 이후/9월/220906/침수지역반지하리스트.xlsx", index=False)
+
+
+#
+import pandas as pd
+seoul = pd.read_csv("D:/업무/전유부 합쳐드리기_220817/서울_건축물_전유부.csv", encoding='cp949', sep=',')
+
+seoul['준공년도'] = seoul['사용승인일자명'].str[:4]
+
+seoul['전유용도소분류명'].unique()
+data1 = seoul[seoul['전유용도소분류명'] == '공동주택_다세대주택']
+data2 = seoul[seoul['전유용도소분류명'] == '공동주택_연립주택']
+data3 = seoul[seoul['전유용도소분류명'] == '공동주택_아파트']
+data4 = seoul[seoul['전유용도소분류명'] == '단독주택_다가구주택']
+data5 = seoul[seoul['전유용도소분류명'] == '단독주택_단독주택']
+
+seoul2 = pd.concat([data1, data2, data3, data4, data5])
+
+seoul_2018 = seoul2[seoul2['준공년도'] == "2018"]
+seoul_2019 = seoul2[seoul2['준공년도'] == "2019"]
+seoul_2020 = seoul2[seoul2['준공년도'] == "2020"]
+seoul_2021 = seoul2[seoul2['준공년도'] == "2021"]
+seoul_2021['자치구'] = seoul_2021['건축물위치시군구명'].str.replace(pat="서울특별시", repl='', regex=True)
+seoul_2021['자치구'] = seoul_2021['자치구'].str.strip()
+
+seoul_2021_pivot = seoul_2021.pivot_table(index=['자치구'], columns=['전유용도소분류명'], values=['건축물위치명'], aggfunc='count')
+
+seoul_2021_pivot.columns = seoul_2021_pivot.columns.droplevel(0)
+
+seoul_2021_pivot = seoul_2021_pivot.fillna(0)
+seoul_2021_pivot = seoul_2021_pivot.astype('int')
+
+seoul_2021_pivot.loc['합계',:] = seoul_2021_pivot.sum()
+seoul_2021_pivot['합계'] =  seoul_2021_pivot.sum(axis=1)
+
+# 인허가로 다시
+seoul2['허가년도'] = seoul2['허가일자명'].str[:4]
+seoul_2018 = seoul2[seoul2['허가년도'] == "2018"]
+seoul_2019 = seoul2[seoul2['허가년도'] == "2019"]
+seoul_2020 = seoul2[seoul2['허가년도'] == "2020"]
+seoul_2021 = seoul2[seoul2['허가년도'] == "2021"]
+seoul_2021['자치구'] = seoul_2021['건축물위치시군구명'].str.replace(pat="서울특별시", repl='', regex=True)
+seoul_2021['자치구'] = seoul_2021['자치구'].str.strip()
+
+
+import pandas as pd
+
+banjiha = pd.read_excel("D:/업무/지도제작/통계산출용 반지하 data/통계산출용_전체.xlsx")
+
+banjiha['사용승인년도'].isnull().sum()
+banjiha['시군구명'].isnull().sum()
+
+ilban2 = pd.read_excel("D:/업무/지도제작/통계산출용 반지하 data/통계산출용_일반.xlsx")
+jibhab2 = pd.read_excel("D:/업무/지도제작/통계산출용 반지하 data/통계산출용_집합.xlsx")
+
+
+banjiha["2/3해당여부"].value_counts()
+banjiha["1/2해당여부"].value_counts()
+banjiha["구간"].value_counts()
+banjiha["사용승인년도"].value_counts()
+
+a = banjiha[banjiha["구간"]==0]
+
+# 물 순환국 자료 지오코딩
+data = pd.read_excel("D:/업무/반지하_220809 이후/9월/220914/물순환국/침수피해_지오코딩.xlsx")
+import folium
+####### 도로명주소 위도 경도 값으로 바꿔주기 ########
+from geopy.geocoders import Nominatim
+geo_local = Nominatim(user_agent='South Korea')
+# 위도, 경도 반환하는 함수
+def geocoding(address):
+    geo = geo_local.geocode(address)
+    x_y = [geo.latitude, geo.longitude]
+    return x_y
+latitude = []
+longtitude = []
+
+# 지오코딩
+for i in data['지번주소']:
+    try :
+        latitude.append(geocoding(i)[0])
+        longtitude.append(geocoding(i)[1])
+        print(i, "코딩에 성공하였습니다")
+    except AttributeError as e:
+        print(i, "변환에 실패하였습니다")
+        latitude.append("NA")
+        longtitude.append("NA")
+        print(e)
+
+address_df = pd.DataFrame({'지번주소': data['지번주소'], '피해일시': data['피해일시'], '위도':latitude,'경도':longtitude})
+
+address_df.to_csv("D:/업무/반지하_220809 이후/9월/220915/침수피해_좌표변환.csv", encoding='cp949', sep=',', index=False)
+
+# 경위도 결측값인 행 삭제하기
+new_data2 = address_df[~address_df['위도'].str.contains("NA", na=False, case=False)]
+
+new_data2.to_csv("C:/Users/user/Desktop/업무/5월/220516/오피스텔 지오코딩/오피스텔_경위도추가.csv", encoding='cp949')
+
+
+# 검토
+# 1970년 이전 준공, 침수지역 외 2999
+# answer = banjiha[banjiha['사용승인년도']<=1970]
+# answer2 = answer[answer['flood_no']==0]
+#
+# answer2 = answer2[answer2['구간']!=0]
+# answer3 = answer2[answer2['사용승인년도']!=1970]
+
+# 아동 및 노인 시각화
+
+child = pd.read_excel("D:/업무/반지하_220809 이후/9월/220915/침수지역3분의2반지하_아동_v2.xlsx")
+old = pd.read_excel("D:/업무/반지하_220809 이후/9월/220915/침수지역3분의2반지하_노인_v2.xlsx")
+
+latitude = []
+longtitude = []
+
+# 지오코딩
+for i in child['대지위치']:
+    try :
+        latitude.append(geocoding(i)[0])
+        longtitude.append(geocoding(i)[1])
+        print(i, "코딩에 성공하였습니다")
+    except AttributeError as e:
+        print(i, "변환에 실패하였습니다")
+        latitude.append("NA")
+        longtitude.append("NA")
+        print(e)
+
+address_df2 = pd.DataFrame({'대지위치': child['대지위치'], '위도':latitude,'경도':longtitude})
+
+address_df2.to_csv("D:/업무/반지하_220809 이후/9월/220915/침수3분의2미성년_좌표변환.csv", encoding='cp949', sep=',', index=False)
+
+# 경위도 결측값인 행 삭제하기
+new_data3 = address_df2[~address_df2['위도'].str.contains("NA", na=False, case=False)]
+
+# 지오코딩
+for i in old['대지위치']:
+    try :
+        latitude.append(geocoding(i)[0])
+        longtitude.append(geocoding(i)[1])
+        print(i, "코딩에 성공하였습니다")
+    except AttributeError as e:
+        print(i, "변환에 실패하였습니다")
+        latitude.append("NA")
+        longtitude.append("NA")
+        print(e)
+
+address_df3 = pd.DataFrame({'대지위치': old['대지위치'], '위도':latitude,'경도':longtitude})
+
+address_df3.to_csv("D:/업무/반지하_220809 이후/9월/220915/침수3분의2노인_좌표변환.csv", encoding='cp949', sep=',', index=False)
+
+# 경위도 결측값인 행 삭제하기
+new_data4 = address_df3[~address_df3['위도'].str.contains("NA", na=False, case=False)]
+
+
+import pandas as pd
+
+data1 = pd.read_excel("D:/업무/반지하_220809 이후/9월/220919/주소살리기/장애인 거주자 시각화_378_팀장님.xlsx")
+data2 = pd.read_excel("D:/업무/반지하_220809 이후/9월/220919/주소살리기/장애인 거주자 시각화_378_원시데이터.xlsx")
+
+data3 =  left_on=['column_name1','column_name2']
+
+data3 = pd.merge(left=data1, right=data2, how='left', on=['위도','경도'], sort=False)
+data3 = pd.merge(data1, data2, left_on=['위도','경도'], right_on=['위도','경도'], how='left')
+# vlook up : 건축물 통계와 장애인 인구 자료 조인
+data3 = data1.join(data2.set_index('위도')['거주지주소'], on=['위도'])
+
+
+# 올해 침수지역 2022 리스트
+
+flood = pd.read_excel("D:/업무/반지하_220809 이후/9월/220919/올해 침수지/서울시침수피해 19,673건_(8.8._8.17.).xlsx", sheet_name='Sheet2')
+
+disable = pd.read_excel("D:/업무/반지하_220809 이후/9월/220919/장애인거주자_리스트.xlsx")
+old = pd.read_excel("D:/업무/반지하_220809 이후/9월/220919/침수지역3분의2반지하_노인_v2.xlsx")
+young = pd.read_excel("D:/업무/반지하_220809 이후/9월/220919/침수지역3분의2반지하_아동_v2.xlsx")
+
+
+disable_flood = pd.merge(disable, flood, left_on='대지위치', right_on='지번주소', how='left')
+
+flood.columns
+flood2 = flood.loc[:,['주소(지번)', '주소(도로명)','PNU코드', '피해일시','피해위치(지번)','피해위치 (도로명)','지번주소']]
+flood3 = flood2.drop_duplicates(['지번주소'])
+
+
+disable_flood = pd.merge(disable, flood3, left_on='대지위치', right_on='지번주소', how='left')
+disable_flood.to_excel("D:/업무/반지하_220809 이후/9월/220919/장애인_올해침수.xlsx")
+
+
+
+# 필지별 카운트
+
+data_unique = pd.read_excel("D:/업무/반지하_220809 이후/9월/220919/반지하_지번주소기준.xlsx")
+
+under_unique = data_unique['대지위치'].groupby(data_unique['대지위치']).count()
+under_unique = pd.DataFrame(under_unique)
+under_unique.columns = ['세대수']
+under_unique = under_unique.reset_index()
+under_unique['세대수'].sum()
+
+under_unique.to_excel("D:/업무/반지하_220809 이후/9월/220919/반지하_필지별세대수.xlsx")
+
+
+
+
+disable_unique = disable['대지위치'].groupby(disable['대지위치']).count()
+disable_unique = pd.DataFrame(disable_unique)
+disable_unique.columns = ['세대수']
+disable_unique = disable_unique.reset_index()
+disable_unique['세대수'].sum()
+
+disable_unique.to_excel("D:/업무/반지하_220809 이후/9월/220919/장애인_필지별명수.xlsx")
+
+
+flood_unique = flood['지번주소'].groupby(flood['지번주소']).count()
+flood_unique = pd.DataFrame(flood_unique)
+flood_unique.columns = ['세대수']
+flood_unique = flood_unique.reset_index()
+flood_unique['세대수'].sum()
+
+flood_unique.to_excel("D:/업무/반지하_220809 이후/9월/220919/올해침수_필지별세대수.xlsx")
+
+result1 = pd.merge(disable_unique, flood_unique, left_on='대지위치', right_on='지번주소', how='left')
+
+result1.to_excel("D:/업무/반지하_220809 이후/9월/220919/재료/장애인_조인결과.xlsx", index=False)
+
+
+old_flood.to_excel("D:/업무/반지하_220809 이후/9월/220919/반지하_노인(2만).xlsx")
+child_flood.to_excel("D:/업무/반지하_220809 이후/9월/220919/반지하_아동(1만1천).xlsx")
+
+
+############################ 220919 노인 지하주택 면적 추가 ###################################
+# 부장님이 주신 raw 데이터
+# 노인, 아동 부르기
+old_house = pd.read_csv("D:/업무/반지하_220809 이후/9월/220919/면적추가 자료/노인_지하_65세_PNU_대장지하면적_지하주택_센터.txt", encoding='cp949', sep='|')
+# 표본 수 18,616
+child_house =  pd.read_csv("D:/업무/반지하_220809 이후/9월/220919/면적추가 자료/아동_지하_19세_PNU_대장지하면적_지하주택_센터.txt", encoding='cp949', sep='|')
+# 표본 수 9,874
+
+# 침수경험 불러오기
+und_flood_pnu = pd.read_excel("D:/업무/반지하_220809 이후/9월/220902/침수경험_반지하_pnu.xlsx")
+# 침수횟수 pnu의 중복값 제거
+und_flood_pnu2 = und_flood_pnu.drop_duplicates(['PNU'])
+und_flood_pnu2['PNU'] = und_flood_pnu2['PNU'].astype('str')
+
+# 노인가구 중 침수지역 내 가구
+old_house['PNU'] = old_house['PNU'].astype('str')
+old_flood = pd.merge(old_house, und_flood_pnu2, left_on='PNU', right_on='PNU', how='left')
+old_flood['flood_no'] = old_flood['flood_no'].fillna(0)
+old_flood['flood_no'] = old_flood['flood_no'].astype('int')
+old_flood['flood_no'].value_counts()
+# 18,616가구 중 침수횟수가 있는 가구 = 4,977 가구
+
+# 아동가구 중 침수지역 내 가구
+child_house['PNU'] = child_house['PNU'].astype('str')
+child_flood = pd.merge(child_house, und_flood_pnu2, left_on='PNU', right_on='PNU', how='left')
+child_flood['flood_no'] = child_flood['flood_no'].fillna(0)
+child_flood['flood_no'] = child_flood['flood_no'].astype('int')
+child_flood['flood_no'].value_counts()
+# 9,874가구 중 침수횟수가 있는 가구 = 2,449 가구
+
+# 3 구간 나누기 : 84년 이전, 85~98년, 99~11년, 2012년 이후
+
+old_flood['구간'] = 0 #열 생성
+old_flood['구간'][(old_flood['사용승인년도']>=1910) & (old_flood['사용승인년도']<=1984)]  = "1984년 이전"
+old_flood['구간'][(old_flood['사용승인년도']>=1985) & (old_flood['사용승인년도']<1999)] = "1985~1998년"
+old_flood['구간'][(old_flood['사용승인년도']>=1999) & (old_flood['사용승인년도']<2012)] = "1999년~2011년"
+old_flood['구간'][(old_flood['사용승인년도']>=2012) & (old_flood['사용승인년도']<2023)] = "2012년 이후"
+
+old_flood['2/3여부'] = 0 #열 생성
+old_flood['2/3여부'][(old_flood['구간'] == "1984년 이전")] = "1"
+old_flood['2/3여부'][(old_flood['구간'] == "1985~1998년") & (old_flood['층용도']=="연립주택")] = "1"
+old_flood['2/3여부'][(old_flood['구간'] == "1985~1998년") & (old_flood['층용도']=="아파트")] = "1"
+
+old_flood.to_excel("D:/업무/반지하_220809 이후/9월/220919/면적추가 자료/노인_면적추가.xlsx")
+
+child_flood['구간'] = 0 #열 생성
+child_flood['구간'][(child_flood['사용승인년도']>=1910) & (child_flood['사용승인년도']<=1984)]  = "1984년 이전"
+child_flood['구간'][(child_flood['사용승인년도']>=1985) & (child_flood['사용승인년도']<1999)] = "1985~1998년"
+child_flood['구간'][(child_flood['사용승인년도']>=1999) & (child_flood['사용승인년도']<2012)] = "1999년~2011년"
+child_flood['구간'][(child_flood['사용승인년도']>=2012) & (child_flood['사용승인년도']<2023)] = "2012년 이후"
+
+child_flood['층용도'].unique()
+child_flood['2/3여부'] = 0 #열 생성
+child_flood['2/3여부'][(child_flood['구간'] == "1984년 이전")] = "1"
+child_flood['2/3여부'][(child_flood['구간'] == "1985~1998년") & (child_flood['층용도']=="연립주택")] = "1"
+child_flood['2/3여부'][(child_flood['구간'] == "1985~1998년") & (child_flood['층용도']=="아파트")] = "1"
+
+child_flood.to_excel("D:/업무/반지하_220809 이후/9월/220919/면적추가 자료/아동_면적추가.xlsx")
+
+
+
+# 반지하 거주 장애인 4천 6백
+disable_under = pd.read_csv("D:/업무/반지하_220809 이후/9월/220919/지하 거주 장애인_반지하주택_4천6백.csv", encoding='cp949', sep=',')
+disable_under['구간'] = 0 #열 생성
+disable_under['구간'][(disable_under['사용승인년도']>=1910) & (disable_under['사용승인년도']<=1984)]  = "1984년 이전"
+disable_under['구간'][(disable_under['사용승인년도']>=1985) & (disable_under['사용승인년도']<1999)] = "1985~1998년"
+disable_under['구간'][(disable_under['사용승인년도']>=1999) & (disable_under['사용승인년도']<2012)] = "1999년~2011년"
+disable_under['구간'][(disable_under['사용승인년도']>=2012) & (disable_under['사용승인년도']<2023)] = "2012년 이후"
+disable_under['층용도'].unique()
+disable_under['2/3여부'] = 0 #열 생성
+disable_under['2/3여부'][(disable_under['구간'] == "1984년 이전")] = "1"
+disable_under['2/3여부'][(disable_under['구간'] == "1985~1998년") & (disable_under['층용도']=="연립주택")] = "1"
+disable_under['2/3여부'][(disable_under['구간'] == "1985~1998년") & (disable_under['층용도']=="아파트")] = "1"
+
+disable_under.to_csv("D:/업무/반지하_220809 이후/9월/220919/지하 거주 장애인_반지하주택_4천6백_열추가.csv", encoding='cp949', sep=',')
+
+
+disable_list387 = pd.read_excel("D:/업무/반지하_220809 이후/9월/220919/장애인거주자_리스트.xlsx")
+disable_under2 = disable_under[disable_under['2/3여부']=="1"]
+
+disable_list387_2 = disable_list387.drop_duplicates(['주소2'])
+und_flood_pnu2 = und_flood_pnu.drop_duplicates(['PNU'])
+answer = pd.merge(disable_under2, disable_list387_2, left_on='주소2', right_on='주소2', how='left')
+
+answer.to_excel("D:/업무/반지하_220809 이후/9월/220919/면적추가 자료/장애인4천6백_387.xlsx")
+
+import pandas as pd
+data1 = pd.read_excel("D:/업무/반지하_220809 이후/9월/220920/서울시침수피해 19,696건_(6.28._8.17.).xlsx", sheet_name="Sheet2")
+data2 = pd.read_excel("D:/업무/반지하_220809 이후/220818/반지하 전체 파일정리/리스트/2.(전체22만6천건)반지하.xlsx")
+
+
+data3 = data2.drop_duplicates(['대지위치'])
+data3.columns
+data3 = data3.loc[:,['대지위치','층/호 용도','층구분','PNU','사용승인년도','구간', 'flood_no']]
+
+data4 = pd.merge(data1, data3, left_on='지번주소', right_on='대지위치', how='left')
+
+data4.to_excel("D:/업무/반지하_220809 이후/9월/220921/주택유형추가3.xlsx")
+
+data2['flood_no'].value_counts()
+
+# 국토부 자료 : 3,848
+data5 = pd.read_excel("D:/업무/반지하_220809 이후/9월/220920/국토부 자료.xlsx", sheet_name="Sheet1")
+
+data5['대지위치2'] = data5['대지위치'].str.replace(pat="번지", repl="", regex=True)
+seoul['시군구'] = seoul['건축물위치시군구명'].str.replace(pat="서울특별시", repl='', regex=True)
+
+data6 = pd.merge(data5, data3, left_on='대지위치2', right_on='대지위치', how='left')
+
+data6.to_excel("D:/업무/반지하_220809 이후/9월/220920/국토부자료_반지하추가.xlsx")
+
+data3
+
+data2["PNU2"] = data2["PNU"].astype('str')
+
+
+
+
+all['구간'] = 0 #열 생성
+all['구간'][(all['사용승인년도']>=1910) & (all['사용승인년도']<=1984)] = "1984년 이전"
+all['구간'][(all['사용승인년도']>=1985) & (all['사용승인년도']<1999)] = "1985~1998년"
+all['구간'][(all['사용승인년도']>=1999) & (all['사용승인년도']<2012)] = "1999년~2011년"
+all['구간'][(all['사용승인년도']>=2012) & (all['사용승인년도']<2023)] = "2012년 이후"
+
+all.to_excel("D:/업무/반지하_220809 이후/9월/220920/반지하_전체(226937).xlsx", index=False)
+
+
+
+data3 = all.drop_duplicates(['PNU'])
+data3.columns
+data4 = pd.merge(data1, data3, left_on='지번주소', right_on='대지위치', how='left')
+
+flood = pd.read_excel("D:/업무/반지하_220809 이후/220817/침수지역_pnu/침수지역_pnu.xlsx")
+flood['pnu'] = flood['pnu'].astype('str')
+all_flood = pd.merge(all, flood, left_on="PNU", right_on="pnu", how='left')
+
+all_flood['flood_no'].value_counts()
+
+
+# 2/3 이상 해당 여부 붙이기
+all_flood['2/3해당여부'] = 0 # 모두 0값을 갖는 열 생성하기
+all_flood['2/3해당여부'][(all_flood['구간']=="1984년 이전")] = 1 # 1984년 이전
+all_flood['2/3해당여부'][(all_flood['구간']=="1985~1998년") & (all_flood['용도']=="연립주택")] = 1 # 1985~1998 & 연립
+all_flood['2/3해당여부'][(all_flood['구간']=="1985~1998년") & (all_flood['용도']=="아파트")] = 1 # 1985~1998 & 아파트
+
+# 검토해보기
+all_flood['2/3해당여부'].value_counts()
+
+# 1/2 이상 해당 여부 붙이기
+all_flood['1/2해당여부'] = 0 # 모두 0값을 갖는 열 생성하기
+all_flood['1/2해당여부'][(all_flood['구간']=="1999년~2011년")] = 1 # 1984년 이전
+all_flood['1/2해당여부'][(all_flood['구간']=="1985~1998년") & (all_flood['용도']=="단독주택")] = 1
+all_flood['1/2해당여부'][(all_flood['구간']=="1985~1998년") & (all_flood['용도']=="다중주택")] = 1
+all_flood['1/2해당여부'][(all_flood['구간']=="1985~1998년") & (all_flood['용도']=="다가구주택")] = 1
+all_flood['1/2해당여부'][(all_flood['구간']=="1985~1998년") & (all_flood['용도']=="다세대주택")] = 1
+
+# 검토해보기
+all_flood['1/2해당여부'].value_counts()
+
+all_flood.to_excel("D:/업무/반지하_220809 이후/반지하_마스터(226,937).xlsx", index=False)
+
+
+
+after_2012 = all_flood[all_flood['구간']=="2012이후"]
+
+
+
+#  안붙은 것 전체 4708건
+d1  = pd.read_excel("D:/업무/반지하_220809 이후/9월/220920/올해침수피해_안붙은것(4,708).xlsx")
+
+# 전체 건축물 붙은 것 2,400건
+d3 = pd.read_excel("D:/업무/반지하_220809 이후/9월/220920/침수피해_반지하_건축물대장.xls")
+d3['PNU'] =  d3['PNU'].astype('str')
+
+#  지하건축물 붙은 것 1,500건
+d2 = pd.read_excel("D:/업무/반지하_220809 이후/9월/220920/침수피해_반지하_건축물대장_지하.xls")
+d2['PNU'] =  d2['PNU'].astype('str')
+
+
+
+# 1,500건에 대해 pnu 기준 중복값 제거
+d4 = d2.drop_duplicates(['PNU'])
+
+
+# 2,400건에 조인하기
+d5 = pd.merge(d3, d4, left_on='PNU', right_on='PNU', how='left')
+
+# 1,500건에 대해 pnu 기준 중복값 제거
+d6 = d5.drop_duplicates(['PNU'])
+
+
+# 4,800건에 조인하기
+d7 = pd.merge(d1, d6, left_on='PNU코드', right_on='PNU', how='left')
+
+
+d7.to_excel("D:/업무/반지하_220809 이후/9월/220920/결과.xlsx")
+
+
+old = pd.read_excel("D:/업무/반지하_220809 이후/9월/220920/침수지역3분의2반지하_노인_v2.xlsx")
+old['PNU'] = old['PNU'].astype('str')
+old2 = old.drop_duplicates(['PNU'])
+
+child = pd.read_excel("D:/업무/반지하_220809 이후/9월/220920/침수지역3분의2반지하_아동_v2.xlsx")
+child['PNU'] = child['PNU'].astype('str')
+child2 = child.drop_duplicates(['PNU'])
+
+# 올해 침수 피해지 1만9천 건 중, 반지하 pnu가 붙은 1만 4천 건
+data = pd.read_excel("D:/업무/반지하_220809 이후/9월/220920/올해침수피해_반지하붙은것.xlsx")
+data['PNU코드'] = data['PNU코드'].astype('str')
+
+data_a = pd.merge(data, old2, left_on='PNU코드', right_on='PNU', how='left')
+data_b = pd.merge(data_a, child2, left_on='PNU코드', right_on='PNU', how='left')
+
+
+data_b['노인여부'] =  data_b['노인여부'].fillna(0)
+data_b['노인여부'].value_counts()
+data_b['아동여부'] = data_b['아동여부'].fillna(0)
+data_b['아동여부'].value_counts()
+
+data_b.to_excel("D:/업무/반지하_220809 이후/9월/220920/침수피해_노인+아동.xlsx", index=False)
+
+# 장애인
+disable = pd.read_excel("D:/업무/반지하_220809 이후/9월/220920/장애인거주자_리스트.xlsx")
+disable2 = disable.drop_duplicates(['대지위치'])
+
+data_c = pd.merge(data_b, disable2, left_on='대지위치_x', right_on='대지위치', how='left')
+
+data_b['대지위치'].isnull().sum()
+data_b['대지위치_x'].isnull().sum()
+data_b['대지위치_y'].isnull().sum()
+
+data_c['장애인여부'] =  data_c['장애인여부'].fillna(0)
+data_c['장애인여부'].value_counts()
+
+data_c.to_excel("D:/업무/반지하_220809 이후/9월/220920/침수피해_노인+아동+장애인.xlsx", index=False)
+
+
+# 반지하에 올해침수반지하 join
+data33 = pd.read_excel("D:/업무/지도제작/통계산출용 반지하 data/결과표/2. 반지하+사업_2.xlsx", sheet_name='반지하+공공+신통+모아+재촉+재건축+재개발2')
+data33['pnu'] = data33['pnu'].astype('str')
+
+data44 = pd.read_excel("D:/업무/반지하_220809 이후/9월/220920/올해침수피해_반지하붙은것.xlsx")
+data44['올해침수여부'] = 1
+data44['PNU코드'] = data44['PNU코드'].astype('str')
+data44.columns
+data44_2 = data44.loc[:,['PNU코드','올해침수여부']]
+
+data44_3 = data44_2.drop_duplicates(['PNU코드'])
+
+
+# 2,400건에 조인하기
+data55 = pd.merge(data33, data44_3, left_on='pnu', right_on='PNU코드', how='left')
+
+data55.to_excel("D:/업무/반지하_220809 이후/9월/220920/반지하+올해침수.xlsx", index=False)
+
+
+#  침수된 반지하 주소
+only_flood_under = data2[data2['flood_no']!=0]
+only_flood_under.columns
+only_flood_under_need = only_flood_under.loc[:,[ '시군구명', '대지위치','flood_no']]
+only_flood_under_need.to_excel("D:/업무/반지하_220809 이후/9월/220921/바우처/침수우려반지하_통계(61,275).xlsx")
+
+
+flood_2022 = pd.read_excel("D:/업무/반지하_220809 이후/9월/220921/주택유형추가3.xlsx")
+
+flood_2022_past0 = flood_2022[flood_2022['flood_no']==0]
+flood_2022_past0.columns
+flood_2022_past0_need = flood_2022_past0.loc[:,['자치구', '대지위치','flood_no']]
+flood_2022_past0_need.to_excel("D:/업무/반지하_220809 이후/9월/220921/바우처/올해침수중_과거미침수우려(6,275).xlsx")
+
+
+work = pd.read_csv("D:/업무/반지하_220809 이후/9월/220921/2%_가구주택사항_20220921_42765_데이터/서울 반지하.csv", encoding='cp949', sep=',')
+
+work['건축년도'] = 0
+work['건축년도'][(work['건축연도코드']==1)] = "2020년"
+work['건축년도'][(work['건축연도코드']==2)] = "2019년"
+work['건축년도'][(work['건축연도코드']==3)] = "2018년"
+work['건축년도'][(work['건축연도코드']==4)] = "2017년"
+work['건축년도'][(work['건축연도코드']==5)] = "2016년"
+work['건축년도'][(work['건축연도코드']==6)] = "2015년"
+work['건축년도'][(work['건축연도코드']==7)] = "2014년"
+work['건축년도'][(work['건축연도코드']==8)] = "2013년"
+work['건축년도'][(work['건축연도코드']==9)] = "2012년"
+work['건축년도'][(work['건축연도코드']==10)] = "2011년"
+work['건축년도'][(work['건축연도코드']==11)] = "2010년"
+work['건축년도'][(work['건축연도코드']==12)] = "2005~2009년"
+work['건축년도'][(work['건축연도코드']==13)] = "2000~2004년"
+work['건축년도'][(work['건축연도코드']==14)] = "1990~1999년"
+work['건축년도'][(work['건축연도코드']==15)] = "1980~1989년"
+work['건축년도'][(work['건축연도코드']==16)] = "1979년 이전"
+work['건축년도'][(work['건축연도코드']==99)] = "주택이외"
+
+work.to_csv("D:/업무/반지하_220809 이후/9월/220921/2%_가구주택사항_20220921_42765_데이터/서울 반지하_가공.csv", encoding='cp949', sep=',')
+
+
+import pandas as pd
+a = select "가구원일련번호" from work where "단독주택종류코드" is not null order by "가구원일련번호"
+
+
+data = pd.read_excel("D:/업무/반지하_220809 이후/9월/220914 맵제작/지하건축물_필지point/반지하_필지.xlsx")
+
+data[['시','구','나머지주소']] = pd.DataFrame(data['지번주소'].str.split(' ',2).tolist())
+
+data2 = data.loc[:,["지번주소","나머지주소"]]
+
+data2.to_csv("D:/업무/반지하_220809 이후/9월/220914 맵제작/지하건축물_필지point/나머지주소.csv", encoding='cp949', sep=',')
+
+child = pd.read_csv("D:/업무/반지하_220809 이후/9월/220902/부장님 산출 자료/아동_지하_19세기준(PNU)_센터.txt", encoding='cp949', sep='|')
+
+child['CNT'].value_counts()
+
+a = child[child['CNT'] ==5]
+v = child[child['CNT'] ==2]
+
+print(v)
+
+
+child = pd.read_excel("D:/업무/반지하_220809 이후/9월/220921/노인 및 아동 통계.xlsx", sheet_name="아동286")
+child['PNU'] = child['PNU'].astype('str')
+child.columns
+child[ 'NA_ROAD_CD'] = child['NA_ROAD_CD'].astype('str')
+child[ 'RD_CODE'] = child['RD_CODE'].astype('str')
+
+old = pd.read_excel("D:/업무/반지하_220809 이후/9월/220921/노인 및 아동 통계.xlsx", sheet_name="노인432")
+
+under_child = pd.read_csv("D:/업무/반지하_220809 이후/9월/220922/지하_아동_20220922.txt", encoding='cp949', sep='|')
+under_child[ 'PNU'] = under_child['PNU'].astype('str')
+# 침수경험 반지하 불러오기
+und_flood_pnu = pd.read_excel("D:/업무/반지하_220809 이후/9월/220902/침수경험_반지하_pnu.xlsx")
+# 침수횟수 pnu의 중복값 제거
+und_flood_pnu2 = und_flood_pnu.drop_duplicates(['PNU'])
+und_flood_pnu2['PNU'] = und_flood_pnu2['PNU'].astype('str')
+
+# 아동가구 중 침수지역 내 가구
+child_flood = pd.merge(under_child, und_flood_pnu2, left_on='PNU', right_on='PNU', how='left')
+child_flood ['flood_no'] = child_flood ['flood_no'].fillna(0)
+child_flood ['flood_no'] = child_flood ['flood_no'].astype('int')
+
+child_flood['구간'] = 0 #열 생성
+child_flood['구간'][(child_flood['사용승인년도']>=1910) & (child_flood['사용승인년도']<=1984)] = "1984년 이전"
+child_flood['구간'][(child_flood['사용승인년도']>=1985) & (child_flood['사용승인년도']<1999)] = "1985~1998년"
+child_flood['구간'][(child_flood['사용승인년도']>=1999) & (child_flood['사용승인년도']<2012)] = "1999년~2011년"
+child_flood['구간'][(child_flood['사용승인년도']>=2012) & (child_flood['사용승인년도']<2023)] = "2012년 이후"
+
+
+# 2/3 이상 해당 여부 붙이기
+# 일반
+child_flood['2/3해당여부'] = 0 # 모두 0값을 갖는 열 생성하기
+child_flood['2/3해당여부'][(child_flood['구간']=="1984년 이전")] = 1 # 1984년 이전
+child_flood['2/3해당여부'][(child_flood['구간']=="1985~1998년") & (child_flood['층용도']=="연립주택")] = 1 # 1985~1998 & 연립
+child_flood['2/3해당여부'][(child_flood['구간']=="1985~1998년") & (child_flood['층용도']=="아파트")] = 1 # 1985~1998 & 아파트
+
+child_flood['RD_CODE'] = child_flood['RD_CODE'].astype('str')
+child_flood['NA_ROAD_CD'] = child_flood['NA_ROAD_CD'].astype('str')
+
+child_flood.to_excel("D:/업무/반지하_220809 이후/9월/220922/아동_최종.xlsx")
+
+
+
+import pandas as pd
+
+data1 = pd.read_excel("D:/업무/반지하_220809 이후/9월/220923/결합/서울시-1단계-총괄표 20220920_건축기획과.xlsx", sheet_name="Sheet1")
+data2 = pd.read_excel("D:/업무/반지하_220809 이후/9월/220923/결합/침수방지 시설 설치 1차(20220923)_안심반.xlsx")
+
+data3 = pd.merge(data1, data2, left_on='연번', right_on="일련번호", how='left')
+data3["대지위치"].isnull().sum() #붙은 개수 확인
+data3.to_excel("D:/업무/반지하_220809 이후/9월/220923/결합/조인_결과2.xlsx", index=False)
+
+
+# 220926 다시 붙이기
+import pandas as pd
+
+data1 = pd.read_excel("D:/업무/반지하_220809 이후/9월/220923/결합/서울시-1단계-총괄표 20220920_건축기획과.xlsx", sheet_name="Sheet1")
+data2  = pd.read_excel("D:/업무/반지하_220809 이후/9월/220926/안심반 자료/침수방지 시설 설치 1,2차 (20220925).xlsx")
+
+data3 = pd.merge(data1, data2, left_on='연번', right_on="일련번호", how='left')
+data3["일련번호.1"].isnull().sum() #붙은 개수 확인
+data3.to_excel("D:/업무/반지하_220809 이후/9월/220926/안심반 자료/조인_결과.xlsx", index=False)
+
+
+
+import geopandas as gpd
+data = gpd.read_file("C:/Users/user/Desktop/Desktop/신림동 사례.shp", encoding='cp949')
+
+
+data1 = pd.read_excel("D:/업무/반지하_220809 이후/9월/220926 주거안심동행지도/안심반 자료/조인_결과.xlsx")
+data2  = pd.read_excel("D:/업무/반지하_220809 이후/9월/220927/220926_11PM_장애인_반지하 주거실태조사_코딩북_최종.xlsx")
+data3 = pd.merge(data1, data2, left_on='연번', right_on="일련번호", how='left')
+
+data3.to_excel("D:/업무/반지하_220809 이후/9월//220927/장애인388_조인자료.xlsx", index=False)
+
+# 옥탑 및 고시원 포인트 뿌리기
+import folium
+import pandas as pd
+# 필요한 열만 추출
+
+oktop = pd.read_excel("D:/업무/반지하_220809 이후/9월/220929 주거안심동행지도 수정/옥탑방.xls")
+
+
+
+####### 도로명주소 위도 경도 값으로 바꿔주기 ########
+from geopy.geocoders import Nominatim
+geo_local = Nominatim(user_agent='South Korea')
+# 위도, 경도 반환하는 함수
+def geocoding(address):
+    geo = geo_local.geocode(address)
+    x_y = [geo.latitude, geo.longitude]
+    return x_y
+latitude = []
+longtitude = []
+
+# 지오코딩
+for i in oktop['도로명주소']:
+    try :
+        latitude.append(geocoding(i)[0])
+        longtitude.append(geocoding(i)[1])
+        print(i, "코딩에 성공하였습니다")
+    except AttributeError as e:
+        print(i, "변환에 실패하였습니다")
+        latitude.append("NA")
+        longtitude.append("NA")
+        print(e)
+
+address_df = pd.DataFrame({'도로명주소': oktop['도로명주소'], '위도':latitude,'경도':longtitude})
+
+oktop['위도'] = address_df['위도']
+oktop['경도'] = address_df['경도']
+oktop['PNU'] = oktop['PNU'].astype('str')
+
+a = oktop[oktop['위도'] == "NA"]
+oktop.to_excel("D:/업무/반지하_220809 이후/9월/220929 주거안심동행지도 수정/옥탑방_지오코딩.xlsx")
+
+
+gosiwon['Xcoor'] = gosiwon['Xcoor'].astype('str')
+gosiwon['Ycoor'] = gosiwon['Ycoor'].astype('str')
+
+gosiwon.to_excel("D:/업무/반지하_220809 이후/9월/220929 주거안심동행지도 수정/고시원1.xlsx", index=False)
+gosiwon.to_csv("D:/업무/반지하_220809 이후/9월/220929 주거안심동행지도 수정/고시원2.csv", encoding='cp949', sep=',')
+
+
+
+
+gosiwon = pd.read_excel("D:/업무/반지하_220809 이후/9월/220929 주거안심동행지도 수정/고시원.xlsx")
+
+
+
+data = pd.read_excel("D:/업무/반지하_220809 이후/9월/220930/최종)장애인388_new.xlsx")
+data['구간_new'] = 0 #열 생성
+data['구간_new'][(data['사용승인년도_new']>=1910) & (data['사용승인년도_new']<=1984)] = "1984년 이전"
+data['구간_new'][(data['사용승인년도_new']>=1985) & (data['사용승인년도_new']<1999)] = "1985~1998년"
+data['구간_new'][(data['사용승인년도_new']>=1999) & (data['사용승인년도_new']<2012)] = "1999년~2011년"
+data['구간_new'][(data['사용승인년도_new']>=2012) & (data['사용승인년도_new']<2023)] = "2012년 이후"
+
+data.to_excel("D:/업무/반지하_220809 이후/9월/220930/최종)장애인388_new_수정.xlsx")
+
+
+
+
+
+
+# 220930 작업
+# 올해 침수지역 2022 리스트
+import pandas as pd
+flood = pd.read_excel("D:/업무/반지하_220809 이후/9월/220919/올해 침수지/서울시침수피해 19,696건_(6.28._8.17.).xlsx", sheet_name='Sheet2')
+flood.columns
+flood2 = flood.loc[:,['주소(지번)', '주소(도로명)','PNU코드', '피해일시','피해위치(지번)','피해위치 (도로명)','지번주소']]
+flood3 = flood2.drop_duplicates(['지번주소'])
+
+disable_flood = pd.merge(disable_new, flood3, left_on='대지위치(구주소)', right_on='지번주소', how='left')
+
+disable_flood.to_excel("D:/업무/반지하_220809 이후/9월/220930/장애인388+올해침수.xlsx")
+
+
+# 새로 업데이트된것 조인하기
+# 기존 건기과 388자료
+disable = pd.read_excel("D:/업무/반지하_220809 이후/9월/220927/1. 서울시-1단계-총괄표 20220920_건축기획과.xlsx", sheet_name="Sheet1")
+# 설문조사 업데이트자료
+data1 = pd.read_excel("D:/업무/반지하_220809 이후/9월/220930/업데이트 자료/join용.xlsx")
+
+# 연번기준으로 join
+result = pd.merge(disable, data1, left_on='연번', right_on='일련번호', how='left')
+result.to_excel("D:/업무/반지하_220809 이후/9월/220930/업데이트 자료/join_결과.xlsx")
+
+
+# 221004 작업
+# 노인. 아동 올해 침수
+old = pd.read_excel("D:/업무/반지하_220809 이후/10월/221004/올해침수/침수지역3분의2반지하_노인.xlsx")
+child = pd.read_excel("D:/업무/반지하_220809 이후/10월/221004/올해침수/침수지역3분의2반지하_아동.xlsx")
+flood3.to_excel("D:/업무/반지하_220809 이후/10월/221004/올해침수/올해침수지역주소.xlsx")
+
+
+old_flood = pd.merge(old, flood3, left_on='대지위치', right_on='지번주소', how='left')
+old_flood['PNU'] = old_flood['PNU'].astype('str')
+old_flood['도로명코드_건축물'] = old_flood['도로명코드_건축물'].astype('str')
+old_flood['도로명코드'] = old_flood['도로명코드'].astype('str')
+old_flood.to_excel("D:/업무/반지하_220809 이후/10월/221004/올해침수/침수지역3분의2반지하_노인_올해침수.xlsx")
+
+
+child_flood = pd.merge(child, flood3, left_on='대지위치', right_on='지번주소', how='left')
+child_flood['PNU'] = child_flood['PNU'].astype('str')
+child_flood['도로명코드_건축물'] = child_flood['도로명코드_건축물'].astype('str')
+child_flood['도로명코드'] = child_flood['도로명코드'].astype('str')
+child_flood.to_excel("D:/업무/반지하_220809 이후/10월/221004/올해침수/침수지역3분의2반지하_아동_올해침수.xlsx")
+
+
+
+
+
+#  2022년 정보가 추가된 침수구역도로 다시 침수통계 산출하기
+import pandas as pd
+
+flood = pd.read_excel("D:/업무/반지하_220809 이후/10월/221004/지적도 + new침수구역도/침수필지_update.xlsx")
+flood['flood_all']=flood['flood_all'].fillna(0)
+flood['flood_all']=flood['flood_all'].astype('int')
+flood['pnu']=flood['pnu'].astype('str')
+ilban = pd.read_excel("D:/업무/반지하_220809 이후/8월/220812/부장님 산출자료_pnu_마지막/지하주택(단독_주택)_세부용도_PNU_센터.xlsx")
+ilban['PNU'] = ilban['PNU'].astype('str')
+
+jibhab = pd.read_excel("D:/업무/반지하_220809 이후/8월/220812/부장님 산출자료_pnu_마지막/지하주택(공동주택)_세부용도_PNU_센터.xlsx")
+jibhab['PNU'] = jibhab['PNU'].astype('str')
+
+# 일반건축물에 결합하기 : join을 하면 세대수가 늘어나버리는 문제 발생
+# ilban_flood = ilban.join(flood.set_index('pnu')['count_all'], on='PNU')
+# jibhab_flood = jibhab.join(flood.set_index('pnu')['count_all'], on='PNU')
+
+# 일반건축물에 결합하기 : merge로 left 옵션줘서 표본수 유지하기
+ilban_flood = pd.merge(ilban, flood, left_on='PNU', right_on='pnu', how='left')
+ilban_flood['flood_all'] = ilban_flood['flood_all'].fillna(0)
+ilban_flood['flood_all'] = ilban_flood['flood_all'].astype('int')
+jibhab_flood = pd.merge(jibhab, flood, left_on='PNU', right_on='pnu', how='left')
+jibhab_flood['flood_all'] = jibhab_flood['flood_all'].fillna(0)
+jibhab_flood['flood_all'] = jibhab_flood['flood_all'].astype('int')
+
+ilban_flood['구간'] = 0 #열 생성
+ilban_flood['구간'][(ilban_flood['사용승인년도']>=1910) & (ilban_flood['사용승인년도']<=1984)] = "1984년 이전"
+ilban_flood['구간'][(ilban_flood['사용승인년도']>=1985) & (ilban_flood['사용승인년도']<1999)] = "1985~1998년"
+ilban_flood['구간'][(ilban_flood['사용승인년도']>=1999) & (ilban_flood['사용승인년도']<2012)] = "1999년~2011년"
+ilban_flood['구간'][(ilban_flood['사용승인년도']>=2012) & (ilban_flood['사용승인년도']<2023)] = "2012년 이후"
+
+jibhab_flood['구간'] = 0 #열 생성
+jibhab_flood['구간'][(jibhab_flood['사용승인년도']>=1910) & (jibhab_flood['사용승인년도']<=1984)] = "1984년 이전"
+jibhab_flood['구간'][(jibhab_flood['사용승인년도']>=1985) & (jibhab_flood['사용승인년도']<1999)] = "1985~1998년"
+jibhab_flood['구간'][(jibhab_flood['사용승인년도']>=1999) & (jibhab_flood['사용승인년도']<2012)] = "1999년~2011년"
+jibhab_flood['구간'][(jibhab_flood['사용승인년도']>=2012) & (jibhab_flood['사용승인년도']<2023)] = "2012년 이후"
+
+# 2/3해당 여부
+# 일반
+ilban_flood['2/3해당여부'] = 0
+ilban_flood['2/3해당여부'][(ilban_flood['사용승인년도']<=1984)] = 1
+
+# 집합
+jibhab_flood['2/3해당여부'] = 0 # 모두 0값을 갖는 열 생성하기
+jibhab_flood['2/3해당여부'][(jibhab_flood['구간']=="1984년 이전")] = 1 # 1984년 이전
+jibhab_flood['2/3해당여부'][(jibhab_flood['구간']=="1985~1998년") & (jibhab_flood['용도']=="연립주택")] = 1 # 1985~1998 & 연립
+jibhab_flood['2/3해당여부'][(jibhab_flood['구간']=="1985~1998년") & (jibhab_flood['용도']=="아파트")] = 1 # 1985~1998 & 아파트
+
+ilban_flood.rename(columns={'층용도':'용도'}, inplace=True)
+jibhab_flood.rename(columns={'호용도':'용도'}, inplace=True)
+
+# 1/2해당여부
+# 1. 단독 - 1985~2012년 이전
+ilban_flood['1/2해당여부'] = 0
+ilban_flood['1/2해당여부'][(ilban_flood['구간']=="1985~1998년")]  = 1 # 1985~1998
+ilban_flood['1/2해당여부'][(ilban_flood['구간']=="1999년~2011년")]  = 1 # 1999~2011
+ilban_flood['1/2해당여부'].value_counts()
+
+# 집합
+jibhab_flood['1/2해당여부'] = 0
+jibhab_flood['1/2해당여부'][(jibhab_flood['구간']=="1985~1998년") & (jibhab_flood['용도']=="다세대주택")] = 1 # 1985~1998 & 연립
+jibhab_flood['1/2해당여부'][(jibhab_flood['구간']=="1999년~2011년")] = 1
+jibhab_flood['1/2해당여부'].value_counts()
+
+
+ilban_flood.to_excel("D:/업무/반지하_220809 이후/10월/221006/data/일반+2022침수.xlsx")
+jibhab_flood.to_excel("D:/업무/반지하_220809 이후/10월/221006/data/집합+2022침수.xlsx")
+
+ilban_need = ilban_flood.loc[:,['대지위치', '사용승인년도','용도','PNU','flood2010', 'flood2011', 'flood2012',
+       'flood2013', 'flood2014', 'flood2022', 'flood_all', '구간', '2/3해당여부', '1/2해당여부']]
+jibhab_need = jibhab_flood.loc[:,['대지위치', '사용승인년도','용도','PNU','flood2010', 'flood2011', 'flood2012',
+       'flood2013', 'flood2014', 'flood2022', 'flood_all', '구간', '2/3해당여부', '1/2해당여부']]
+
+
+
+
+# 반지하
+banjiha_update = pd.concat([ilban_need, jibhab_need])
+banjiha_update.to_excel("D:/업무/반지하_220809 이후/10월/221006/data/반지하_update.xlsx")
+
+
+# 침수지역내 반지하
+ilban_banjiha = ilban_flood[ilban_flood['flood_all']!=0]
+ilban_banjiha['flood_all'].unique()
+ilban_banjiha.to_excel("D:/업무/반지하_220809 이후/10월/221004/침수구역내 반지하/일반+침수구역.xlsx")
+jibhab_banjiha = jibhab_flood[jibhab_flood['flood_all']!=0]
+jibhab_banjiha['flood_all'].unique()
+jibhab_banjiha.to_excel("D:/업무/반지하_220809 이후/10월/221004/침수구역내 반지하/집합+침수구역.xlsx")
+
+
+
+
+# 221004 장애인 14만에 반지하 자료 붙이기
+import pandas as pd
+people = pd.read_excel("D:/업무/반지하_220809 이후/10월/221004/장애인_14만.xlsx")
+
+banjiha = pd.read_excel("D:/업무/반지하_220809 이후/반지하_마스터(226,937).xlsx")
+a = banjiha.drop_duplicates(['대지위치'])
+
+
+answer = pd.merge(people, a, left_on='주소1', right_on='도로명주소2', how='left')
+
+a['도로명주소2'] = a['도로명주소'].str.strip()
+
+
+answer.to_excel("D:/업무/반지하_220809 이후/10월/221004/답.xlsx")
+
+
+part1 = pd.read_excel("D:/업무/반지하_220809 이후/10월/221005/장애인_호수 없는것.xlsx")
+part1_2 = part1.drop_duplicates(["도로명"])
+answer2 = pd.merge(answer, part1_2, left_on='도로명주소2', right_on='도로명', how='left')
+
+answer2.to_excel("D:/업무/반지하_220809 이후/10월/221004/답2.xlsx")
+
+
+
+
+part1 = pd.read_excel("D:/업무/반지하_220809 이후/10월/221005/장애인_호수 없는것.xlsx")
+# 여기다 반지하 붙이기
+aa = banjiha.drop_duplicates(['도로명주소'])
+
+aa["도로명주소"] = aa["도로명주소"].str.strip()
+cc = pd.merge(part1, aa, left_on='도로명', right_on='도로명주소', how='left')
+
+cc.to_excel("D:/업무/반지하_220809 이후/10월/221005/장애인_호수 없는것+반지하필지.xlsx")
+
+# 장애인 주소 3만 4천이 반지하랑 안겹치는지 지오코딩 해보기
+import pandas as pd
+data = pd.read_excel("D:/업무/반지하_220809 이후/10월/221005/장애인_호수 없는것.xlsx")
+data['시군구'].value_counts()
+
+# 중랑구만 추려내보기
+test = data[data['시군구']=="중랑구"]
+
+from geopy.geocoders import Nominatim
+geo_local = Nominatim(user_agent='South Korea')
+# 위도, 경도 반환하는 함수
+def geocoding(address):
+    geo = geo_local.geocode(address)
+    x_y = [geo.latitude, geo.longitude]
+    return x_y
+latitude = []
+longtitude = []
+
+# 지오코딩
+for i in test['도로명']:
+    try :
+        latitude.append(geocoding(i)[0])
+        longtitude.append(geocoding(i)[1])
+        print(i, "코딩에 성공하였습니다")
+    except AttributeError as e:
+        print(i, "변환에 실패하였습니다")
+        latitude.append("NA")
+        longtitude.append("NA")
+        print(e)
+
+address_df = pd.DataFrame({'도로명주소': test['도로명'], '위도':latitude,'경도':longtitude})
+
+address_df.to_csv("D:/\업무/반지하_220809 이후/10월/221005/장애인 호수 없는것_중랑구_지오코딩/호정보없는장애인_중랑구.csv", encoding='cp949', sep=',')
+
+
+
+ilban_banjiha = pd.read_excel("D:/업무/반지하_220809 이후/10월/221004/침수구역내 반지하/일반+침수구역.xlsx")
+jibhab_banjiha = pd.read_excel("D:/업무/반지하_220809 이후/10월/221004/침수구역내 반지하/집합+침수구역.xlsx")
+
+ilban_banjiha['flood_all'].min()
+jibhab_banjiha['flood_all'].min()
+
+ilban_banjiha['구간'] = 0 #열 생성
+ilban_banjiha['구간'][(ilban_banjiha['사용승인년도']>=1910) & (ilban_banjiha['사용승인년도']<=1984)] = "1984년 이전"
+ilban_banjiha['구간'][(ilban_banjiha['사용승인년도']>=1985) & (ilban_banjiha['사용승인년도']<1999)] = "1985~1998년"
+ilban_banjiha['구간'][(ilban_banjiha['사용승인년도']>=1999) & (ilban_banjiha['사용승인년도']<2012)] = "1999년~2011년"
+ilban_banjiha['구간'][(ilban_banjiha['사용승인년도']>=2012) & (ilban_banjiha['사용승인년도']<2023)] = "2012년 이후"
+
+jibhab_banjiha['구간'] = 0 #열 생성
+jibhab_banjiha['구간'][(jibhab_banjiha['사용승인년도']>=1910) & (jibhab_banjiha['사용승인년도']<=1984)] = "1984년 이전"
+jibhab_banjiha['구간'][(jibhab_banjiha['사용승인년도']>=1985) & (jibhab_banjiha['사용승인년도']<1999)] = "1985~1998년"
+jibhab_banjiha['구간'][(jibhab_banjiha['사용승인년도']>=1999) & (jibhab_banjiha['사용승인년도']<2012)] = "1999년~2011년"
+jibhab_banjiha['구간'][(jibhab_banjiha['사용승인년도']>=2012) & (jibhab_banjiha['사용승인년도']<2023)] = "2012년 이후"
+
+# 2/3해당 여부
+# 일반
+ilban_banjiha['2/3해당여부'] = 0
+ilban_banjiha['2/3해당여부'][(ilban_banjiha['사용승인년도']<=1984)] = 1
+
+# 집합
+jibhab_banjiha['2/3해당여부'] = 0 # 모두 0값을 갖는 열 생성하기
+jibhab_banjiha['2/3해당여부'][(jibhab_banjiha['구간']=="1984년 이전")] = 1 # 1984년 이전
+jibhab_banjiha['2/3해당여부'][(jibhab_banjiha['구간']=="1985~1998년") & (jibhab_banjiha['호용도']=="연립주택")] = 1 # 1985~1998 & 연립
+jibhab_banjiha['2/3해당여부'][(jibhab_banjiha['구간']=="1985~1998년") & (jibhab_banjiha['호용도']=="아파트")] = 1 # 1985~1998 & 아파트
+
+# 1/2해당여부
+# 1. 단독 - 1985~2012년 이전
+ilban_banjiha['1/2해당여부'] = 0
+ilban_banjiha['1/2해당여부'][(ilban_banjiha['구간']=="1985~1998년")]  = 1 # 1985~1998
+ilban_banjiha['1/2해당여부'][(ilban_banjiha['구간']=="1999년~2011년")]  = 1 # 1999~2011
+ilban_banjiha['1/2해당여부'].value_counts()
+
+# 집합
+jibhab_banjiha['1/2해당여부'] = 0
+jibhab_banjiha['1/2해당여부'][(jibhab_banjiha['구간']=="1985~1998년") & (jibhab_banjiha['호용도']=="다세대주택")] = 1 # 1985~1998 & 연립
+jibhab_banjiha['1/2해당여부'][(jibhab_banjiha['구간']=="1999년~2011년")] = 1
+jibhab_banjiha['1/2해당여부'].value_counts()
+
+# 피벗테이블 : 구간, 유형
+answer = ilban_banjiha.pivot_table(index=['층용도'], columns=['구간'], values=['대지위치'], aggfunc='count')
+answer.columns = answer.columns.droplevel(0)
+answer = answer.fillna(0)
+answer = answer.astype('int')
+
+# 행생성
+answer.loc['합계',:] = answer.sum() #기본값 axis=0
+# 열생성
+answer['합계'] = answer.sum(axis=1)
+
+answer.to_excel("D:/업무/반지하_220809 이후/10월/221005/침수지역내 반지하 통계_update/일반건축물통계.xlsx")
+
+
+answer2 = jibhab_banjiha.pivot_table(index=['호용도'], columns=['구간'], values=['대지위치'], aggfunc='count')
+answer2.columns = answer2.columns.droplevel(0)
+answer2 = answer2.fillna(0)
+
+
+# 행생성
+answer2.loc['합계',:] = answer2.sum() #기본값 axis=0
+# 열생성
+answer2['합계'] = answer2.sum(axis=1)
+answer2 = answer2.astype('int')
+answer2.to_excel("D:/업무/반지하_220809 이후/10월/221005/침수지역내 반지하 통계_update/집합건축물통계.xlsx")
+
+# 주택유형별 침수횟수별 피벗테이블
+table = ilban_banjiha.pivot_table(index=["층용도"], columns=["flood_all"], values=["대지위치"], aggfunc="count")
+table.columns = table.columns.droplevel(0)
+table = table.fillna(0)
+table = table.astype('int')
+
+table2 = jibhab_banjiha.pivot_table(index=["호용도"], columns=["flood_all"], values=["대지위치"], aggfunc=["count"])
+table2.columns = table2.columns.droplevel(0)
+table2 = table2.fillna(0)
+table2 = table2.astype('int')
+
+table.to_excel("D:/업무/반지하_220809 이후/10월/221005/침수지역내 반지하 통계_update/침수빈도별_일반.xlsx")
+table2.to_excel("D:/업무/반지하_220809 이후/10월/221005/침수지역내 반지하 통계_update/침수빈도별_집합.xlsx")
+
+
+
+ilban_banjiha.columns
+ilban_banjiha['PNU'] = ilban_banjiha['PNU'].astype('str')
+jibhab_banjiha['PNU'] = jibhab_banjiha['PNU'].astype('str')
+ilban_banjiha.rename(columns={'층용도':'용도'}, inplace=True)
+jibhab_banjiha.rename(columns={'호용도':'용도'}, inplace=True)
+
+ilban_need = ilban_banjiha.loc[:,['대지위치', '사용승인년도','용도','PNU','flood2010', 'flood2011', 'flood2012',
+       'flood2013', 'flood2014', 'flood2022', 'flood_all', '구간', '2/3해당여부']]
+jibhab_need = jibhab_banjiha.loc[:,['대지위치', '사용승인년도','용도','PNU','flood2010', 'flood2011', 'flood2012',
+       'flood2013', 'flood2014', 'flood2022', 'flood_all', '구간', '2/3해당여부']]
+
+# 침수지역내 반지하
+banjiha_flood = pd.concat([ilban_need, jibhab_need])
+banjiha_flood.to_excel("D:/업무/반지하_220809 이후/10월/221005/침수지역내 반지하 통계_update/침수지역내 반지하 총괄.xlsx")
+
+
+#1970년 이전 준공, 침수지역 외
+# answer = banjiha[banjiha['사용승인년도']<=1970]
+# answer2 = answer[answer['flood_no']==0]
+#
+# answer2 = answer2[answer2['구간']!=0]
+# answer3 = answer2[answer2['사용승인년도']!=1970]
+
+import pandas as pd
+
+
+# 221006분석
+
+ilban_need = ilban_flood.loc[:,['대지위치','도로명주소', '사용승인년도','용도','대지면적','건축면적','연면적','PNU',
+                                'flood2010', 'flood2011', 'flood2012','flood2013', 'flood2014', 'flood2022', 'flood_all',
+                                '구간', '2/3해당여부', '1/2해당여부']]
+jibhab_need = jibhab_flood.loc[:,['대지위치','도로명주소', '사용승인년도','용도','전유면적','PNU',
+                                  'flood2010', 'flood2011', 'flood2012','flood2013', 'flood2014', 'flood2022', 'flood_all',
+                                  '구간', '2/3해당여부', '1/2해당여부']]
+
+# ilban_flood 와 jibhab_flood 의 "대지위치"에서 "신림동"을 포함하는 행 추출하기
+sinrim_ilban =  ilban_need[ilban_need['대지위치'].str.contains("신림동", na=False, case=False)]
+sinrim_jibhab = jibhab_need[jibhab_need['대지위치'].str.contains("신림동", na=False, case=False)]
+sinrim_ilban.to_excel("D:/업무/반지하_220809 이후/10월/221006/신림동 반지하/신림동_일반건축물.xlsx")
+sinrim_jibhab.to_excel("D:/업무/반지하_220809 이후/10월/221006/신림동 반지하/신림동_집합건축물.xlsx")
+# 일반은 대지면적, 연면적 / 집합은 전유면적만 존재
+
+table1 = sinrim_ilban.pivot_table(index=["용도"], columns=["구간"], values=["PNU"], aggfunc='count')
+table1.columns = table1.columns.droplevel(0)
+table1 = table1.fillna(0)
+# 행생성
+table1.loc['합계',:] = table1.sum() #기본값 axis=0
+# 열생성
+table1['합계'] = table1.sum(axis=1)
+
+table1 = table1.astype('int')
+table1.to_excel("D:/업무/반지하_220809 이후/10월/221006/신림동 반지하/피벗테이블/일반_유형별구간별_통계.xlsx")
+
+
+table2 = sinrim_jibhab.pivot_table(index=["용도"], columns=["구간"], values=["PNU"], aggfunc='count')
+table2.columns = table2.columns.droplevel(0)
+table2 = table2.fillna(0)
+# 행생성
+table2.loc['합계',:] = table2.sum() #기본값 axis=0
+# 열생성
+table2['합계'] = table2.sum(axis=1)
+
+table2 = table2.astype('int')
+table2.to_excel("D:/업무/반지하_220809 이후/10월/221006/신림동 반지하/피벗테이블/집합_유형별구간별_통계.xlsx")
+
+# 대지면적
+
+table1 = sinrim_ilban.pivot_table(index=["용도"], columns=["구간"], values=["PNU"], aggfunc='count')
+table1.columns = table1.columns.droplevel(0)
+table1 = table1.fillna(0)
+
+import pandas as pd
+data = pd.read_excel("D:/업무/반지하_220809 이후/10월/221007/물순환국_협조자료.xlsx")
+
+# 공백기준으로 열 분리하기
+data[['시','구','동','번지','호']] = pd.DataFrame(data['대지위치'].str.split(' ',4).tolist())
+
+data['지번주소만'] = data['시']+' '+data['구']+' '+data['동']+' '+data['번지']
+
+data['주민번호'] = data['주민번호'].fillna(0)
+data['주민번호'] = data['주민번호'].astype('int')
+
+data.to_excel("D:/업무/반지하_220809 이후/10월/221007/물순환국_협조자료_v2.xlsx", index=False)
+
+# 물순환국 협조자료 반지하 데이터랑 조인해보기
+banjiha = pd.read_excel("D:/업무/반지하_220809 이후/반지하_마스터(226,937).xlsx")
+banjiha['PNU'] = banjiha['PNU'].astype('str')
+banjiha['반지하여부'] = 1
+banjiha_pnu = banjiha.drop_duplicates(['PNU'])
+banjiha_pnu_need = banjiha_pnu.loc[:,["대지위치",'PNU',"반지하여부"]]
+banjiha_pnu_need2 = banjiha_pnu_need.loc[:,["대지위치",'PNU']]
+
+data = pd.read_excel("D:/업무/반지하_220809 이후/10월/221007/물순환국_협조자료_v2.xlsx")
+
+data2 = pd.merge(data, banjiha_pnu_need,  left_on='지번주소', right_on='대지위치', how='left')
+
+data2.to_excel("D:/업무/반지하_220809 이후/10월/221007/물순환국_협조자료+반지하.xlsx", index=False)
+
+
+# 221007 팀장님 신림동 사례지역에 대지위치 붙여드리기
+# sinrim = pd.read_excel("D:/업무/반지하_220809 이후/10월/221007/신림동사례_1.xlsx")
+# sinrim['필지코드(PNU)'] = sinrim['필지코드(PNU)'].astype('str')
+#
+#
+# sinrim_v2 = pd.merge(sinrim, banjiha_pnu_need2, left_on='필지코드(PNU)', right_on='PNU', how='left')
+# 안붙는 값이 많아서 결국 엑셀 주소 변환 이용
+
+
+# 221007 반지하 종합 통계 생성
+import pandas as pd
+banjiha = pd.read_excel("D:/업무/반지하_220809 이후/10월/221007/반지하 통계 join용 통계/반지하_모파일.xlsx")
+banjiha['PNU'] = banjiha['PNU'].astype('str')
+
+# 재료가 되는 파일들(feat. key 변수 중복값 제거)
+
+# 1. 2022 침수 주택
+flood_spot = pd.read_excel("D:/업무/반지하_220809 이후/10월/221007/반지하 통계 join용 통계/올해침수지역주소.xlsx")
+flood_spot['PNU코드'] = flood_spot['PNU코드'].astype('str')
+# flood_spot2 = flood_spot.drop_duplicates(["PNU코드"]) 이미 되이있음
+
+
+# 2. 장애인 388 pnu
+disable = pd.read_excel("D:/업무/반지하_220809 이후/10월/221007/반지하 통계 join용 통계/장애인388_주소.xlsx")
+disable2 = disable.loc[:,["대지위치(구주소)","장애인여부"]]
+disable3 = disable2.drop_duplicates(["대지위치(구주소)"])
+del(disable)
+
+# 3. 노인 428
+old = pd.read_excel("D:/업무/반지하_220809 이후/10월/221007/반지하 통계 join용 통계/침수지역3분의2반지하_노인428.xlsx")
+old['PNU'] = old['PNU'].astype('str')
+old2 = old.drop_duplicates(["PNU"])
+
+# 4. 아동 286
+child = pd.read_excel("D:/업무/반지하_220809 이후/10월/221007/반지하 통계 join용 통계/침수지역3분의2반지하_아동286.xlsx")
+child['PNU'] = child['PNU'].astype('str')
+child2 = child.drop_duplicates(['PNU'])
+
+# 5, 정비사업
+work = pd.read_excel("D:/업무/반지하_220809 이후/10월/221007/반지하 통계 join용 통계/필지정보(정비사업).xlsx")
+work['pnu'] = work['pnu'].astype('str')
+
+
+# merge 하기
+data1 = pd.merge(banjiha, flood_spot, left_on="PNU", right_on="PNU코드", how='left')
+data2 = pd.merge(data1, disable3, left_on="대지위치", right_on="대지위치(구주소)", how='left')
+data3 = pd.merge(data2, old2, left_on="PNU", right_on="PNU", how='left')
+data4 = pd.merge(data3, child2, left_on="PNU", right_on="PNU", how='left')
+data5 = pd.merge(data4, work, left_on="PNU", right_on="pnu", how='left')
+
+data5.to_excel("D:/업무/반지하_220809 이후/10월/221007/반지하 통계 join용 통계/반지하통계_join결과물3.xlsx")
+
+
+
+# 5, 정비사업2
+work = pd.read_excel("D:/업무/반지하_220809 이후/10월/221007/반지하 통계 join용 통계/정비사업2.xlsx")
+work['pnu'] = work['pnu'].astype('str')
+
+
+# 221011 통계 작업
+import pandas as pd
+
+banjiha = pd.read_excel("D:/업무/반지하_220809 이후/10월/221011/반지하통계.xlsx")
+banjiha['PNU'] = banjiha['PNU'].astype('str')
+# 기존침수여부 61,275 생성
+banjiha['기존침수여부'] = 0
+
+banjiha['기존침수횟수'] = banjiha['기존침수횟수'].fillna(0)
+banjiha['기존침수횟수'].value_counts()
+
+banjiha['기존침수여부'][(banjiha['기존침수횟수']>=1)] = 1
+
+banjiha['기존침수여부'].value_counts()
+banjiha['2/3해당여부'].value_counts()
+
+# 기존침수 or 2/3 해당여부 열 생성하기
+banjiha['기존침수or2/3'] = 0
+banjiha['기존침수or2/3'][(banjiha['기존침수여부']==1)] = 1
+banjiha['기존침수or2/3'][(banjiha['2/3해당여부']==1)] = 1
+banjiha['기존침수or2/3'].value_counts()
+
+
+banjiha['공공재개발'] = banjiha['공공재개발'].fillna(0)
+banjiha['신통'] = banjiha['신통'].fillna(0)
+banjiha['모아주택'] = banjiha['모아주택'].fillna(0)
+banjiha['재촉구역'] = banjiha['재촉구역'].fillna(0)
+banjiha['재건축'] = banjiha['재건축'].fillna(0)
+banjiha['재개발'] = banjiha['재개발'].fillna(0)
+
+banjiha['정비사업여부'] = 0
+banjiha['정비사업여부'][(banjiha['공공재개발']!=0)] = 1
+banjiha['정비사업여부'][(banjiha['신통']!=0)] = 1
+banjiha['정비사업여부'][(banjiha['모아주택']!=0)] = 1
+banjiha['정비사업여부'][(banjiha['재촉구역']!=0)] = 1
+banjiha['정비사업여부'][(banjiha['재건축']!=0)] = 1
+banjiha['정비사업여부'][(banjiha['재개발']!=0)] = 1
+
+
+banjiha['올해침수주택'] = banjiha['올해침수주택'].fillna(0)
+
+banjiha.to_excel("D:/업무/반지하_220809 이후/10월/221011/반지하통계_v2.xlsx")
+
+old = pd.read_excel("D:/업무/반지하_220809 이후/10월/221011/노인 및 아동/침수지역3분의2반지하_노인428.xlsx")
+old2 = old.drop_duplicates('대지위치')
+
+child = pd.read_excel("D:/업무/반지하_220809 이후/10월/221011/노인 및 아동/침수지역3분의2반지하_아동286.xlsx")
+child2 = child.drop_duplicates('대지위치')
+
+# 양쪽 공백 제거
+old2['대지위치'] = old2['대지위치'].str.strip()
+child2['대지위치'] = child2['대지위치'].str.strip()
+
+
+
+from geopy.geocoders import Nominatim
+geo_local = Nominatim(user_agent='South Korea')
+# 위도, 경도 반환하는 함수
+def geocoding(address):
+    geo = geo_local.geocode(address)
+    x_y = [geo.latitude, geo.longitude]
+    return x_y
+latitude = []
+longtitude = []
+
+# 지오코딩
+for i in old2['대지위치']:
+    try :
+        latitude.append(geocoding(i)[0])
+        longtitude.append(geocoding(i)[1])
+        print(i, "코딩에 성공하였습니다")
+    except AttributeError as e:
+        print(i, "변환에 실패하였습니다")
+        latitude.append("NA")
+        longtitude.append("NA")
+        print(e)
+
+address_df = pd.DataFrame({'도로명주소': old2['대지위치'], '위도':latitude,'경도':longtitude})
+
+address_df.to_csv("D:/업무/반지하_220809 이후/10월/221011/노인 및 아동/노인.csv", encoding='cp949', sep=',')
+
+
+sinrim_ID = pd.read_excel("D:/업무/반지하_220809 이후/10월/221011/신림동_지적+격자.xlsx")
+sinrim_ID['pnu'] = sinrim_ID['pnu'].astype('str')
+
+# 신림동 반지하 불러오기
+import pandas as pd
+a = pd.read_excel("D:/업무/반지하_220809 이후/10월/221011/반지하통계_v2.xlsx", sheet_name='신림동 반지하')
+
+a['PNU'] = a['PNU'].astype('str')
+
+banjiha_v2 = pd.merge(a, sinrim_ID, left_on=['PNU'], right_on=['pnu'], how='left')
+banjiha_v2['격자ID'].isnull().sum()
+banjiha_v2['격자ID'] = banjiha_v2['격자ID'].fillna(0)
+banjiha_v2['격자ID'] = banjiha_v2['격자ID'].astype('int')
+
+banjiha_v2.to_excel("D:/업무/반지하_220809 이후/10월/221011/신림동반지하통계.xlsx")
+
+import pandas as pd
+
+data = pd.read_excel("D:/업무/반지하_220809 이후/10월/221011/장애인_원시데이터_14만.xlsx", sheet_name='서울만')
+
+addr = data['도로명주소']
+
+locations = []
+
+import requests
+import openpyxl as xl
+import time
+
+# 카카오 인증키
+for addr in addr:
+    url = 'https://dapi.kakao.com/v2/local/search/address.json?query={}'.format(addr)
+    headers = {
+    ## 여러분의 카카오 API의 REST API키를 아래 예시와 같이 입력해주세요
+    ## "Authorization": "KakaoAK REST API키 입력 gogo"}
+    "Authorization": "KakaoAK 9e0ebbe11a1ad7e06dd2396442ab3ff5"}
+    place = requests.get(url, headers = headers).json()['documents']
+    locations.append(place)
+
+city = []  ## 시, 군
+town = []  ## 동, 읍, 면
+for i in range(len(locations)):
+    try:
+        city.append(locations[i][0].get('address').get('region_2depth_name'))
+        town.append(locations[i][0].get('address').get('region_3depth_name'))
+    except IndexError:
+        print(i, '번째 주소 못가져옴', end='')
+        print()
+        city.append('없음')
+        town.append('없음')
+    except AttributeError:
+        city.append(locations[i][0].get('road_address').get('region_2depth_name'))
+        town.append(locations[i][0].get('road_address').get('region_3depth_name'))
+
+
+city_town = np.array([city,town]).T
+df_temp = pd.DataFrame(city_town, columns = ['region_2depth_name','region_3depth_name'])
+df_temp.head()
+
+# 공백기준으로 준공년도 발라내기 : 오류 발생 코드
+data['지번주소'] = data['지번주소'].fillna("서울특별시")
+data[['시','자치구','행정동','번지','건물명']] = pd.DataFrame(data['지번주소'].str.split(' ',4).tolist())
+
+data.to_excel("D:/업무/반지하_220809 이후/10월/221011/호수없는장애인_서울.xlsx")
+
+# 주거정비과 요청
+import pandas as pd
+
+data = pd.read_excel("D:/업무/반지하_220809 이후/10월/221013/주거정비과 요청_반지하통계.xlsx")
+data['PNU'] = data['PNU'].astype('str')
+
+data['2002년 이전'] = 0
+# 열에서 특정문자 0으로 치환
+data['사용승인년도'] = data['사용승인년도'].replace("누락 및 오기",0)
+data['사용승인년도'] = data['사용승인년도'].astype('int')
+data['2002년 이전'][(data['사용승인년도']>1900)&(data['사용승인년도']<=2002)] = 1
+data['1992년 이전'] = 0
+data['1992년 이전'][(data['사용승인년도']>1900)&(data['사용승인년도']<=1992)] = 1
+data['1995년 이전'] = 0
+data['1995년 이전'][(data['사용승인년도']>1900)&(data['사용승인년도']<=1995)] = 1
+
+data.to_excel("D:/업무/반지하_220809 이후/10월/221013/주거정비과 요청_반지하통계v3.xlsx")
+
+del(data)
+
+
+
+
+# 221013 노인 및 아동 데이터에 올해 침수 신청 pnu 붙여보기
+import pandas as pd
+# 부장님이 주신 raw 데이터
+# 노인, 아동 부르기
+old_house = pd.read_csv("D:/업무/반지하_220809 이후/9월/220902/부장님 산출 자료/노인_지하_65세기준(PNU)_센터.txt", encoding='cp949', sep='|')
+child_house = pd.read_csv("D:/업무/반지하_220809 이후/9월/220902/부장님 산출 자료/아동_지하_19세기준(PNU)_센터.txt", encoding='cp949', sep='|')
+
+# 기존 침수구역 pnu 불러오기
+und_flood_pnu = pd.read_excel("D:/업무/반지하_220809 이후/10월/221013/기존침수구역_pnu.xlsx")
+# 침수횟수 pnu의 중복값 제거
+und_flood_pnu2 = und_flood_pnu.drop_duplicates(['PNU'])
+und_flood_pnu2['PNU'] = und_flood_pnu2['PNU'].astype('str')
+
+# 2022 침수주택 pnu 불러오기
+flood_pnu_2022 = pd.read_excel("D:/업무/반지하_220809 이후/10월/221013/올해 침수_PNU.xlsx")
+# 침수주택 pnu의 중복값 제거
+flood_pnu_2022_2 = flood_pnu_2022.drop_duplicates(['PNU코드'])
+flood_pnu_2022_2['2022침수주택'] = 1
+flood_pnu_2022_2 = flood_pnu_2022_2.loc[:,["PNU코드", "2022침수주택"]]
+# 기존침수지역 내 가구
+old_house['PNU'] = old_house['PNU'].astype('str')
+old_house['NA_ROAD_CD'] = old_house['NA_ROAD_CD'].astype('str')
+old_house['RD_CODE'] = old_house['RD_CODE'].astype('str')
+
+old_flood = pd.merge(old_house, und_flood_pnu2, left_on='PNU', right_on='PNU', how='left')
+old_flood['flood_no'] = old_flood['flood_no'].fillna(0)
+old_flood['flood_no'] = old_flood['flood_no'].astype('int')
+old_flood['flood_no'].value_counts()
+# 20,796가구 중 침수횟수가 있는 가구 = 5,186 가구
+# 열이름 변경
+old_flood.rename(columns={'flood_no':'기존침수구역'}, inplace=True)
+# 2022침수pnu 내 가구
+old_flood2 = pd.merge(old_flood, flood_pnu_2022_2, left_on='PNU', right_on='PNU코드', how='left')
+old_flood2['2022침수주택'] = old_flood2['2022침수주택'].fillna(0)
+old_flood2['2022침수주택'] = old_flood2['2022침수주택'].astype('int')
+old_flood2['2022침수주택'].value_counts()
+
+# 3 구간 나누기 : 84년 이전, 85~98년, 99~11년, 2012년 이후
+old_flood2['구간'] = 0 #열 생성
+old_flood2['구간'][(old_flood2['사용승인년도']>=1910) & (old_flood2['사용승인년도']<=1984)] = "1984년 이전"
+old_flood2['구간'][(old_flood2['사용승인년도']>=1985) & (old_flood2['사용승인년도']<1999)] = "1985~1998년"
+old_flood2['구간'][(old_flood2['사용승인년도']>=1999) & (old_flood2['사용승인년도']<2012)] = "1999년~2011년"
+old_flood2['구간'][(old_flood2['사용승인년도']>=2012) & (old_flood2['사용승인년도']<2023)] = "2012년 이후"
+
+# 2/3 이상 해당 여부 붙이기
+# 일반
+old_flood2['2/3해당여부'] = 0 # 모두 0값을 갖는 열 생성하기
+old_flood2['2/3해당여부'][(old_flood2['구간']=="1984년 이전") & (old_flood2['층용도']=="단독주택")] = 1
+old_flood2['2/3해당여부'][(old_flood2['구간']=="1984년 이전") & (old_flood2['층용도']=="다중주택")] = 1
+old_flood2['2/3해당여부'][(old_flood2['구간']=="1984년 이전") & (old_flood2['층용도']=="다가구주택")] = 1
+# 집합
+old_flood2['2/3해당여부'][(old_flood2['구간']=="1984년 이전") & (old_flood2['층용도']=="연립주택")] = 1
+old_flood2['2/3해당여부'][(old_flood2['구간']=="1984년 이전") & (old_flood2['층용도']=="다세대주택")] = 1
+old_flood2['2/3해당여부'][(old_flood2['구간']=="1984년 이전") & (old_flood2['층용도']=="아파트")] = 1
+old_flood2['2/3해당여부'][(old_flood2['구간']=="1985~1998년") & (old_flood2['층용도']=="연립주택")] = 1 # 1985~1998 & 연립
+old_flood2['2/3해당여부'][(old_flood2['구간']=="1985~1998년") & (old_flood2['층용도']=="아파트")] = 1 # 1985~1998 & 아파트
+
+old_flood2.to_excel("D:/업무/반지하_220809 이후/10월/221013/노인_통계.xlsx")
+
+# 아동
+child_house['PNU'] = child_house['PNU'].astype('str')
+child_house['NA_ROAD_CD'] = child_house['NA_ROAD_CD'].astype('str')
+child_house['RD_CODE'] = child_house['RD_CODE'].astype('str')
+
+child_flood = pd.merge(child_house, und_flood_pnu2, left_on='PNU', right_on='PNU', how='left')
+child_flood['flood_no'] = child_flood['flood_no'].fillna(0)
+child_flood['flood_no'] = child_flood['flood_no'].astype('int')
+child_flood['flood_no'].value_counts()
+# 열이름 변경
+child_flood.rename(columns={'flood_no':'기존침수구역'}, inplace=True)
+
+# 2022침수pnu 내 가구
+child_flood2 = pd.merge(child_flood, flood_pnu_2022_2, left_on='PNU', right_on='PNU코드', how='left')
+child_flood2['2022침수주택'] = child_flood2['2022침수주택'].fillna(0)
+child_flood2['2022침수주택'] = child_flood2['2022침수주택'].astype('int')
+child_flood2['2022침수주택'].value_counts()
+
+# 3 구간 나누기 : 84년 이전, 85~98년, 99~11년, 2012년 이후
+child_flood2['구간'] = 0 #열 생성
+child_flood2['구간'][(child_flood2['사용승인년도']>=1910) & (child_flood2['사용승인년도']<=1984)] = "1984년 이전"
+child_flood2['구간'][(child_flood2['사용승인년도']>=1985) & (child_flood2['사용승인년도']<1999)] = "1985~1998년"
+child_flood2['구간'][(child_flood2['사용승인년도']>=1999) & (child_flood2['사용승인년도']<2012)] = "1999년~2011년"
+child_flood2['구간'][(child_flood2['사용승인년도']>=2012) & (child_flood2['사용승인년도']<2023)] = "2012년 이후"
+
+# 2/3 이상 해당 여부 붙이기
+# 일반
+child_flood2['2/3해당여부'] = 0 # 모두 0값을 갖는 열 생성하기
+child_flood2['2/3해당여부'][(child_flood2['구간']=="1984년 이전") & (child_flood2['층용도']=="단독주택")] = 1
+child_flood2['2/3해당여부'][(child_flood2['구간']=="1984년 이전") & (child_flood2['층용도']=="다중주택")] = 1
+child_flood2['2/3해당여부'][(child_flood2['구간']=="1984년 이전") & (child_flood2['층용도']=="다가구주택")] = 1
+# 집합
+child_flood2['2/3해당여부'][(child_flood2['구간']=="1984년 이전") & (child_flood2['층용도']=="연립주택")] = 1
+child_flood2['2/3해당여부'][(child_flood2['구간']=="1984년 이전") & (child_flood2['층용도']=="다세대주택")] = 1
+child_flood2['2/3해당여부'][(child_flood2['구간']=="1984년 이전") & (child_flood2['층용도']=="아파트")] = 1
+child_flood2['2/3해당여부'][(child_flood2['구간']=="1985~1998년") & (child_flood2['층용도']=="연립주택")] = 1 # 1985~1998 & 연립
+child_flood2['2/3해당여부'][(child_flood2['구간']=="1985~1998년") & (child_flood2['층용도']=="아파트")] = 1 # 1985~1998 & 아파트
+
+child_flood2.to_excel("D:/업무/반지하_220809 이후/10월/221013/아동_통계.xlsx")
+
+
+# 221014 grid numbering 한것 다시 조인 해서 자료만들기
+
+sinrim_ID = pd.read_excel("D:/업무/반지하_220809 이후/10월/221014/신림동_grid numbering/신림동_지적+grid.xlsx")
+sinrim_ID['pnu'] = sinrim_ID['pnu'].astype('str')
+
+# 신림동 반지하 불러오기
+import pandas as pd
+a = pd.read_excel("D:/업무/반지하_220809 이후/10월/221011/반지하통계_v2.xlsx", sheet_name='신림동 반지하')
+
+a['PNU'] = a['PNU'].astype('str')
+
+banjiha_v2 = pd.merge(a, sinrim_ID, left_on=['PNU'], right_on=['pnu'], how='left')
+banjiha_v2['newID'].isnull().sum()
+banjiha_v2['newID'] = banjiha_v2['newID'].fillna(0)
+banjiha_v2['newID'] = banjiha_v2['newID'].astype('int')
+
+banjiha_v2.to_excel("D:/업무/반지하_220809 이후/10월/221014/신림동_grid numbering/신림동반지하_조인결과.xlsx")
+
+# 호수없는 장애인 33,202
+disable = pd.read_excel("D:\업무\반지하_220809 이후/10월/221014/조인 작업/호수없는장애인_서울.xlsx")
+
+disable['pnu2'] = disable['new_pnu'].str.replace(pat="a", repl='', regex=True)
+
+
+# 표제부 (지하,주택)
+banjiha_pyojebu = pd.read_csv("D:/업무/반지하_220809 이후/10월/221014/조인 작업/대장_지하.txt", encoding='cp949', sep='|')
+banjiha_pyojebu['PNU'] = banjiha_pyojebu['PNU'].astype('str')
+banjiha_pyojebu['NA_ROAD_CD'] = banjiha_pyojebu['NA_ROAD_CD'].astype('str')
+banjiha_pyojebu2 = banjiha_pyojebu.drop_duplicates(['PNU'])
+
+disable_nohosu = pd.merge(disable, banjiha_pyojebu2, left_on='pnu2', right_on='PNU', how='left')
+
+disable_nohosu.to_excel("D:\업무\반지하_220809 이후/10월/221014/조인 작업/호수없는장애인+반지하.xlsx")
+
+
+
+
+# 221014
+# 올해 침수지역 2022 리스트
+import pandas as pd
+flood = pd.read_excel("D:/업무/반지하_220809 이후/9월/220919/올해 침수지/서울시침수피해 19,696건_(6.28._8.17.).xlsx", sheet_name='Sheet2')
+flood.columns
+flood2 = flood.loc[:,['주소(지번)', '주소(도로명)','PNU코드', '피해일시','피해위치(지번)','피해위치 (도로명)','지번주소']]
+flood3 = flood2.drop_duplicates(['지번주소'])
+flood3['2022침수여부'] = 1
+flood4 = flood3.loc[:,['PNU코드', '2022침수여부']]
+
+
+disable_2 = pd.read_excel("D:/업무/반지하_220809 이후/10월/221014/지하 거주 장애인_반지하주택_4천6백.xlsx")
+
+# 올해침수여부 붙이기
+disable_22flood = pd.merge(disable_2, flood4, left_on='대지위치', right_on='지번주소', how='left')
+disable_22flood['2022침수여부'] = disable_22flood['2022침수여부'].fillna(0)
+
+disable_22flood.to_excel("D:/업무/반지하_220809 이후/10월/221014/지하 거주 장애인_반지하주택_4천6백+2022침수.xlsx")
+
+disable_last = pd.read_excel("D:/업무/반지하_220809 이후/10월/221014/지하 거주 장애인_반지하주택_4천6백+2022침수.xlsx")
+
+# 기존 침수구역 pnu 불러오기
+und_flood_pnu = pd.read_excel("D:/업무/반지하_220809 이후/10월/221013/기존침수구역_pnu.xlsx")
+# 침수횟수 pnu의 중복값 제거
+und_flood_pnu2 = und_flood_pnu.drop_duplicates(['PNU'])
+und_flood_pnu2['PNU'] = und_flood_pnu2['PNU'].astype('str')
+
+last = pd.merge(disable_last, und_flood_pnu2, left_on='pnu코드', right_on='PNU', how='left')
+last['flood_no'] = last['flood_no'].fillna(0)
+last['flood_no'] = last['flood_no'].astype('int')
+last.to_excel("D:/업무/반지하_220809 이후/10월/221014/지하 거주 장애인_반지하주택_4천6백+침수정보.xlsx")
+
+
+
+# 221017 자치구별 통계
+
+import pandas as pd
+
+data = pd.read_excel("D:/업무/반지하_220809 이후/10월/221006/data/반지하_update.xlsx", sheet_name='Sheet1')
+
+gangnam = data[data['자치구']=="강남구"]
+data['자치구'].unique()
+data['자치구'] = data['자치구'].str.strip()
+data['자치구'].unique()
+gangnam = data[data['자치구']=="강남구"]
+
+table1 = gangnam.pivot_table(index='용도', columns='구간', values='대지위치', aggfunc='count')
+table1 = table1.fillna(0)
+table1 = table1.astype('int')
+table1.loc['합계'] = table1.sum()
+table1['합계'] = table1.sum(axis=1)
+
+# 행순서변경
+table1.index
+table1 = table1.reindex(index=['단독주택', '다중주택', '다가구주택', '다세대주택', '연립주택', '아파트', '합계'])
+table1.to_excel("D:/업무/반지하_220809 이후/10월/221017/강남구_통계.xlsx")
+
+
+
+
+# 특정문자를 포함하는 행 추출
+gaepodong = data[data['대지위치'].str.contains("개포동", na=False, case=False)]
+table2 = gaepodong.pivot_table(index='용도', columns='구간', values='대지위치', aggfunc='count')
+table2 = table2.fillna(0)
+table2 = table2.astype('int')
+table2.loc['합계'] = table2.sum()
+table2['합계'] = table2.sum(axis=1)
+table2 = table2.reindex(index=['단독주택', '다중주택', '다가구주택', '다세대주택', '연립주택', '아파트', '합계'])
+table2.to_excel("D:/업무/반지하_220809 이후/10월/221017/개포동_통계.xlsx")
+
+table3 = gaepodong['대지위치'].groupby(gaepodong['구간']).count() #합을 알고싶을 때 sum(), 평균 mean()
+table4 = gaepodong['대지위치'].groupby(gaepodong['침수횟수']).count()
+
+gaepodong['flood2010'] = gaepodong['flood2010'].fillna(0)
+gaepodong['flood2010'] = gaepodong['flood2010'].astype('int')
+gaepodong['flood2011'] = gaepodong['flood2011'].fillna(0)
+gaepodong['flood2011'] = gaepodong['flood2011'].astype('int')
+gaepodong['flood2012'] = gaepodong['flood2012'].fillna(0)
+gaepodong['flood2012'] = gaepodong['flood2012'].astype('int')
+gaepodong['flood2013'] = gaepodong['flood2013'].fillna(0)
+gaepodong['flood2013'] = gaepodong['flood2013'].astype('int')
+gaepodong['flood2014'] = gaepodong['flood2014'].fillna(0)
+gaepodong['flood2014'] = gaepodong['flood2014'].astype('int')
+
+gaepodong['침수횟수'] = gaepodong.sum('flood2010', 'flood2011','flood2012', 'flood2013', 'flood2014', axis=1)
+gaepodong['침수횟수'] = gaepodong['flood2010']+gaepodong['flood2011']+gaepodong['flood2012']+gaepodong['flood2013']+gaepodong['flood2014']
+gaepodong.columns
+
+df['e'] = df[col_list].sum(axis=1)
+
+data['flood2010'] = data['flood2010'].fillna(0)
+data['flood2010'] = data['flood2010'].astype('int')
+data['flood2011'] = data['flood2011'].fillna(0)
+data['flood2011'] = data['flood2011'].astype('int')
+data['flood2012'] = data['flood2012'].fillna(0)
+data['flood2012'] = data['flood2012'].astype('int')
+data['flood2013'] = data['flood2013'].fillna(0)
+data['flood2013'] = data['flood2013'].astype('int')
+data['flood2014'] = data['flood2014'].fillna(0)
+data['flood2014'] = data['flood2014'].astype('int')
+data['침수횟수'] = data['flood2010']+data['flood2011']+data['flood2012']+data['flood2013']+data['flood2014']
+data['PNU'] = data['PNU'].astype('str')
+data.to_excel("D:/업무/반지하_220809 이후/10월/221017/반지하데이터.xlsx")
+
+# 221018
+import pandas as pd
+
+data = pd.read_excel("D:\업무\반지하_220809 이후/10월/221018/반지하주택_총괄.xlsx")
+data['구간'] = 0 #열 생성
+data['구간'][(data['사용승인년도']>=1910) & (data['사용승인년도']<=1984)] = "1984년 이전"
+data['구간'][(data['사용승인년도']>=1985) & (data['사용승인년도']<1999)] = "1985~1998년"
+data['구간'][(data['사용승인년도']>=1999) & (data['사용승인년도']<2012)] = "1999년~2011년"
+data['구간'][(data['사용승인년도']>=2012) & (data['사용승인년도']<2023)] = "2012년 이후"
+
+data.to_excel("D:\업무\반지하_220809 이후/10월/221018/반지하주택_총괄2.xlsx")
+
+
+# 법정동명 호출하기
+for i in range(226937):
+    print(data['법정동명'][i])
+
+
+# 강남구만 해보기
+sigungu = ["강남구"]
+dong = ["신림동"]
+
+
+while True:
+    a = sigungu[i]
+    b = a.pivot_table(index='용도', columns='구간', values='대지위치', aggfunc='count')
+
+import pandas as pd
+data = pd.read_excel("D:\업무\반지하_220809 이후/10월/221019/반지하주택_총괄2.xlsx")
+
+# 중증장애인자료
+
+data2 = pd.read_excel("D:\업무\반지하_220809 이후/10월/221019/중증장애인_주민세대자료.xls")
+
+data2.columns
+new_data = data2['도로명부번.1'] == ""
+new_data = data[data['도로명부번.1'].str.contains("지", na=False, case=False)] # case=False는 대소문자 구분을 안하겠다는 옵션
+
+# 복수개의 단어를 포함하는 데이터 추출하기
+list = ["지", "b", "B", "비"]
+test = '|'.join(list)
+new_data = data2[data2['도로명부번.1'].str.contains(test, na=False, case=False)]
+new_data['PNU'] = new_data['PNU'].astype('str')
+new_data.to_excel("D:\업무\반지하_220809 이후/10월/221018/지하거주자_618.xlsx")
+
+# 세대원이 만만65세 이상, 1957년 이전 출생
+new_data2 = new_data[new_data['세대원생년'] <= 1957]
+
+# 세대주도 노인
+new_data3 = new_data2[new_data2['세대주생년'] <= 1957]
+
+new_data4 = new_data3.drop_duplicates('PNU')
+
+# 221020
+import pandas as pd
+data = pd.read_excel("D:\업무\반지하_220809 이후/10월/221020/지하거주자_618(414~619)_종합.xlsx", sheet_name='Sheet2')
+
+data['PNU'] = data['PNU'].astype('str')
+#  1957년 이하 출생
+data2 = data[data['세대원생년']<=1957]
+# 세대주는 노인이 아닌 경우
+data3 = data2[data2['세대주생년']>1957]
+
+data2.to_excel("D:\업무\반지하_220809 이후/10월/221020/세대원1957이전.xlsx")
+
+# 221024 장애인pnu_노인세대주_46명
+import pandas as pd
+
+data = pd.read_excel("D:/업무/반지하_220809 이후/10월/221024/송부자료/장애인_노인세대주_46명.xlsx")
+data['PNU'] = data['PNU'].astype('str')
+
+data2 = pd.read_excel("D:/업무/반지하_220809 이후/반지하_마스터(226,937).xlsx")
+data2['PNU'] = data2['PNU'].astype('str')
+data2.columns
+data3 = data2.loc[:,['PNU','대지위치','사용승인년도','용도','flood_no']]
+data3['flood_no'] = data3['flood_no'].fillna(0)
+
+data4 = data3.drop_duplicates('PNU')
+
+data5 = pd.merge(data, data4, left_on='PNU', right_on='PNU', how='left')
+
+
+data5_flood = pd.merge(data5, flood4, left_on='PNU', right_on='PNU코드', how='left')
+
+data5_flood.to_excel("D:/업무/반지하_220809 이후/10월/221024/송부자료/장애인_노인세대주_46명_조인.xlsx")
+
+data6_flood = pd.merge(data5_flood, und_flood_pnu2, left_on='PNU', right_on='PNU', how='left')
+
+
+seoul.drop(["준공년도"], axis=1, inplace=True)
+seoul.to_csv("D:/업무/반지하_220809 이후/10월/221024/송부자료/층별개요_서울전체.csv", encoding='cp949', sep=',')
+
+seoul2 = seoul.drop_duplicates('건축물위치명')
+seoul3 = seoul2[seoul2['통계용도명']=="주거용"]
+seoul3.to_excel("D:/업무/반지하_220809 이후/10월/221024/송부자료/층별개요_주거용(주소기준중복제거).xlsx")
+
+
+# 221025
+import pandas as pd
+data = pd.read_excel("D:\업무\반지하_220809 이후/10월/221025/건축물정보 join용/층별개요_주거용(주소기준중복제거).xlsx")
+data2 = pd.read_excel("D:\업무\반지하_220809 이후/10월/221025/세대원1957이전.xlsx")
+data2['PNU'] = data2['PNU'].astype('str')
+data.columns
+data_1 = data.loc[:,['건축물위치명', '층용도소분류명', '사용승인일자명', '시군구']]
+
+
+
+data3 = pd.read_excel("D:/업무/반지하_220809 이후/반지하_마스터(226,937).xlsx")
+data3['PNU'] = data3['PNU'].astype('str')
+data3.columns
+data4 = data3.loc[:,['PNU','대지위치','사용승인년도','용도','flood_no']]
+data4['flood_no'] = data4['flood_no'].fillna(0)
+
+data4 = data4.drop_duplicates('PNU')
+
+data5 = pd.merge(data2, data4, left_on='PNU', right_on='PNU', how='left')
+
+data5.to_excel("D:\업무\반지하_220809 이후/10월/221025/조인결과77명.xlsx")
+
+# 침수횟수 join하기
+# 기존침수
+flood = pd.read_excel("D:/업무/반지하_220809 이후/8월/220816/지적도_침수도_조인결과/침수_필지(PNU).xlsx")
+flood['flood_all']=flood['flood_all'].fillna(0)
+flood['flood_all']=flood['flood_all'].astype('int')
+flood['pnu'] = flood['pnu'].astype('str')
+flood['flood_all'].value_counts()
+flood.to_excel("D:\업무\반지하_220809 이후\Data/기존침수PNU.xlsx")
+# 올해침수
+flood_2022 = pd.read_excel("D:/업무/반지하_220809 이후/9월/220919/올해 침수지/서울시침수피해 19,696건_(6.28._8.17.).xlsx", sheet_name='Sheet2')
+flood_2022.columns
+flood_2022_2 = flood_2022.loc[:,['주소(지번)', '주소(도로명)','PNU코드', '피해일시','피해위치(지번)','피해위치 (도로명)','지번주소']]
+flood_2022_3 = flood_2022_2.drop_duplicates(['지번주소'])
+flood_2022_3['2022침수여부'] = 1
+flood_2022_4 = flood_2022_3.loc[:,['PNU코드', '2022침수여부']]
+flood_2022_4.to_excel("D:\업무\반지하_220809 이후\Data/올해침수주택PNU.xlsx")
+
+data = pd.read_excel("D:\업무\반지하_220809 이후/10월/221025/조인결과77명.xlsx")
+data['PNU'] = data['PNU'].astype('str')
+data2 = pd.merge(data, flood, left_on='PNU', right_on='pnu', how='left')
+
+data3 = pd.merge(data2, flood_2022_4, left_on='PNU', right_on='PNU코드', how='left')
+
+data3.to_excel("D:\업무\반지하_220809 이후/10월/221025/최종77명.xlsx")
+
+
+
+# 221026
+import pandas as pd
+
+data = pd.read_excel("D:/업무/반지하_220809 이후/10월/221026/삭제건 추적/아동_170.xlsx", sheet_name='주소지 중복 제거, 170')
+data2 = pd.read_excel("D:/업무/반지하_220809 이후/10월/221026/삭제건 추적/아동_161.xlsx", sheet_name='중복 제거, 161')
+data2 = data2.loc[:,['key','일치여부']]
+data3 = pd.merge(data, data2, on='key' , how='left')
+data3.to_excel("D:/업무/반지하_220809 이후/10월/221026/삭제건 추적/아동_삭제건확인.xlsx")
+del(data, data2,data3)
+
+disable = pd.read_excel("D:/업무/반지하_220809 이후/10월/221026/장애인.xlsx")
+disable['호명칭'] = disable['호명칭'].str.strip()
+disable['일치여부'] = 1
+disable['key'] = disable['대지위치'] + disable['호명칭']
+old = pd.read_excel("D:/업무/반지하_220809 이후/10월/221026/노인_567.xlsx")
+child = pd.read_excel("D:/업무/반지하_220809 이후/10월/221026/아동_153.xlsx")
+
+disable2 = disable.drop_duplicates("key")
+disable3 = disable.loc[:,["대지위치","일치여부"]]
+disable3 = disable3.drop_duplicates("대지위치")
+data = pd.merge(old, disable2, on='key', how='left')
+data2 = pd.merge(child, disable, on='key', how='left')
+
+data = pd.merge(data, disable3, left_on='대지위치_x', right_on='대지위치' , how='left')
+data2 = pd.merge(data2, disable3, left_on='대지위치_x', right_on='대지위치' , how='left')
+
+data.to_excel("D:/업무/반지하_220809 이후/10월/221026/노인+장애인중복체크.xlsx")
+data2.to_excel("D:/업무/반지하_220809 이후/10월/221026/아동+장애인중복체크.xlsx")
+
+
+old_pnu = pd.read_csv("D:/업무/반지하_220809 이후/9월/220902/부장님 산출 자료/노인_지하_65세기준(PNU)_센터.txt", encoding='cp949', sep='|')
+child_pnu = pd.read_csv("D:/업무/반지하_220809 이후/9월/220902/부장님 산출 자료/아동_지하_19세기준(PNU)_센터.txt", encoding='cp949', sep='|')
+
+old_pnu.columns
+
+old_pnu['PNU'] = old_pnu['PNU'].astype('str')
+old_pnu['NA_ROAD_CD'] = old_pnu['NA_ROAD_CD'].astype('str')
+old_pnu['RD_CODE'] = old_pnu['RD_CODE'].astype('str')
+
+
+child_pnu['PNU'] = child_pnu['PNU'].astype('str')
+child_pnu['NA_ROAD_CD'] = child_pnu['NA_ROAD_CD'].astype('str')
+child_pnu['RD_CODE'] = child_pnu['RD_CODE'].astype('str')
+
+old_pnu2 = old_pnu.loc[:,['대지위치','PNU', 'NA_MAIN_BUN', 'NA_SUB_BUN','NA_ROAD_CD', 'RD_CODE']]
+child_pnu2 = child_pnu.loc[:,['대지위치','PNU', 'NA_MAIN_BUN', 'NA_SUB_BUN','NA_ROAD_CD', 'RD_CODE']]
+old_pnu2 = old_pnu2.drop_duplicates('대지위치')
+child_pnu2 = child_pnu2.drop_duplicates('대지위치')
+
+old_last = pd.read_excel("D:/업무/반지하_220809 이후/10월/221026/노인 최종 549.xlsx")
+child_last = pd.read_excel("D:/업무/반지하_220809 이후/10월/221026/아동 최종 152.xlsx")
+
+old_pnu22 = pd.merge(old_last, old_pnu2, on='대지위치', how='left')
+child_pnu22 = pd.merge(child_last, child_pnu2, on='대지위치', how='left')
+
+old_pnu22['PNU코드'] = old_pnu22['PNU코드'].astype('str')
+child_pnu22['PNU코드'] = child_pnu22['PNU코드'].astype('str')
+
+
+old_pnu22.to_excel("D:/업무/반지하_220809 이후/10월/221026/노인최종549_pnu추가.xlsx")
+child_pnu22.to_excel("D:/업무/반지하_220809 이후/10월/221026/아동최종152_pnu추가.xlsx")
+
+
+# 거스름돈 거슬러주기
+money = 2560
+coin_type = [500, 100, 50 ,10]
+count = 0
+
+for i in coin_type:
+    count += money//i
+    money %= i
+print(count)
+
+# 큰 수의 법칙
+data = list(map(int, input().split()))
+7 8 9 1 3 5 6 4
+
+n, m, k = map(int, input().split())
+8 5 3
+
+result = 0
+data.sort()
+first = data[n-1]
+second = data[n-2]
+
+while True:
+    for i in range(k):
+        if m == 0:
+            break
+        result += first
+        m-=1
+    if m == 0:
+        break
+    result += second
+    m-=1
+
+print(result)
+
+#  카드 뽑기 문제
+
+n, m = map(int, input().split())
+3 3
+
+1 2 6
+2 4 7
+7 6 9
+
+
+for i in range(m):
+    data = list(map(int, input().split()))
+    a.append = min(data)
+
+print(max(a))
+
+n, k = map(int, input().split())
+25 2
+count = 0
+
+while n>=k:
+    while n%k!=0:
+        n-=1
+        count+=1
+    n //= k
+    count+=1
+
+while n>1:
+    n-=1
+    count += 1
+
+print(count)
+
+# n 이라는 수를 1로 만들기
+# n에서 1을 빼거나, k로 나누는 방법이 있는데, k로 나누는 것은 나누어 떨어지는 경우만
+
+n, k = map(int, input().split())
+19 2
+result = 0
+
+while True:
+    target = (n//k)*k
+    result += (n-target)
+    n = target
+    if n < k:
+        break
+    result += 1
+    n -= 1
+
+result += (n - 1)
+
+print(result)
+
+# 221028 강남구 반지하 통계 업무 자동화
+import pandas as pd
+banjiha = pd.read_excel("D:\업무\반지하_220809 이후/10월/221025/반지하주택_통계.xlsx")
+gangnam = banjiha[banjiha['시군구명'] == "강남구"]
+gangnam['법정동명'].unique()
+
+gangnam_dong = ['삼성동', '역삼동', '신사동', '대치동', '논현동', '도곡동', '일원동', '청담동', '율현동', '세곡동', '자곡동', '개포동', '압구정동', '수서동']
+
+for i in gangnam_dong:
+    a = gangnam[gangnam['법정동명'] == i]
+    answer = a.pivot_table(index='용도', columns='구간', values='대지위치', aggfunc='count')
+    answer.to_excel("D:\업무\반지하_220809 이후/10월/221028/반지하 통계/" + i +"_통계표.xlsx")
+
+
+############################################################# 서울 자치구별 반지하 통계 산출 자동화, 유형별 통계#################################################################################################
+banjiha['시군구명'].unique()
+sigungu = ['강남구', '동작구', '종로구', '송파구', '서초구', '관악구', '영등포구', '양천구', '은평구',
+       '성북구', '중랑구', '동대문구', '용산구', '강동구', '마포구', '중구', '금천구', '구로구',
+       '강서구', '서대문구', '노원구', '도봉구', '강북구', '광진구', '성동구']
+
+# 준공시기별 통계 산출
+banjiha['통계산출용'] = 0
+banjiha['통계산출용'][(banjiha['2/3해당여부']==1)] = "2/3_1984년 이전"
+banjiha['통계산출용'][(banjiha['1/2해당여부']==1)] = "1/2_1985~2011년"
+banjiha['통계산출용'][(banjiha['구간']=="2012년 이후")] = "2012년 이후"
+
+banjiha['통계산출용'].value_counts()
+banjiha['2/3해당여부'][(banjiha['구간']==0)] = 0
+banjiha['2/3해당여부'].value_counts()
+
+
+for i in sigungu:
+    a = banjiha[banjiha['시군구명'] == i]
+    dong = a['법정동명'].drop_duplicates()
+    for j in dong:
+        b = a[a['법정동명'] == j]
+        answer2 = b['연번'].groupby(b['통계산출용']).count()
+        answer2.to_excel("D:\업무\반지하_220809 이후/10월/221028/준공시기별 통계/" + i+"_"+j + "_통계표.xlsx")
+
+
+banjiha.to_excel("D:\업무\반지하_220809 이후/10월/221028/반지하주택_통계v2.xlsx", index=False)
+
+
+# 침수횟수별 통계 산출
+for i in sigungu:
+    a = banjiha[banjiha['시군구명'] == i]
+    dong = a['법정동명'].drop_duplicates()
+    for j in dong:
+        b = a[a['법정동명'] == j]
+        answer3 = b['연번'].groupby(b['기존침수횟수']).count()
+        answer3.to_excel("D:\업무\반지하_220809 이후/10월/221028/침수횟수별 통계/" + i+"_"+j + "_통계표.xlsx")
+
+
+# 221031 산출한 노인 549 가구에서 77가구 표현해주기
+import pandas as pd
+data = pd.read_excel("D:/업무/반지하_220809 이후/10월/221031/77명 표시/노인 최종 549.xlsx")
+data2 = pd.read_excel("D:/업무/반지하_220809 이후/10월/221031/77명 표시/추가된77명.xlsx")
+
+data3 = data2.drop_duplicates('key')
+data3['77여부'] = 1
+data3 = data3.loc[:,['key','77여부']]
+
+data4 = pd.merge(data, data3, on='key', how='left')
+
+data4['77여부'].value_counts()
+data4['77여부'] = data4['77여부'].fillna(0)
+data4.to_excel("D:/업무/반지하_220809 이후/10월/221031/77명 표시/노인최종549_77명표시.xlsx")
+
+
+# 221101 주왕이형
+import pandas as pd
+
+data_a = pd.read_csv("D:/업무/반지하_220809 이후/11월/221101/주왕이형/A_2021y.csv", encoding='cp949', sep=',')
+data_b = pd.read_csv("D:/업무/반지하_220809 이후/11월/221101/주왕이형/B_2022y.csv", encoding='cp949', sep=',')
+
+data_a['행 레이블'] = data_a['행 레이블'].str.strip()
+data_b['행 레이블'] = data_b['행 레이블'].str.strip()
+
+data_c = pd.merge(data_a, data_b, on='행 레이블', how='left')
+data_c.to_csv("D:/업무/반지하_220809 이후/11월/221101/주왕이형/조인결과.csv", encoding='cp949', sep=',')
+
+
+# 올해침수 1만 9천 중, 반지하가 붙은 1만 4천 + 노인 , 아동 여부
+# 기존 9월20일 자료에서는 노인 428 아동 286 자료를 조인하였으나, 노인 및 아동통계가 업데이트 됨에 따라 다시 산출
+
+old = pd.read_excel("D:/업무/반지하_220809 이후/9월/220920/침수지역3분의2반지하_노인_v2.xlsx")
+old['PNU'] = old['PNU'].astype('str')
+old2 = old.drop_duplicates(['PNU'])
+
+child = pd.read_excel("D:/업무/반지하_220809 이후/9월/220920/침수지역3분의2반지하_아동_v2.xlsx")
+child['PNU'] = child['PNU'].astype('str')
+child2 = child.drop_duplicates(['PNU'])
+
+# 올해 침수 피해지 1만9천 건 중, 반지하 pnu가 붙은 1만 4천 건
+data = pd.read_excel("D:/업무/반지하_220809 이후/9월/220920/올해침수피해_반지하붙은것.xlsx")
+data['PNU코드'] = data['PNU코드'].astype('str')
+
+data_a = pd.merge(data, old2, left_on='PNU코드', right_on='PNU', how='left')
+data_b = pd.merge(data_a, child2, left_on='PNU코드', right_on='PNU', how='left')
+
+
+data_b['노인여부'] =  data_b['노인여부'].fillna(0)
+data_b['노인여부'].value_counts()
+data_b['아동여부'] = data_b['아동여부'].fillna(0)
+data_b['아동여부'].value_counts()
+
+data_b.to_excel("D:/업무/반지하_220809 이후/9월/220920/침수피해_노인+아동.xlsx", index=False)
+
+# 반지하 필지 중복 제거하기
+import geopandas as gpd
+
+data = gpd.read_file("D:/업무/반지하_220809 이후/8월/220823/220823 gis 작업물/지하건축물_필지point/반지하_필지_작은포인트.shp")
+data.columns
+
+
+data.rename(columns={'지하주?':'대장유형'}, inplace=True)
+data.rename(columns={'지하??':'자치구'}, inplace=True)
+data.rename(columns={'지하??_1':'지번주소'}, inplace=True)
+data.rename(columns={'지하??_7':'도로명주소'}, inplace=True)
+data.rename(columns={'지하??11':'주택유형_대분류'}, inplace=True)
+data.rename(columns={'지하??13':'층정보'}, inplace=True)
+data.rename(columns={'지하??14':'주택유형'}, inplace=True)
+data.rename(columns={'지하??17':'사용승인일'}, inplace=True)
+data.rename(columns={'지하??18':'사용승인년도'}, inplace=True)
+data.rename(columns={'건축물종_1':'세대수'}, inplace=True)
+data.rename(columns={'geometry':'좌표계'}, inplace=True)
+
+data2 = data.loc[:,['pnu','대장유형','자치구','지번주소','도로명주소','주택유형_대분류','층정보','주택유형','사용승인일','사용승인년도','세대수','좌표계']]
+
+
+data2.to_file("D:/업무/반지하_220809 이후/11월/221107/반지하 point 자료 정보/반지하필지자료.shp")
+
+# 좌표계 설정
+data2.crs= "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
+
+#shp 파일로 저장
+data2.to_excel('D:/업무/반지하_220809 이후/11월/221107/반지하 point 자료 정보/반지하.xlsx')
+data2.to_csv('D:/업무/반지하_220809 이후/11월/221107/반지하 point 자료 정보/반지하.csv')
+
+# 221109 정비사업 파일 반지하 파일에 조인하기
+# 반지하 파일 불러오기
+banjiha = pd.read_excel("D:\업무\반지하_220809 이후/10월/221025/반지하주택_통계.xlsx")
+# 정비사업 파일 불러오기
+business = pd.read_excel("D:\업무\반지하_220809 이후/11월/221109/정비사업_정리221109.xlsx")
+business2 = business.drop_duplicates('대지위치_조인용')
+business2.columns
+business3 = business2.loc[:,['구역명_정비사업','정비사업유형', '대지위치_조인용']]
+
+
+banjiha_business = pd.merge(banjiha, business3, left_on='대지위치', right_on='대지위치_조인용', how='left')
+banjiha_business['구역명_정비사업'].value_counts()
+banjiha_business['정비사업유형'].value_counts()
+
+banjiha_business.to_excel("D:\업무\반지하_220809 이후/11월/221109/반지하통계_221109.xlsx")
+
+
+banjiha_business['종합_사업유형'] = 0
+banjiha_business['종합_사업유형'][banjiha_business['공공재개발']!=0] = '공공재개발'
+banjiha_business['종합_사업유형'][banjiha_business['신통']!=0] = '신속통합기획'
+banjiha_business['종합_사업유형'][banjiha_business['모아주택']!=0] = '모아주택'
+banjiha_business['종합_사업유형'][banjiha_business['정비사업유형']=='재개발_도시정비형'] = '재개발_도시정비형'
+banjiha_business['종합_사업유형'][banjiha_business['정비사업유형']=='재개발_주택정비형'] = '재개발_주택정비형'
+banjiha_business['종합_사업유형'][banjiha_business['정비사업유형']=='재건축_공동'] = '재건축_공동'
+banjiha_business['종합_사업유형'][banjiha_business['정비사업유형']=='재건축_단독'] = '재건축_단독'
+banjiha_business['종합_사업유형'][banjiha_business['정비사업유형']=='재정비촉진_재개발'] = '재정비촉진_재개발'
+banjiha_business['종합_사업유형'][banjiha_business['정비사업유형']=='재정비촉진_재건축'] = '재정비촉진_재건축'
+
+banjiha_business['종합_사업유형'].value_counts()
+
+sigungu = banjiha_business['시군구명'].drop_duplicates()
+# 반복문
+for i in sigungu:
+    a = banjiha_business[banjiha_business['시군구명'] == i]
+    dong = a['법정동명'].drop_duplicates()
+    for j in dong:
+        b = a[a['법정동명'] == j]
+        answer2 = b['연번'].groupby(b['종합_사업유형']).count()
+        answer2.to_excel("D:\업무\반지하_220809 이후/11월/221109/정비사업 통계_자동화/" + i+"_"+j + "_통계표.xlsx")
+
+
+# 노인 자료 다시  221123
+import pandas as pd
+data2 = pd.read_excel("D:/업무/반지하_220809 이후/10월/221025/노인_567.xlsx")
+data1 = pd.read_excel("D:/업무/반지하_220809 이후/10월/221025/노인_490.xlsx")
+data1['세대주 출생년도'] = data1['세대주 출생년도'].astype('str')
+data2['세대주 출생년도'] = data2['세대주 출생년도'].astype('str')
+data1['key'] = data1['대지위치'] + data1['호명칭'] + data1['세대주 출생년도']
+data2['key'] = data2['대지위치'] + data2['호명칭'] + data2['세대주 출생년도']
+data1['490여부'] = 1
+
+data1_2 = data1.loc[:,['key','490여부']]
+
+data3 = pd.merge(data2, data1_2, on='key', how='left')
+
+data3.to_excel("D:/업무/반지하_220809 이후/11월/221123/노인567_490여부표시.xlsx")
+
+
+# 221128 반지하 필지 산출 방법 정리 186,973
+data = pd.read_excel("D:/업무/반지하_220809 이후/반지하_마스터(226,937).xlsx")
+
+# 지하건축물 필지 pnu에 중복값 잇는지,, 아마 없을듯
+import geopandas as gpd
+data4 = gpd.read_file("D:/업무/지도제작/지하건축물_필지point/반지하_필지_작은포인트.shp", encoding='cp949')
+
+data5 = data4.drop_duplicates('pnu')
+
+# 없음 = 지적도가 기준파일이 맞음
+
+# 1. 서울 전체 지적도 불러오기
+seoul = gpd.read_file("D:/업무/반지하_220809 이후/8월/220824/서울전체지적도/서울지적도_중심점.shp", encoding='cp949')
+# 2. 반지하 필지의 pnu를 조인해보기
+data['PNU'] = data['PNU'].astype('str')
+# PNU 기준 중복값 제거
+data_only = data.drop_duplicates('PNU')
+data_only['반지하 조인 여부'] = 1
+data_only2 = data_only.loc[:,['PNU', '반지하 조인 여부']]
+
+master = pd.merge(seoul, data_only2, left_on='pnu', right_on='PNU', how='left')
+
+# 조인된 표본만
+master['반지하 조인 여부'].value_counts()
+
+
+a, b = input().split()
+3 4
+
+def solution(a, b):
+    return a-b
+solution(3, 4)
+solution2(3, 4)
+solution2(4, 3)
+
+solution2 = lambda a, b : a-b if a>b else 0
+
+
+# 그냥 해보기
+# 국토부 자료 158,586
+gucktobu = pd.read_csv("D:/업무/반지하_220809 이후/11월/221128/김태현 박사님/국토부.csv", encoding='cp949', sep=',')
+# 서울시
+seoulsi = pd.read_csv("D:/업무/반지하_220809 이후/11월/221128/김태현 박사님/서울시.csv", encoding='cp949', sep=',')
+seoulsi.columns
+seoulsi['서울시자료여부'] = 1
+seoulsi2 =  seoulsi.loc[:,['대지위치',"PNU",'서울시자료여부']]
+seoulsi3 = seoulsi2.drop_duplicates('대지위치')
+# gucktobu['대지위치2'] = gucktobu['대지위치'].str.replace(pat='번지', repl='', regex=True)
+
+result = pd.merge(gucktobu, seoulsi3, on='대지위치', how='left')
+result['서울시자료여부'] = result['서울시자료여부'].fillna(0)
+result['서울시자료여부'].value_counts()
+result['서울시자료여부'] = result['서울시자료여부'].astype('int')
+
+gucktobu['PNU'] = gucktobu['PNU'].fillna(0)
+gucktobu['PNU'] = gucktobu['PNU'].astype('str')
+
+
+aa = data[data['시군구명'] =="도봉구"]
+
+
+a = 33.424
+b = int(a)
