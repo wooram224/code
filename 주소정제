@@ -1,0 +1,29 @@
+import pandas as pd
+
+data = pd.read_excel("D:/업무/반지하_220809 이후/12월/221205/국토부리스트_전체.xlsx")
+
+# # 공백기준으로 주소 분리하기
+data[['시','자치구','법정동','번지','기타주소']] = pd.DataFrame(data['도로명주소'].str.split(' ',4).tolist())
+# 한글 제거
+data['번지']=data['번지'].str.replace(pat=r'[ㄱ-ㅣ가-힣]+', repl= r'', regex=True)
+# 양쪽 공백 제거하기
+data['번지']=data['번지'].str.strip()
+# 텍스트 합치기
+data['조인용주소'] = data['시도']+" "+data['시군구']+" "+data['법정동']+" "+data['번지']
+# 지울 문자형태들 리스트로 만들어서 지우기
+list=["(",")","B01","B101","B2","B04","B03","B102","B02","B103","B105",","]
+test='|'.join(list)
+data['조인용주소']=data['조인용주소'].str.replace(pat=test, repl= '', regex=True)
+# 동 띄어쓰기 통일시키기
+data['조인용주소'] = data['조인용주소'].str.replace(pat="동", repl='동 ', regex=True)
+data['조인용주소'] = data['조인용주소'].str.replace(pat="강동 구", repl='강동구', regex=True)
+data['조인용주소'] = data['조인용주소'].str.replace(pat="성동 구", repl='성동구', regex=True)
+data['조인용주소'] = data['조인용주소'].str.replace(pat="동 작구", repl='동작구', regex=True)
+data['조인용주소'] = data['조인용주소'].str.replace(pat="동 대문구", repl='동대문구', regex=True)
+data['조인용주소'] = data['조인용주소'].str.replace(pat="동  ", repl='동 ', regex=True)
+
+# 도로명주소 지번주소 혼재하여 22만에 붙일 때 주의(두 열에 붙여서 붙은 값들을 한열로 만들어주어야 할듯)
+# 정제한 파일 분리
+data.columns
+data2 = data.loc[:,['조인용주소','여부_5만5천', '연도_지원금','자료']]
+data2.to_excel("D:/업무/반지하_220809 이후/12월/221205/국토부리스트_주소정제.xlsx")
