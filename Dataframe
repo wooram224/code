@@ -162,4 +162,5 @@ df[df['B'].notnull()] #nan값이 아닌 데이터 추출
     
 # 앞에 0붙이기 (월을 2자리수로 맞춰주어서 허가 년월 변수 생성할때)
 inhuga_final['허가월'] = inhuga_final['허가월'].apply(lambda x : str(x).zfill(2))
+# 0이 아닌 다른 문자를 채우고 싶다면, rjust(10, '채우고자하는 문자') 활용
 inhuga_final['허가년월'] = inhuga_final['허가년도'] + inhuga_final['허가월']
