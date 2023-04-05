@@ -24,3 +24,35 @@ for i in sigungu:
         b = a[a['법정동명'] == j]
         answer = b.pivot_table(index='용도', columns='구간', values='대지위치', aggfunc='count')
         answer.to_excel("D:\업무\반지하_220809 이후/10월/221028/반지하 통계/" + i+"_"+j + "_통계표.xlsx")
+
+
+# 230405 동 주소 정제
+import pandas as pd
+data = pd.read_excel("C:/Users/pheon/Desktop/주소정제/조사대상통합.xlsx", dtype='str')
+
+data["동호명칭"] = 0
+data["지하층의 해당호수"] = data["지하층의 해당호수"].str.strip()
+
+
+data['동명칭'] = data['동명칭'].str.strip()
+data['동명칭'] = data['동명칭'].fillna('없음')
+
+data['동명칭'][427]
+
+for i in range(0,1071):
+    if data['동명칭'][i] == "없음" or data['동명칭'][i] == "":
+        data["동호명칭"][i] = data['지하층의 해당호수'][i]
+    if data['동명칭'][i] != "없음" and data['동명칭'][i] != "":
+        data["동호명칭"][i] = data['동명칭'][i] + "동 " + data['지하층의 해당호수'][i]
+
+
+a = data.loc[:,['도로명주소','동호명칭']]
+a['동호명칭'] = a['동호명칭']+','+' '
+a['도로명주소'] = a['도로명주소'].str.strip()
+
+a2 = pd.DataFrame(a['동호명칭'].groupby(a['도로명주소']).sum())
+a2 = a2.reset_index()
+
+a2['동호명칭'] = a2['동호명칭'].str[:-2]
+
+a2.to_excel("D:/23년_update/조사대상/조사대상_주소정제완료.xlsx")
