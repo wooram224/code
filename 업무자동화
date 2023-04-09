@@ -56,3 +56,20 @@ a2 = a2.reset_index()
 a2['동호명칭'] = a2['동호명칭'].str[:-2]
 
 a2.to_excel("D:/23년_update/조사대상/조사대상_주소정제완료.xlsx")
+
+
+# 230410 특정폴더 안의 파일 불러와서 합치기 
+
+import os
+import pandas as pd
+
+path = 'C:/Users/user/Desktop/새 폴더/'
+file_list = os.listdir(path)
+file_list_py = [file for file in file_list if file.endswith('.xlsx')]
+
+df = pd.DataFrame()
+for i in file_list_py:
+    data = pd.read_excel(path + i)
+    df = pd.concat([df, data])
+
+df = df.reset_index(drop=True)
