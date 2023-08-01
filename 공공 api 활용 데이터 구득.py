@@ -3,7 +3,7 @@ import requests, xmltodict, json
 import pandas as pd
 
 # 신청한 데이터의 키
-key='r2Pbk%2B5UVak8z2z%2BuZ6xs2lKb4pC1FLak9dBWWu5VNsgo9zbZlOFOZuAh%2Fc5ua2zOXtBu2uHEpCFwgtx1AcHSw%3D%3D'
+key='****'
 # 주소
 url = 'https://apis.data.go.kr/1741000/DisasterMsg3/getDisasterMsg1List?serviceKey={}&pageNo=100&numOfRows=1000&type=xml'.format(key)
 
