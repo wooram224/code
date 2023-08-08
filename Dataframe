@@ -164,3 +164,25 @@ df[df['B'].notnull()] #nan값이 아닌 데이터 추출
 inhuga_final['허가월'] = inhuga_final['허가월'].apply(lambda x : str(x).zfill(2))
 # 0이 아닌 다른 문자를 채우고 싶다면, rjust(10, '채우고자하는 문자') 활용
 inhuga_final['허가년월'] = inhuga_final['허가년도'] + inhuga_final['허가월']
+
+# 230808 HIS 기초자료입력 리스트 (2020~2023.06)
+
+import pandas as pd
+data = pd.read_excel("C:/Users/USER/Desktop/HIS/기초자료입력_HIS_2020~2023.xls")
+# 불필요행 삭제
+data = data.drop([0], axis = 0)
+
+# 승인일자 '-' 기준으로 분리
+data[['승인년도','승인월','승인일']] = pd.DataFrame(data['승인일자'].str.split('-').tolist())
+data = data.reset_index()
+data['승인일자'] = data['승인일자'].astype('str')
+
+# 분기값
+data['승인월'] = data['승인월'].astype('int')
+data['분기'] = 0
+data['분기'][(data['승인월']<=3)] = "1분기"
+data['분기'][(data['승인월']>=4)&(data['승인월']<=6)] = "2분기"
+data['분기'][(data['승인월']>=7)&(data['승인월']<=9)] = "3분기"
+data['분기'][(data['승인월']>=10)] = "4분기"
+data['분기'].value_counts()
+
