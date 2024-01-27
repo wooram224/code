@@ -1,0 +1,45 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from bs4 import BeautifulSoup as bs
+import time
+# 크롬드라이버 서비스 객체 생성
+service = Service("C:/chromedriver-win64/chromedriver.exe")
+# 서비스 객체를 사용하여 WebDriver 객체 생성
+driver = webdriver.Chrome(service=service)
+# 카카오맵 열기
+driver.get("https://map.kakao.com/")
+
+# 지도 팝업창 닫기
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+img = driver.find_element(By.CSS_SELECTOR, "div.inner_coach_layer")
+img.click()
+
+# 검색창 위치 접근 : CSS 선택자를 사용하여 요소 찾기
+search = driver.find_element(By.CSS_SELECTOR, "#search\.keyword\.query")
+
+# 위에서 지정한 search에 원하는 키워드 입력
+search.send_keys("구의동맛집")
+
+# 검색 버튼 클릭
+searchButton = driver.find_element(By.CSS_SELECTOR, "#search\.keyword\.submit")
+searchButton.click()
+
+time.sleep(5)
+
+# 검색 결과 객체화
+soup = bs(driver.page_source,"lxml")
+# soup로 부터 가게이름 정보가져오기
+# 가게이름 검사 결과 a라는 객체의 클래스는 link name 복수개이므로 리턴결과는 리스트일것
+title = soup.select("a.link_name")
+# 업종
+menu = soup.select("span.subcategory")
+# 별점
+star = soup.select("em.num")
+#
+title = pd.DataFrame({'가게이름': [i.text for i in title]})
+menu = pd.DataFrame({'업종': [m.text for m in menu]})
+star = pd.DataFrame({'별점': [s.text for s in star]})
+#
+# 가로 방향으로 데이터프레임을 병합
+food = pd.concat([title, menu, star], axis=1)
