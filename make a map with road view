@@ -1,0 +1,159 @@
+import pandas as pd
+# 데이터 불러오기
+data = pd.read_excel("C:/Users/pheon/Desktop/CLS/악천후 대비 위험라우트 시각화(전국도서관표준데이터)/전국도서관표준데이터-20240804.xls", header=1)
+
+data['도서관유형'].value_counts()
+
+data2 = data[(data['도서관유형']=="작은도서관") | (data['도서관유형']=="공공도서관") | (data['도서관유형']=="어린이도서관") | (data['도서관유형']=="학교도서관")].reset_index()
+
+# 지도 제작 준비
+
+
+# 범례 색깔 옵션 : 도서관 유형에 따라 다른 색깔을 부여하는 함수 생성
+def color_select(row):
+    if row['도서관유형'] == '작은도서관':
+        return 'red'
+    elif row['도서관유형'] == '공공도서관':
+        return 'darkblue'
+    elif row['도서관유형'] == '어린이도서관':
+        return 'green'
+    else:
+        return 'gray'
+
+# 범례 생성 함수
+def add_categorical_legend(folium_map, title, colors, labels):
+    if len(colors) != len(labels):
+        raise ValueError("colors and labels must have the same length.")
+    color_by_label = dict(zip(labels, colors))
+    legend_categories = ""
+    for label, color in color_by_label.items():
+        legend_categories += f"<li><span style='background:{color}'></span>{label}</li>"
+    legend_html = f"""
+    <div id='maplegend' class='maplegend'>
+      <div class='legend-title'>{title}</div>
+      <div class='legend-scale'>
+        <ul class='legend-labels'>
+        {legend_categories}
+        </ul>
+      </div>
+    </div>
+    """
+    script = f"""
+        <script type="text/javascript">
+        var oneTimeExecution = (function() {{
+                    var executed = false;
+                    return function() {{
+                        if (!executed) {{
+                             var checkExist = setInterval(function() {{
+                                       if ((document.getElementsByClassName('leaflet-top leaflet-right').length) || (!executed)) {{
+                                          document.getElementsByClassName('leaflet-top leaflet-right')[0].style.display = "flex"
+                                          document.getElementsByClassName('leaflet-top leaflet-right')[0].style.flexDirection = "column"
+                                          document.getElementsByClassName('leaflet-top leaflet-right')[0].innerHTML += `{legend_html}`;
+                                          clearInterval(checkExist);
+                                          executed = true;
+                                       }}
+                                    }}, 100);
+                        }}
+                    }};
+                }})();
+        oneTimeExecution()
+        </script>
+      """
+
+    css = """
+
+    <style type='text/css'>
+      .maplegend {
+        z-index:9999;
+        float:right;
+        background-color: rgba(255, 255, 255, 1);
+        border-radius: 5px;
+        border: 2px solid #bbb;
+        padding: 10px;
+        font-size:12px;
+        positon: relative;
+      }
+      .maplegend .legend-title {
+        text-align: left;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-size: 90%;
+        }
+      .maplegend .legend-scale ul {
+        margin: 0;
+        margin-bottom: 5px;
+        padding: 0;
+        float: left;
+        list-style: none;
+        }
+      .maplegend .legend-scale ul li {
+        font-size: 80%;
+        list-style: none;
+        margin-left: 0;
+        line-height: 18px;
+        margin-bottom: 2px;
+        }
+      .maplegend ul.legend-labels li span {
+        display: block;
+        float: left;
+        height: 16px;
+        width: 30px;
+        margin-right: 5px;
+        margin-left: 0;
+        border: 0px solid #ccc;
+        }
+      .maplegend .legend-source {
+        font-size: 80%;
+        color: #777;
+        clear: both;
+        }
+      .maplegend a {
+        color: #777;
+        }
+    </style>
+    """
+
+    folium_map.get_root().header.add_child(folium.Element(script + css))
+
+    return folium_map
+
+# 지도를 만들기 위한 folium 패키지 호출
+import folium
+# basemap 생성
+map1 = folium.Map(location=[37.58, 127.0], tiles='cartodbpositron', zoom_start=8)
+map1.save("C:/Users/pheon/Desktop/CLS/악천후 대비 위험라우트 시각화(전국도서관표준데이터)/베이스맵.html")
+from folium.plugins import MarkerCluster
+mc = MarkerCluster()
+
+# 결측 제외
+data3 = data2[data2['위도'].notnull()]
+
+# 지도만들어주기
+for _, row in data3.iterrows():
+    df = pd.DataFrame(data=[row['도서관명'], row['휴관일'], row['소재지도로명주소'], row['도서관전화번호']], columns=['상세정보'], index=['도서관 이름','휴관일','주소','전화번호'])
+    popup_content = folium.Popup(df.to_html(classes="table table-striped table-hover table-condensed"), max_width=300)
+    mc.add_child(folium.CircleMarker(location=[row['위도'], row['경도']], popup=popup_content,
+                                     tooltip='<h4><b> 도서관이름 :</b> ' + row['도서관명']  + '</b> (' + row['도서관유형'] + ')' + '</h4></b><br>' + '<b> 토요일운영시작시간 :</b> ' + str(row['토요일운영시작시각'])  + '</h4></b><br>' + '<b> 토요일운영종료시간 :</b> ' + str(row['토요일운영종료시각']) + '</h4></b><br>' + '<b> 열람좌석수 :</b> ' + str(row['열람좌석수']) + '<br>',
+                                     color=color_select(row), fill_color=color_select(row), radius=50))
+
+
+map1.add_child(mc)
+#범례 추가하기
+map1 = add_categorical_legend(map1,
+                              title = "도서관 종류",
+                              colors = ['red', 'darkblue', 'green', 'gray'],
+                              labels = ['작은도서관', '공공도서관', '어린이도서관', '학교도서관'])
+folium.Marker([37.5038188, 127.0481497], tooltip="Made by Philip Ram", icon=folium.Icon(color='blue', icon='star')).add_to(map1)
+
+map1.save("C:/Users/pheon/Desktop/CLS/악천후 대비 위험라우트 시각화(전국도서관표준데이터)/나만의 도서관 지도.html")
+
+# 로드뷰 추가하기
+a = data3[data3['도서관명']=='성동구립성수도서관']
+# 팝업창에 사진 추가
+import base64
+pic = base64.b64encode(open('C:/Users/pheon/Desktop/CLS/악천후 대비 위험라우트 시각화(전국도서관표준데이터)/로드뷰/성수도서관.png','rb').read()).decode()
+image_tag = '<img src="data:image/jpeg;base64,{}">'.format(pic)
+iframe = folium.IFrame(image_tag, width=300, height=300)
+popup = folium.Popup(iframe, max_width=650)
+folium.Marker([37.54543, 127.04695], popup=popup, tooltip="도서관명 : 성수도서관").add_to(map1)
+map1.save("C:/Users/pheon/Desktop/CLS/악천후 대비 위험라우트 시각화(전국도서관표준데이터)/나만의 지도_로드뷰 추가.html")
